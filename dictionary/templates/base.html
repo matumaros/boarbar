@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+    <title>Bavarian Dictionary</title>
+</head>
+<body>
+<h1>Boari&scaron;s Lexikon</h1>
+
+<p>
+    <form action="word_search" method="post">
+        <input name="search_word" type="text" />
+        <select name="trans_direction">
+            <option value="BARENG">BAR -&gt; ENG</option>
+            <option selected="selected" value="ENGBAR">ENG -&gt; BAR</option>
+            <option value="SPABAR">SPA -&gt; BAR</option>
+            <option value="BARSPA">BAR -&gt; SPA</option>
+            <option value="GERBAR">GER -&gt; BAR</option>
+            <option value="BARGER">BAR -&gt; GER</option>
+        </select>
+        <input type="submit" value="GO">
+    </form>
+    <input name="search" type="button" value="GO" href="/dict/BARENG/i"/>
+</p>
+
+{% block content %}{% endblock %}
+
+<hr />
+</body>
+</html>

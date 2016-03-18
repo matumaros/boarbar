@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table border="0" cellpadding="1" cellspacing="1" style="width: 500px;">
+    <tbody>
+        {% for word in words %}
+            <tr>
+                <td>{{ word.word }}</td>
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="1" style="width: 500px;">
+                        <tbody>
+                            <tr>
+                            {% for trans in word.translations %}
+                                <td>{{ trans.word }}</td>
+                            {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
