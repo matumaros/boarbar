@@ -6,24 +6,38 @@
 <body>
 <h1>Boari&scaron;s Lexikon</h1>
 
-<p>
-    <form action="word_search" method="post">
-        <input name="search_word" type="text" />
-        <select name="trans_direction">
-            <option value="BARENG">BAR -&gt; ENG</option>
-            <option selected="selected" value="ENGBAR">ENG -&gt; BAR</option>
-            <option value="SPABAR">SPA -&gt; BAR</option>
-            <option value="BARSPA">BAR -&gt; SPA</option>
-            <option value="GERBAR">GER -&gt; BAR</option>
-            <option value="BARGER">BAR -&gt; GER</option>
-        </select>
-        <input type="submit" value="GO">
-    </form>
-    <input name="search" type="button" value="GO" href="/dict/BARENG/i"/>
-</p>
+<p>&nbsp;</p>
 
-{% block content %}{% endblock %}
+<form action="word_request" method="post">
+{% csrf_token %}
+<p><select name="language1"><option selected="selected" value="ENG">English</option><option value="BAR">Bavarian</option><option value="GER">German</option><option value="SPA">Spanish</option></select>&nbsp;&nbsp;<select name="language2"><option value="ENG">English</option><option selected="selected" value="BAR">Bavarian</option><option value="GER">German</option><option value="SPA">Spanish</option></select></p>
 
-<hr />
-</body>
+<p><input name="search_word" type="text" /> &nbsp;<input type="submit" value="GO" /></p>
+</form>
+
+<p>&nbsp;</p>
+
+<table border="0" cellpadding="1" cellspacing="1" style="width:500px;">
+    <tbody>
+        {% for word in words.all %}
+            <tr>
+                <td>{{ word.word }}</td>
+                <td>
+                    <table border="0" cellpadding="1" cellspacing="1" style="width:500px;">
+                        <tbody>
+                            {% for synonym in word.synonyms %}
+                                <td>{{ synonym.word }}</td>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<p>{% block content %}{% endblock %}</p>
+
+<hr /></body>
 </html>
