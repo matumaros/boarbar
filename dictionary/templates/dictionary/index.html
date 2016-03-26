@@ -1,5 +1,65 @@
-{% extends "base.html" %}
+<!doctype html>
+<html>
+<head>
+    <title>Bavarian Dictionary</title>
+</head>
+<body>
+<h1>Boari&scaron;s Lexikon</h1>
 
-{% block content %}
+<p>&nbsp;</p>
 
-{% endblock %}
+<form action="word_request" method="post">
+{% csrf_token %}
+<p>
+  <select name="language1">
+    {% for lang in languages.all %}
+      {% if lang.name == origin %}
+        <option selected="selected" value={{ origin }}>{{ origin }}</option>
+      {% else %}
+        <option value={{ lang.name }}>{{ lang.name }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+  &nbsp;&nbsp;
+  <select name="language2">
+    {% for lang in languages.all %}
+      {% if lang.name == trans %}
+        <option selected="selected" value={{ trans }}>{{ trans }}</option>
+      {% else %}
+        <option value={{ lang.name }}>{{ lang.name }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+</p>
+
+<p><input name="search_word" type="text" /> &nbsp;<input type="submit" value="GO" /></p>
+</form>
+
+<p>&nbsp;</p>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+  <tbody>
+    {% for word in words.all %}
+      <tr>
+        <td>{{ word.word }}</td>
+        <td>
+          <table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+            <tbody>
+              {% for synonym in word.synonyms.all %}
+                {% if synonym.language.name == trans %}
+                  <td>{{ synonym.word }}</td>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+<p>{% block content %}{% endblock %}</p>
+
+<hr /></body>
+</html>
