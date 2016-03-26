@@ -6,5 +6,12 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.DictIndexView.as_view(), name='index'),
+	# dict without words
+	url(r'^$', views.dict_view, name='dict_view'),
+	# dict with origin language, target language and word
+    url(
+    	r'^(?P<origin>[A-Z]{3})(?P<trans>[A-Z]{3})/(?P<word>.+)$',
+    	views.dict_view,
+    	name='dict_view'
+    ),
 ]

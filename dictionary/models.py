@@ -30,10 +30,3 @@ class Word(models.Model):
         'self', related_name='synonyms', blank=True
     )
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
-    #STATUS_CHOICES = (
-    #    ('NEW', 'new'),
-    #    ('RVD', 'reviewed'),
-    #    ('CNF', 'confirmed'),
-    #)
-    #status = models.CharField(max_length=50, choices=STATUS_CHOICES)
-    #entry_date = models.DateTimeField(auto_now_add=True)

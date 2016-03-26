@@ -27,12 +27,12 @@ urlpatterns = [
         r'^discussion/?',
         include('app.urls.discussion')
     ),
-    url(
-        r'^.*$',
-        RedirectView.as_view(
-            url='dict',
-            permanent=False
-        ),
-        name='index'
-    ),
+    #url(
+    #    r'^.*$',
+    #    RedirectView.as_view(
+    #        url='dict',
+    #        permanent=False
+    #    ),
+    #    name='index'
+    #),
 ]

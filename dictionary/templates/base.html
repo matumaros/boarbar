@@ -17,23 +17,25 @@
 
 <p>&nbsp;</p>
 
-<table border="0" cellpadding="1" cellspacing="1" style="width:500px;">
-    <tbody>
-        {% for word in words.all %}
-            <tr>
-                <td>{{ word.word }}</td>
-                <td>
-                    <table border="0" cellpadding="1" cellspacing="1" style="width:500px;">
-                        <tbody>
-                            {% for synonym in word.synonyms %}
-                                <td>{{ synonym.word }}</td>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+  <tbody>
+    {% for word in words.all %}
+      <tr>
+        <td>{{ word.word }}</td>
+        <td>
+          <table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+            <tbody>
+              {% for synonym in word.synonyms.all %}
+                {% if synonym.language.name == trans %}
+                  <td>{{ synonym.word }}</td>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 
