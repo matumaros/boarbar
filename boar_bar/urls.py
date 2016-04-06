@@ -25,7 +25,7 @@ urlpatterns = [
     ),
     url(
         r'^discussion/?',
-        include('app.urls.discussion')
+        include('discussion.urls')
     ),
     #url(
     #    r'^.*$',
