@@ -10,7 +10,7 @@ urlpatterns = [
 	url(r'^$', views.dict_view, name='dict_view'),
 	# dict with origin language, target language and word
     url(
-    	r'^(?P<origin>[A-Z]{3})(?P<trans>[A-Z]{3})/(?P<word>.+)$',
+    	r'^(?P<origin>[A-Z]{3})(?P<target>[A-Z]{3})/(?P<word>.+)$',
     	views.dict_view,
     	name='dict_view'
     ),

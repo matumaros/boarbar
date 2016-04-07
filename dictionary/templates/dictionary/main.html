@@ -89,7 +89,7 @@
         </button>
         <ul class="dropdown-menu" role="menu">
           {% for lang in languages.all %}
-            <li><a href="#">lang.name</a></li>
+            <li><a href="#">{{ lang.name }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -100,7 +100,7 @@
         </button>
         <ul class="dropdown-menu" role="menu">
           {% for lang in languages.all %}
-            <li><a href="#">lang.name</a></li>
+            <li><a href="#">{{ lang.name }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -150,7 +150,7 @@
             <td>
               <table class="table table-striped">
                 {% for synonym in word.synonyms.all %}
-                  {% if synonym.language.name == trans %}
+                  {% if synonym.language.name == target %}
                     <td>{{ synonym.word }}</td>
                   {% endif %}
                 {% endfor %}
