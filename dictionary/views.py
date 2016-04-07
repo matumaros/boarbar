@@ -14,4 +14,4 @@ def dict_view(request, origin='ENG', trans='BAR', word=''):
         'origin': origin,
         'trans': trans,
     }
-    return render(request, 'dictionary/index.html', kwargs)
+    return render(request, 'dictionary/main.html', kwargs)
