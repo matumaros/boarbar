@@ -10,7 +10,7 @@ def dict_view(request, origin='ENG', target='BAR', word=''):
     words = Word.objects.filter(word__regex=word, language__name=origin)
     kwargs = {
         'words': words,
-        'word': word,
+        'origin_word': word,
         'languages': Language.objects,
         'origin': origin,
         'target': target,

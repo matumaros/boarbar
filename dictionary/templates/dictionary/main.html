@@ -63,7 +63,7 @@
     </div>
     <div class="collapse navbar-collapse" id="dict_navbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Lexikon</a></li>
+        <li class="active"><a href="#">Veaddabuah</a></li>
         <li><a href="#">Ivasezza</a></li>
         <li><a href="#">Leana</a></li>
         <li><a href="#">Gramaddig</a></li>
@@ -107,12 +107,13 @@
       <button type="button" class="btn">GO</button>
     </div>
   </div>
-  <br></br>
   <div class="row">
     <div class="col-md-12">
-      <input type="text" class="txt" value="{{ word }}">
+      <input type="text" class="txt" value="{{ origin_word }}">
     </div>
   </div>
+  <br></br>
+  {% if origin_word %}
   <div class="row">
     <div class="col-md-12">
       <table class="table table-striped">
@@ -125,25 +126,27 @@
                 data-content='
                   <table class="table">
                     <tr>
-                      <td>Searched:</td>
-                      <td>4</td>
-                    </tr>
-                    <tr>
-                      <td>Created:</td>
-                      <td>2016-06-04</td>
-                    </tr>
-                    <tr>
                       <td>Upvotes:</td>
-                      <td>11</td>
+                      <td>{{ word.upvotes }}</td>
                     </tr>
                     <tr>
                       <td>Downvotes:</td>
-                      <td>1</td>
+                      <td>{{ word.downvotes }}</td>
+                    </tr>
+                    <tr>
+                      <td>Status:</td>
+                      <td>{{ word.status }}</td>
                     </tr>
                   </table>
+                  <div>
                   <a href="#">View Discussions</a>
+                  </div>
+                  <div>
                   <a href="#">Create Discussion</a>
-                  <a href="#">View History</a>'>
+                  </div>
+                  <div>
+                  <a href="#">View History</a>
+                  </div>'>
                 {{ word.word }}
               </a>
             </td>
@@ -162,6 +165,7 @@
       </table>
     </div>
   </div>
+  {% endif %}
   <div class="row">
   <button type="button" class="btn" data-toggle="modal" data-target="#add_word">Add Word</button>
   </div>
