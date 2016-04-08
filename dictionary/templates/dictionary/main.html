@@ -33,6 +33,11 @@
       color: white;
     }
 
+    /* Body */
+    .form-group #search_submit {
+      width: 300px;
+    }
+
     /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
@@ -80,38 +85,41 @@
 <br></br>
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="btn-group">
-        <button type="button" class="btn">{{ origin }}</button>
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          {% for lang in languages.all %}
-            <li><a href="#">{{ lang.name }}</a></li>
-          {% endfor %}
-        </ul>
+  <form role="form" action="/dict/" method="post">
+  {% csrf_token %}
+    <div class="row">
+      <div class="col-md-2">
+        <div class="input-group">
+          <input type="text" class="txt form-control" id="origin_input" name="origin" value="{{ origin }}">
+          <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            {% for lang in languages.all %}
+              <li><a href="#">{{ lang.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div class="btn-group">
-        <button type="button" class="btn">{{ target }}</button>
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          {% for lang in languages.all %}
-            <li><a href="#">{{ lang.name }}</a></li>
-          {% endfor %}
-        </ul>
+      <div class="col-md-2">
+        <div class="input-group">
+          <input type="text" class="txt form-control" id="target_input" name="target" value="{{ target }}">
+          <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            {% for lang in languages.all %}
+              <li><a href="#">{{ lang.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <button type="button" class="btn">GO</button>
+      <div class="col-md-2">
+        <button type="submit" class="btn" id="search_submit">GO</button>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <input type="text" class="txt" value="{{ origin_word }}">
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" class="txt" name="word" value="{{ origin_word }}">
+      </div>
     </div>
-  </div>
+  </form>
   <br></br>
   {% if origin_word %}
   <div class="row">
@@ -237,6 +245,10 @@
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
+});
+$(".dropdown-menu li a").click(function(){
+  var sel_text = $(this).text();
+  $(this).parents('.input-group').find('.txt').val(sel_text);
 });
 </script>
 
