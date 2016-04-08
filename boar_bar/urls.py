@@ -27,6 +27,11 @@ urlpatterns = [
         r'^discussion/?',
         include('discussion.urls')
     ),
+    url(
+        r'^favicon\.ico$', 
+        'django.views.generic.simple.redirect_to', 
+        {'url': '/favicon.ico'}
+    ),
     #url(
     #    r'^.*$',
     #    RedirectView.as_view(
