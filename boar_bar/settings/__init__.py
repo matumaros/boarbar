@@ -35,6 +35,7 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'app.apps.AppConfig',
     'dictionary.apps.DictionaryConfig',
+    'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,7 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'boar_bar.urls'
+STATIC_URL = '/static/'
 
 TEMPLATES = [
     {

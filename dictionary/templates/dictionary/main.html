@@ -1,89 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bavarian Dictionary</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <style>
-    /* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-    }
+{% extends "app/base_site.html" %}
 
-    .navbar-default .navbar-nav > .active > a, 
-    .navbar-default .navbar-nav > .active > a:hover, 
-    .navbar-default .navbar-nav > .active > a:focus {
-      background-color: #5DA984;
-    }
-
-    .navbar-default .navbar-nav > li a:hover {
-      background-color: #348960;
-    }
-
-    #navbar_items > li {
-      border-right: 1px solid #bbb;
-    }
-
-    /* Navbar text color */
-    #brand, .nav.navbar-nav li a, .nav.navbar-nav.navbar-right li a {
-      color: white;
-    }
-
-    /* Body */
-    .form-group #search_submit {
-      width: 300px;
-    }
-
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .row.content {height:auto;}
-    }
-  </style>
-</head>
-
-
-<body>
-{% csrf_token %}
-
-<nav class="navbar-inverse navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#dict_navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a id='brand' class="navbar-brand" href="#">Boariš</a>
-    </div>
-    <div class="collapse navbar-collapse" id="dict_navbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Veaddabuah</a></li>
-        <li><a href="#">Ivasezza</a></li>
-        <li><a href="#">Leana</a></li>
-        <li><a href="#">Gramaddig</a></li>
-        <li><a href="#">Såmlung</a></li>
-        <li><a href="#">Dišgrian</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<br></br>
-
+{% block content %}
 <div class="container">
   <form role="form" action="/dict/" method="post">
   {% csrf_token %}
@@ -251,6 +168,4 @@ $(".dropdown-menu li a").click(function(){
   $(this).parents('.input-group').find('.txt').val(sel_text);
 });
 </script>
-
-</body>
-</html>
+{% endblock %}

@@ -14,26 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
-from django.views.generic.base import RedirectView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^user/', include('user.urls')),
-    url(r'^admin/?', admin.site.urls),
     url(
-        r'^dict/?',
-        include('dictionary.urls')
+        r'^login/',
+        auth_views.login,
+        {'template_name': 'user/login.html'}
     ),
-    url(
-        r'^discussion/?',
-        include('discussion.urls')
-    ),
-    #url(
-    #    r'^.*$',
-    #    RedirectView.as_view(
-    #        url='dict',
-    #        permanent=False
-    #    ),
-    #    name='index'
-    #),
 ]
