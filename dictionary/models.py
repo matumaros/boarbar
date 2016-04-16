@@ -25,9 +25,10 @@ class Word(models.Model):
     word = models.CharField(max_length=50)
     language = models.ForeignKey(Language)
     tags = models.ManyToManyField(Tag, blank=True)
-    upvotes = models.IntegerField()
-    downvotes = models.IntegerField()
-    standard = models.BooleanField()
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
+    creation_date = models.DateField(auto_now_add=True)
+    standard = models.BooleanField(default=False)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
     synonyms = models.ManyToManyField(
         'self', related_name='synonyms', blank=True
