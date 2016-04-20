@@ -1,0 +1,14 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+
+<form method='post' action='{{ request.path }}'>
+  {% csrf_token %}
+  {{ form|crispy }}
+
+  <div class='form-group'>
+    <input type='text' class='form-control' name='username' placeholder='Username' />
+    <input type='password' class='form-control' name='password' placeholder='Password' />
+  </div>
+  <input class='btn' type='submit' value='{% trans 'Login' %}' name='login' />
+</form>

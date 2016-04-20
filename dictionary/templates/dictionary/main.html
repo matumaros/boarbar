@@ -1,162 +1,28 @@
-{% extends "app/base_site.html" %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+{% include "app/header.html" %}
+{% include "app/navbar.html" %}
 <div class="container">
-  <form role="form" action="/dict/" method="post">
-  {% csrf_token %}
-    <div class="row">
-      <div class="col-md-2">
-        <div class="input-group">
-          <input type="text" class="txt form-control" id="origin_input" name="origin" value="{{ origin }}">
-          <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            {% for lang in languages.all %}
-              <li><a href="#">{{ lang.name }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="input-group">
-          <input type="text" class="txt form-control" id="target_input" name="target" value="{{ target }}">
-          <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            {% for lang in languages.all %}
-              <li><a href="#">{{ lang.name }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <button type="submit" class="btn" id="search_submit">GO</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <input type="text" class="txt" name="word" value="{{ origin_word }}">
-      </div>
-    </div>
-  </form>
+  {% include "dictionary/search.html" %}
   <br></br>
   {% if origin_word %}
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-striped">
-        {% for word in words.all %}
-          <tr>
-            <td>
-              <a
-                data-toggle="popover"
-                data-html="true"
-                data-content='
-                  <table class="table">
-                    <tr>
-                      <td>Upvotes:</td>
-                      <td>{{ word.upvotes }}</td>
-                    </tr>
-                    <tr>
-                      <td>Downvotes:</td>
-                      <td>{{ word.downvotes }}</td>
-                    </tr>
-                    <tr>
-                      <td>Status:</td>
-                      <td>{{ word.status }}</td>
-                    </tr>
-                  </table>
-                  <div>
-                  <a href="#">View Discussions</a>
-                  </div>
-                  <div>
-                  <a href="#">Create Discussion</a>
-                  </div>
-                  <div>
-                  <a href="#">View History</a>
-                  </div>'>
-                {{ word.word }}
-              </a>
-            </td>
-            <td>
-              <table class="table table-striped">
-                {% for synonym in word.synonyms.all %}
-                  {% if synonym.language.name == target %}
-                    <tr><td>{{ synonym.word }}</td></tr>
-                  {% endif %}
-                {% endfor %}
-              </table>
-              <button type="button" class="btn" data-toggle="modal" data-target="#add_synonym">Add Synonym</button>
-            </td>
-          </tr>
-        {% endfor %}
-      </table>
-    </div>
-  </div>
+    {% include "dictionary/words_table.html" %}
   {% endif %}
-  <div class="row">
-  <button type="button" class="btn" data-toggle="modal" data-target="#add_word">Add Word</button>
-  </div>
-</div>
-
-
-<div class="modal fade" id="add_word" tabindex="-1" role="dialog" aria-labelledby="add_word_title" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" 
-                   data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="add_word_title">
-                    Suggest Word
-                </h4>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="modal-body">
-                
-                <form class="form-horizontal" role="form">
-                  <div class="form-group">
-                    <label  class="col-sm-2 control-label"
-                              for="add_word_word">Word</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" 
-                        id="add_word_word"/>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label"
-                          for="add_word_language" >Language</label>
-                    <div class="col-sm-10">
-                      <div class="btn-group">
-                        <button type="button" class="btn">{{ origin }}</button>
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                          {% for lang in languages.all %}
-                            <li><a href="#">{{ lang.name }}</a></li>
-                          {% endfor %}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="add_word_description">Description</label>
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <textarea class="form-control" id="add_word_description"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn">Suggest</button>
-                    </div>
-                  </div>
-                </form>
-            </div>
-        </div>
+  {% if request.user.is_authenticated %}
+    <div class="row">
+      <button
+        type="button"
+        class="btn"
+        data-toggle="modal"
+        data-target="#add_word">
+          Add Word
+      </button>
     </div>
+  {% endif %}
 </div>
+
+{% include "dictionary/add_word_modal.html" %}
+
 
 
 <script>
@@ -168,4 +34,3 @@ $(".dropdown-menu li a").click(function(){
   $(this).parents('.input-group').find('.txt').val(sel_text);
 });
 </script>
-{% endblock %}

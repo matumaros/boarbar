@@ -1,8 +1,5 @@
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
 <head>
-{% block head %}
   <title>Bavarian Dictionary</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,39 +49,10 @@
     @media screen and (max-width: 767px) {
       .row.content {height:auto;}
     }
+
+    /* Popovers */
+    .popover {
+      min-width: 150px;
+    }
   </style>
-{% endblock %}
 </head>
-<br></br>
-<body>
-{% block navbar %}
-<nav class="navbar-inverse navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#dict_navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a id='brand' class="navbar-brand" href="#">Boariš</a>
-    </div>
-    <div class="collapse navbar-collapse" id="dict_navbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Veaddabuah</a></li>
-        <li><a href="#">Ivasezza</a></li>
-        <li><a href="#">Leana</a></li>
-        <li><a href="#">Gramaddig</a></li>
-        <li><a href="#">Såmlung</a></li>
-        <li><a href="#">Dišgrian</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-{% endblock %}
-{% block content %}
-{% endblock %}
-</body>
-</html>

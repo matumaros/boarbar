@@ -6,6 +6,9 @@ from django.db import models
 class Tag(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 def audio_path(instance, filename):
     return 'audio/{}'.format(instance.id)
@@ -13,6 +16,9 @@ def audio_path(instance, filename):
 
 class Language(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Word(models.Model):
@@ -34,3 +40,6 @@ class Word(models.Model):
         'self', related_name='synonyms', blank=True
     )
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
+
+    def __str__(self):
+        return self.word

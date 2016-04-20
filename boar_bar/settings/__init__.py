@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from os.path import dirname
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = dirname(dirname(dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,15 +34,19 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'app.apps.AppConfig',
-    'dictionary.apps.DictionaryConfig',
-    'user.apps.UserConfig',
+    # django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # third party
+    'crispy_forms',
+    # project
+    'app.apps.AppConfig',
+    'dictionary.apps.DictionaryConfig',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -56,7 +61,6 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'boar_bar.urls'
-STATIC_URL = '/static/'
 
 TEMPLATES = [
     {
@@ -129,5 +133,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/matumaros/webapps/boar_bar_static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'root')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static', 'basic'),
+)
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media', 'root')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

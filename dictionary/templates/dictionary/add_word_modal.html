@@ -1,0 +1,58 @@
+<div class="modal fade" id="add_word" tabindex="-1" role="dialog" aria-labelledby="add_word_title" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title" id="add_word_title">
+          Suggest Word
+        </h4>
+      </div>
+      
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label  class="col-sm-2 control-label"
+                      for="add_word_word">Word</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" 
+                id="add_word_word"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"
+                  for="add_word_language" >Language</label>
+            <div class="col-sm-10">
+              <div class="btn-group">
+                <button type="button" class="btn">{{ origin }}</button>
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  {% for lang in languages.all %}
+                    <li><a href="#">{{ lang.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="add_word_description">Description</label>
+            <div class="col-sm-offset-2 col-sm-10">
+              <textarea class="form-control" id="add_word_description"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn">Suggest</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
