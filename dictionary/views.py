@@ -32,7 +32,8 @@ def dict_view(request, origin='ENG', target='BAR', word=''):
 
 
 def dict_view_after_search(request, origin, target, word):
-    words = Word.objects.filter(word__regex=word, language__name=origin)
+    search = '.*(^| +){word}($| +).*'.format(word=word)
+    words = Word.objects.filter(word__iregex=search, language__name=origin)
     kwargs = {
         'words': words,
         'origin_word': word,
