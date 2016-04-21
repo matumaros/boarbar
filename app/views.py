@@ -4,6 +4,10 @@ from django.shortcuts import render
 from django.views import generic
 
 
+def home_view(request):
+    return render(request, 'app/home.html', {})
+
+
 class DiscussionIndexView(generic.ListView):
     template_name = 'discussion/index.html'
 

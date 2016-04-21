@@ -19,7 +19,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
+from app.views import home_view
+
+
 urlpatterns = [
+    url(r'^$', home_view, name='home_view'),
     url(r'^user/', include('user.urls')),
     url(r'^admin/?', admin.site.urls),
     url(
