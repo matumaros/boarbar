@@ -1,5 +1,6 @@
 
 
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -43,3 +44,9 @@ class Word(models.Model):
 
     def __str__(self):
         return self.word
+
+
+class WordRelation(models.Model):
+    first_word = models.ForeignKey(Word, related_name='first_word')
+    second_word = models.ForeignKey(Word, related_name='second_word')
+    added_by = models.ForeignKey(User, related_name='added_by')
