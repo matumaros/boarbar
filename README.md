@@ -21,3 +21,6 @@ Yes! The more contributors the better.
 If you want to contribute to the source code, please write me at mat@boar.bar.
 If you want to contribute to anything else, contact me on the same email address.
 Currently you can't register on the website since it's still being tested, but once it's up and running everybody can contribute.
+
+
+Copyright ©2016
