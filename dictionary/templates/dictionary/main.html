@@ -1,27 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-{% include "app/header.html" %}
-{% include "app/navbar.html" %}
-<div class="container">
-  {% include "dictionary/search.html" %}
-  <br></br>
-  {% if origin_word %}
-    {% include "dictionary/words_table.html" %}
-  {% endif %}
-  {% if request.user.is_authenticated %}
-    <div class="row">
-      <button
-        type="button"
-        class="btn"
-        data-toggle="modal"
-        data-target="#add_word">
-          Add Word
-      </button>
-    </div>
-  {% endif %}
-</div>
+{% extends 'app/base_site.html' %}
 
-{% include "dictionary/add_word_modal.html" %}
+{% block content %}
+  {% include "app/header.html" %}
+  {% include "app/navbar.html" %}
+  <div class="container">
+    {% include "dictionary/search.html" %}
+    <br></br>
+    {% if origin_word %}
+      {% include "dictionary/words_table.html" %}
+    {% endif %}
+    {% if request.user.is_authenticated %}
+      <div class="row">
+        <button
+          type="button"
+          class="btn"
+          data-toggle="modal"
+          data-target="#add_word">
+            Add Word
+        </button>
+      </div>
+    {% endif %}
+  </div>
+
+  {% include "dictionary/add_word_modal.html" %}
+{% endblock %}
 
 
 
