@@ -149,3 +149,8 @@ try:
     from .custom import *
 except ImportError:
     pass
+if DEBUG:
+    try:
+        from .test import *
+    except ImportError:
+        pass
