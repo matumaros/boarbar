@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from app.models import Profile
+from share.models import Profile
 from dictionary.models import Word
 
 

@@ -5,7 +5,7 @@ from django.views import generic
 
 
 def home_view(request):
-    return render(request, 'app/home.html', {})
+    return render(request, 'share/home.html', {})
 
 
 class DiscussionIndexView(generic.ListView):

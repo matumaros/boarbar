@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # third party
     'crispy_forms',
     # project
-    'app.apps.AppConfig',
+    'share.apps.AppConfig',
     'dictionary.apps.DictionaryConfig',
     'user.apps.UserConfig',
 ]
