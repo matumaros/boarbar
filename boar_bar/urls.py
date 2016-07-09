@@ -36,8 +36,12 @@ urlpatterns = [
     ),
     url(
         r'^collection/?',
-        include('colletion.urls')
-    )
+        include('collection.urls')
+    ),
+    url(
+        r'^favicon\.ico$',
+        RedirectView.as_view(url='/static/favicon.png', permanent=True)
+    ),
     #url(
     #    r'^.*$',
     #    RedirectView.as_view(

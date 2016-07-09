@@ -5,10 +5,10 @@ from django.db import models
 
 class CollectionItem(models.Model):
     KINDS = {
-        ('song', 'song')
-        ('tongue_twister', 'tongue twister')
-        ('saying', 'saying')
-        ('poem', 'poem')
+        ('song', 'song'),
+        ('tongue_twister', 'tongue twister'),
+        ('saying', 'saying'),
+        ('poem', 'poem'),
     }
 
     author = models.CharField(max_length=100)
