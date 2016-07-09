@@ -2,6 +2,8 @@
 
 from django.shortcuts import render
 
+from .models import CollectionItem
+
 
 def collection_view(request):
     songs = CollectionItem.objects.filter(kind='song')

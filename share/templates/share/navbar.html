@@ -10,12 +10,24 @@
     </div>
     <div class="collapse navbar-collapse" id="dict_navbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Veaddabuah</a></li>
-        <li><a href="#">Ivasezza</a></li>
-        <li><a href="#">Leana</a></li>
-        <li><a href="#">Gramaddig</a></li>
-        <li><a href="#">Såmlung</a></li>
-        <li><a href="#">Dišgrian</a></li>
+        <li{% if "dict" in request.path %} class="active"{% endif %}>
+          <a href="/dict/">Veaddabuah</a>
+        </li>
+        <li{% if "translate" in request.path %} class="active"{% endif %}>
+          <a href="#">Ivasezza</a>
+        </li>
+        <li{% if "learn" in request.path %} class="active"{% endif %}>
+          <a href="#">Leana</a>
+        </li>
+        <li{% if "grammar" in request.path %} class="active"{% endif %}>
+          <a href="#">Gramaddig</a>
+        </li>
+        <li{% if "collection" in request.path %} class="active"{% endif %}>
+          <a href="/collection/">Såmlung</a>
+        </li>
+        <li{% if "discuss" in request.path %} class="active"{% endif %}>
+          <a href="#">Dišgrian</a>
+        </li>
       </ul>
       {% if not request.user.is_authenticated %}
         <ul class="nav navbar-nav navbar-right">
