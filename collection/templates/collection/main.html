@@ -1,0 +1,76 @@
+{% extends 'app/base_site.html' %}
+
+{% block content %}
+  {% include "app/header.html" %}
+  {% include "app/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+        <p>Liada</p>
+        <p>Zunga Breha</p>
+        <p>Šbrih</p>
+        <p>Gedihd</p>
+      </div>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-4">
+            <h2>
+              Liada
+            </h2>
+            {% for song in songs.all %}
+              <p>
+                <a class="btn" href="#">{{ song.title }}</a>
+                <a class="btn" href="#">{{ song.author }}</a>
+              </p>
+            {% endfor %}
+            <p>
+              <a class="btn" href="#">Load more »</a>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h2>
+              Zunga Breha
+            </h2>
+            {% for tongue_twister in tongue_twisters.all %}
+              <p>
+                <a class="btn" href="#">{{ tongue_twister.title }}</a>
+                <a class="btn" href="#">{{ tongue_twister.author }}</a>
+              </p>
+            {% endfor %}
+            <p>
+              <a class="btn" href="#">Load more »</a>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h2>
+              Šbrih
+            </h2>
+            {% for saying in sayings.all %}
+              <p>
+                <a class="btn" href="#">{{ saying.title }}</a>
+                <a class="btn" href="#">{{ saying.author }}</a>
+              </p>
+            {% endfor %}
+            <p>
+              <a class="btn" href="#">Load more »</a>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h2>
+              Gedihd
+            </h2>
+            {% for poem in poems.all %}
+              <p>
+                <a class="btn" href="#">{{ poem.title }}</a>
+                <a class="btn" href="#">{{ poem.author }}</a>
+              </p>
+            {% endfor %}
+            <p>
+              <a class="btn" href="#">Load more »</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
