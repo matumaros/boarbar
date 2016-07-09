@@ -34,6 +34,10 @@ urlpatterns = [
         r'^discussion/?',
         include('discussion.urls')
     ),
+    url(
+        r'^collection/?',
+        include('colletion.urls')
+    )
     #url(
     #    r'^.*$',
     #    RedirectView.as_view(

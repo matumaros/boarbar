@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'share.apps.AppConfig',
     'dictionary.apps.DictionaryConfig',
     'user.apps.UserConfig',
+    'collection.apps.CollectionConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
