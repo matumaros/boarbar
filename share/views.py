@@ -1,6 +1,6 @@
 
 
-from django.contrib.auth import authenticate, login as auth
+from django.contrib.auth import authenticate, login as auth, logout as out
 from django.shortcuts import render, redirect
 from django.views import generic
 
@@ -24,6 +24,11 @@ def login(request):
             else:
                 return HttpResponse('Invalid login details supplied.')
     return redirect('/admin/')
+
+
+def logout(request):
+    out(request)
+    return redirect(request.POST['previous'])
 
 
 class DiscussionIndexView(generic.ListView):

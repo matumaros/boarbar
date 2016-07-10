@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from share.views import home_view, login
+from share.views import home_view, login, logout
 
 
 urlpatterns = [
@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^user/', include('user.urls')),
     url(r'^admin/?', admin.site.urls),
     url(r'^login/?$', login),
+    url(r'^logout/?$', logout),
     url(
         r'^dict/?',
         include('dictionary.urls')

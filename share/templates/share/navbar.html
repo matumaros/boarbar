@@ -29,7 +29,20 @@
           <a href="#">Dišgrian</a>
         </li>
       </ul>
-      {% if not request.user.is_authenticated %}
+      {% if request.user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a
+              data-toggle="popover"
+              data-html="true"
+              data-placement="bottom"
+              data-content="{% include 'share/tiny_user.html' %}"
+            >
+              <span class="glyphicon glyphicon-user"></span> {{ request.user.username }}
+            </a>
+          </li>
+        </ul>
+      {% else %}
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a
