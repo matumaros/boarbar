@@ -17,3 +17,11 @@ def collection_view(request):
         'poems': poems,
     }
     return render(request, 'collection/main.html', kwargs)
+
+
+def kind_view(request, kind):
+    items = CollectionItem.objects.filter(kind=kind).order_by('creation_date')
+    kwargs = {
+        'items': items,
+    }
+    return render(request, 'collection/{}s.html'.format(kind), kwargs)
