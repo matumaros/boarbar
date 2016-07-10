@@ -2,17 +2,19 @@
 
 from django.db import models
 
+from share.models import Profile
+
 
 class CollectionItem(models.Model):
     KINDS = {
-        ('song', 'song'),
-        ('tongue_twister', 'tongue twister'),
-        ('saying', 'saying'),
-        ('poem', 'poem'),
+        ('song', 'liad'),
+        ('tongue_twister', 'zunga breha'),
+        ('saying', 'šbruh'),
+        ('poem', 'gedihd'),
     }
 
     author = models.CharField(max_length=100)
-    reporter = models.CharField(max_length=100)
+    reporter = models.ForeignKey(Profile)
     title = models.CharField(max_length=150)
     text = models.TextField()
     kind = models.CharField(max_length=50, choices=KINDS)
