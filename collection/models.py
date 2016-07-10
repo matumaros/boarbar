@@ -19,3 +19,6 @@ class CollectionItem(models.Model):
     text = models.TextField()
     kind = models.CharField(max_length=50, choices=KINDS)
     creation_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
