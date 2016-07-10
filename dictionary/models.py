@@ -41,6 +41,7 @@ class Word(models.Model):
         'self', related_name='synonyms', blank=True
     )
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
+    version = models.IntegerField(default=1)
 
     def __str__(self):
         return self.word
