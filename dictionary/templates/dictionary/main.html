@@ -2,12 +2,20 @@
 
 {% block content %}
   {% include "share/navbar.html" %}
-  <div class="container">
-    {% include "dictionary/search.html" %}
-    <br></br>
-    {% if origin_word %}
-      {% include "dictionary/words_table.html" %}
-    {% endif %}
+  <div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        {% include "dictionary/search.html" %}
+      </div>
+      <div class="row">
+        {% if origin_word %}
+          {% include "dictionary/words_table.html" %}
+        {% endif %}
+      </div>
+    </div>
+    <!--
     {% if request.user.is_authenticated %}
       <div class="row">
         <button
@@ -19,6 +27,9 @@
         </button>
       </div>
     {% endif %}
+    -->
+    <div class="col-md-4">
+    </div>
   </div>
 
   {% include "dictionary/add_word_modal.html" %}
