@@ -25,12 +25,7 @@
   {% include "dictionary/add_word_modal.html" %}
 {% endblock %}
 
-
-
 <script>
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover();
-});
 $(".dropdown-menu li a").click(function(){
   var sel_text = $(this).text();
   $(this).parents('.input-group').find('.txt').val(sel_text);

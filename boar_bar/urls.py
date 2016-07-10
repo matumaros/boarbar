@@ -19,13 +19,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from share.views import home_view
+from share.views import home_view, login
 
 
 urlpatterns = [
     url(r'^$', home_view, name='home_view'),
     url(r'^user/', include('user.urls')),
     url(r'^admin/?', admin.site.urls),
+    url(r'^login/?$', login),
     url(
         r'^dict/?',
         include('dictionary.urls')
