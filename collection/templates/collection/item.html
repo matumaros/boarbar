@@ -1,0 +1,33 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/header.html" %}
+  {% include "share/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h2>
+          {{ item.title }}
+        </h2>
+        <dl>
+          <dt>
+            Autoa
+          </dt>
+          <dd>
+            {{ item.author }}
+          </dd>
+          <dt>
+            Eišdeia
+          </dt>
+          <dd>
+            {{ item.reporter }}
+          </dd>
+        </dl>
+        <p class="text-center">
+          {{ item.text|linebreaks }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -27,7 +27,7 @@
             </h2>
             {% for song in songs.all %}
               <p>
-                <a class="btn" href="#">{{ song.title }}</a>
+                <a class="btn" href="/collection/{{ song.id }}">{{ song.title }}</a>
                 <a class="btn" href="#">{{ song.author }}</a>
               </p>
             {% endfor %}
@@ -41,7 +41,7 @@
             </h2>
             {% for tongue_twister in tongue_twisters.all %}
               <p>
-                <a class="btn" href="#">{{ tongue_twister.title }}</a>
+                <a class="btn" href="/collection/{{ tongue_twister.id }}">{{ tongue_twister.title }}</a>
                 <a class="btn" href="#">{{ tongue_twister.author }}</a>
               </p>
             {% endfor %}
@@ -55,7 +55,7 @@
             </h2>
             {% for saying in sayings.all %}
               <p>
-                <a class="btn" href="#">{{ saying.title }}</a>
+                <a class="btn" href="/collection/{{ saying.id }}">{{ saying.title }}</a>
                 <a class="btn" href="#">{{ saying.author }}</a>
               </p>
             {% endfor %}
@@ -69,7 +69,7 @@
             </h2>
             {% for poem in poems.all %}
               <p>
-                <a class="btn" href="#">{{ poem.title }}</a>
+                <a class="btn" href="/collection/{{ poem.id }}">{{ poem.title }}</a>
                 <a class="btn" href="#">{{ poem.author }}</a>
               </p>
             {% endfor %}

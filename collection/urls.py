@@ -7,6 +7,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.collection_view, name='collection_view'),
+    url(r'^(?P<item_id>[0-9])$', views.item_view, name='item_view'),
     url(
         r'^song/?$',
         views.kind_view,

@@ -25,3 +25,11 @@ def kind_view(request, kind):
         'items': items,
     }
     return render(request, 'collection/{}s.html'.format(kind), kwargs)
+
+
+def item_view(request, item_id):
+    item = CollectionItem.objects.get(pk=item_id)
+    kwargs = {
+        'item': item,
+    }
+    return render(request, 'collection/item.html', kwargs)
