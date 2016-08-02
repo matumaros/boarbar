@@ -5,10 +5,6 @@ from django.shortcuts import render, redirect
 from django.views import generic
 
 
-def home_view(request):
-    return render(request, 'share/home.html', {})
-
-
 def login(request):
     if request.method == 'POST':
         if 'login' in request.POST:

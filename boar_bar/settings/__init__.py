@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'dictionary.apps.DictionaryConfig',
     'user.apps.UserConfig',
     'collection.apps.CollectionConfig',
+    'home.apps.HomeConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

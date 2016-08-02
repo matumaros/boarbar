@@ -19,11 +19,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from share.views import home_view, login, logout
+from share.views import login, logout
 
 
 urlpatterns = [
-    url(r'^$', home_view, name='home_view'),
+    url(r'^', include('home.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/?$', login),
