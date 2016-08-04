@@ -23,7 +23,7 @@ from share.views import login, logout
 
 
 urlpatterns = [
-    url(r'^', include('home.urls')),
+    url(r'^home/', include('home.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/?$', login),
