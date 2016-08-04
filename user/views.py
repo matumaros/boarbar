@@ -1,9 +1,13 @@
 
 
 from django.shortcuts import render
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+
+from share.models import Profile
 
 
 @sensitive_post_parameters()
@@ -48,3 +52,9 @@ def login(
         context.update(extra_context)
 
     return TemplateResponse(request, 'user/login.html', context)
+
+
+def profile_view(request, id):
+    profile = Profile.objects.get(id=id)
+    kwargs = {'profile': profile}
+    return render(request, 'user/profile.html', kwargs)

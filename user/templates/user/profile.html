@@ -1,0 +1,11 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div class="page-header">
+    <h1>{{ profile.user.username }}</h1>
+  </div>
+  <p>
+    Baidreen: {{ profile.join_date }}
+  </p>
+{% endblock %}
