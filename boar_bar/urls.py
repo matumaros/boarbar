@@ -23,6 +23,10 @@ from share.views import login, logout
 
 
 urlpatterns = [
+    url(
+        r'^$',
+        RedirectView.as_view(url='home', permanent=True),
+    ),
     url(r'^home/', include('home.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^admin/', admin.site.urls),
