@@ -1,24 +1,17 @@
 {% load crispy_forms_tags %}
 
-<div class='container-fluid'>
-  <div class='row'>
-    <div class='col-md-6'>
-      Nåma:
+<li>
+  <form method='post' action='/user/profile/{{ request.user.id }}'>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class='btn' type='submit' value='Meu Brofui' name='profile' />
+  </form>  
+  <form method='post' action='/logout/'>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class='form-group'>
+      <input type='hidden' name='previous' value='{{ request.path }}' />
     </div>
-    <div class='col-md-6'>
-      {{ request.user.username }}
-    </div>
-  </div>
-  <div class='row'>
-    <div class='col-md-12'>
-      <form method='post' action='/logout/'>
-        {% csrf_token %}
-        {{ form|crispy }}
-        <div class='form-group'>
-          <input type='hidden' name='previous' value='{{ request.path }}' />
-        </div>
-        <input class='btn' type='submit' value='Obmeidn' name='logout' />
-      </form>
-    </div>
-  </div>
-</div>
+    <input class='btn' type='submit' value='Obmeidn' name='logout' />
+  </form>  
+</li>
