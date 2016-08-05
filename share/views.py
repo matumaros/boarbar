@@ -27,6 +27,10 @@ def logout(request):
     return redirect(request.POST['previous'])
 
 
+def not_existing(request):
+    return render(request, 'share/not_existing.html', {})
+
+
 class DiscussionIndexView(generic.ListView):
     template_name = 'discussion/index.html'
 

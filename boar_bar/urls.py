@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from share.views import login, logout
+from share.views import login, logout, not_existing
 
 
 urlpatterns = [
@@ -52,14 +52,11 @@ urlpatterns = [
         r'^favicon\.ico$',
         RedirectView.as_view(url='/static/favicon.png', permanent=True)
     ),
-    #url(
-    #    r'^.*$',
-    #    RedirectView.as_view(
-    #        url='dict',
-    #        permanent=False
-    #    ),
-    #    name='index'
-    #),
+    url(
+       r'^.*$',
+       not_existing,
+       name='not_existing',
+    ),
 ]
 
 if settings.DEBUG:
