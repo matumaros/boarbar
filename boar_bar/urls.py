@@ -27,25 +27,25 @@ urlpatterns = [
         r'^$',
         RedirectView.as_view(url='home', permanent=True),
     ),
-    url(r'^home/', include('home.urls')),
-    url(r'^user/', include('user.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^home/?', include('home.urls')),
+    url(r'^user/?', include('user.urls')),
+    url(r'^admin/?', admin.site.urls),
     url(r'^login/?$', login),
     url(r'^logout/?$', logout),
     url(
-        r'^dict/',
+        r'^dict/?',
         include('dictionary.urls')
     ),
     url(
-        r'^grammar/',
+        r'^grammar/?',
         include('grammar.urls')
     ),
     url(
-        r'^collection/',
+        r'^collection/?',
         include('collection.urls')
     ),
     url(
-        r'^discussion/',
+        r'^discussion/?',
         include('discussion.urls')
     ),
     url(
