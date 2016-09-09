@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from .models import Word, Language
+from language.models import Language
+from word.models import Word
 
 
 def dict_view(request, origin='ENG', target='BAR', word=''):

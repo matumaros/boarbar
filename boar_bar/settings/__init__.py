@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'collection.apps.CollectionConfig',
     'home.apps.HomeConfig',
+    'word.apps.WordConfig',
+    'language.apps.LanguageConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

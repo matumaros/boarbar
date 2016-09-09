@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from share.models import Profile
+from user.models import Profile
 
 
 class CollectionItem(models.Model):

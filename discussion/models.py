@@ -2,8 +2,8 @@
 
 from django.db import models
 
-from share.models import Profile
-from dictionary.models import Word
+from user.models import Profile
+from word.models import Word
 
 
 class Discussion(models.Model):
