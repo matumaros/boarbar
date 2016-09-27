@@ -2,6 +2,7 @@
 
 from django.db import models
 
+
 from language.models import Language
 
 
@@ -65,7 +66,7 @@ class Word(AbstractWord):
 
 
 class WordHistory(AbstractWord):
-    old = ForeignKey(Word)
+    old = models.ForeignKey(Word)
 
     class Meta:
         ordering = ['-pk']

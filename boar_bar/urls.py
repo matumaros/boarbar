@@ -36,10 +36,10 @@ urlpatterns = [
         r'^dict/?',
         include('dictionary.urls')
     ),
-    url(
-        r'^grammar/?',
-        include('grammar.urls')
-    ),
+    # url(
+    #     r'^grammar/?',
+    #     include('grammar.urls')
+    # ),
     url(
         r'^collection/?',
         include('collection.urls')
