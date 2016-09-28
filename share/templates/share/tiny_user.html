@@ -4,7 +4,7 @@
   <form method='post' action='/user/profile/{{ request.user.id }}'>
     {% csrf_token %}
     {{ form|crispy }}
-    <input class='btn' type='submit' value='Meu Brofui' name='profile' />
+    <input class='btn' type='submit' value='Mei Brofui' name='profile' />
   </form>  
   <form method='post' action='/logout/'>
     {% csrf_token %}
@@ -12,6 +12,6 @@
     <div class='form-group'>
       <input type='hidden' name='previous' value='{{ request.path }}' />
     </div>
-    <input class='btn' type='submit' value='Obmeidn' name='logout' />
+    <input class='btn' type='submit' value='Óbmeidn' name='logout' />
   </form>  
 </li>
