@@ -47,22 +47,38 @@ class AbstractWord(models.Model):
 
 class Word(AbstractWord):
     def save(self):
-        old = super(Word, self).save()
+        # old = self  # super(Word, self).save()
 
-        PostHistory.objects.create(
-            old=old,
-            word=old.word,
-            language=old.language,
-            tags=old.tags,
-            upvotes=old.upvotes,
-            downvotes=old.downvotes,
-            creation_date=old.creation_date,
-            standard=old.standard,
-            status=old.status,
-            synonyms=old.synonyms,
-            audio=old.audio,
-            version=old.version,
-        )
+        # WordHistory.objects.create(
+        #     word=old.word,
+        #     old=old,
+        #     language=old.language,
+        #     tags=old.tags,
+        #     upvotes=old.upvotes,
+        #     downvotes=old.downvotes,
+        #     creation_date=old.creation_date,
+        #     standard=old.standard,
+        #     status=old.status,
+        #     synonyms=old.synonyms,
+        #     audio=old.audio,
+        #     version=old.version,
+        # )
+        super().save()
+        h = WordHistory()
+        h.old = self
+        h.word = self.word
+        h.language = self.language
+        h.upvotes = self.upvotes
+        h.downvotes = self.downvotes
+        h.creation_date = self.creation_date
+        h.standard = self.standard
+        h.status = self.status
+        h.audio = self.audio
+        h.version = self.version
+        h.save()
+        h.tags.add(*self.tags.all())
+        h.synonyms.add(*self.synonyms.all())
+        h.save()
 
 
 class WordHistory(AbstractWord):
