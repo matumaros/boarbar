@@ -19,8 +19,8 @@ class Tag(models.Model):
 
 class AbstractTranslation(models.Model):
     word = models.CharField(max_length=50)
-    short_desc = models.CharField(max_length=100)
-    desc = models.TextField()
+    short_desc = models.CharField(max_length=100, default='')
+    desc = models.TextField(default='')
     tags = models.ManyToManyField(Tag, blank=True)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
@@ -43,12 +43,6 @@ class AbstractWord(AbstractTranslation):
     )
 
     status = models.CharField(max_length=50, choices=WORD_STATUS)
-    translations = models.ManyToManyField(
-        'Translation', related_name='translations', blank=True
-    )
-    synonyms = models.ManyToManyField(
-        'self', related_name='synonyms', blank=True
-    )
     version = models.IntegerField(default=1)
 
     class Meta:
@@ -59,6 +53,13 @@ class AbstractWord(AbstractTranslation):
 
 
 class Word(AbstractWord):
+    translations = models.ManyToManyField(
+        'Translation', related_name='words', blank=True
+    )
+    synonyms = models.ManyToManyField(
+        'self', related_name='synonyms', blank=True
+    )
+
     def save(self):
         super().save()
         h = WordHistory()
