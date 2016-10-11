@@ -17,24 +17,16 @@ class Tag(models.Model):
         return self.name
 
 
-class AbstractTranslation(models.Model):
-    word = models.CharField(max_length=50)
-    short_desc = models.CharField(max_length=100, default='')
-    desc = models.TextField(default='')
-    tags = models.ManyToManyField(Tag, blank=True)
-    upvotes = models.IntegerField(default=0)
-    downvotes = models.IntegerField(default=0)
-    creation_date = models.DateField(auto_now_add=True)
-    audio = models.FileField(upload_to=audio_path, blank=True, null=True)
-
-    class Meta:
-        abstract = True
+class Description(models.Model):
+    short = models.CharField(max_length=150)
+    extended = models.TextField()
+    language = models.ForeignKey(Language)
 
     def __str__(self):
-        return self.word
+        return self.short
 
 
-class AbstractWord(AbstractTranslation):
+class AbstractWord(models.Model):
     WORD_STATUS = (
         ('SUG', 'Suggested'),  # Suggested by a user
         ('EVL', 'Evaluated'),  # Evaluated by the community
@@ -42,8 +34,16 @@ class AbstractWord(AbstractTranslation):
         ('RMV', 'Removed'),   # Removed
     )
 
+    language = models.ForeignKey(Language)
+    word = models.CharField(max_length=50)
+    desc = models.ManyToManyField(Description, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
+    creation_date = models.DateField(auto_now_add=True)
+    audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
-    version = models.IntegerField(default=1)
+    version = models.CharField(max_length=50)
 
     class Meta:
         abstract = True
@@ -54,10 +54,7 @@ class AbstractWord(AbstractTranslation):
 
 class Word(AbstractWord):
     translations = models.ManyToManyField(
-        'Translation', related_name='words', blank=True
-    )
-    synonyms = models.ManyToManyField(
-        'self', related_name='synonyms', blank=True
+        'self', related_name='translations', blank=True
     )
 
     def save(self):
@@ -65,7 +62,6 @@ class Word(AbstractWord):
         h = WordHistory()
         h.old = self
         h.word = self.word
-        h.short_desc = self.short_desc
         h.desc = self.desc
         h.upvotes = self.upvotes
         h.downvotes = self.downvotes
@@ -76,12 +72,7 @@ class Word(AbstractWord):
         h.save()
         h.tags.add(*self.tags.all())
         h.translations.add(*self.translations.all())
-        h.synonyms.add(*self.synonyms.all())
         h.save()
-
-
-class Translation(AbstractTranslation):
-    pass
 
 
 class WordHistory(AbstractWord):

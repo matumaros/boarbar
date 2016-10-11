@@ -3,10 +3,10 @@
 from django.contrib import admin
 
 
-from .models import Tag, Word, WordHistory, Translation
+from .models import Tag, Word, WordHistory, Description
 
 
 admin.site.register(Tag)
 admin.site.register(Word)
 admin.site.register(WordHistory)
-admin.site.register(Translation)
+admin.site.register(Description)
