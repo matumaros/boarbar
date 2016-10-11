@@ -14,12 +14,9 @@
         </ul>
       </div> -->
     </div>
-    <div class="col-md-2">
-      <span class="glyphicon glyphicon-transfer"></span>
-    </div>
     <div class="col-md-5">
       <div class="input-group">
-        <input type="text" class="txt form-control" id="target_input" name="target" value="{{ target }}">
+        <input type="text" class="txt form-control" id="target_input" name="sourcelang" value="{{ target }}">
         <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href=""><span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
           {% for lang in languages.all %}
@@ -31,7 +28,7 @@
   </div>
   <div class="row">
     <div class="col-md-10">
-      <input type="text" class="txt" name="word" value="{{ origin_word }}">
+      <input type="text" class="txt" name="word" value="{{ origin }}">
     </div>
     <div class="col-md-2">
       <button type="submit" class="btn" id="search_submit">LOS</button>

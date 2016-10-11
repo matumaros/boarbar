@@ -36,9 +36,9 @@
           </td>
           <td>
             <table class="table table-striped">
-              {% for synonym in word.synonyms.all %}
-                {% if synonym.language.name == target %}
-                  <tr><td>{{ synonym.word }}</td></tr>
+              {% for translation in word.translations.all %}
+                {% if translation.language.name == target %}
+                  <tr><td>{{ translation.word }}</td></tr>
                 {% endif %}
               {% endfor %}
             </table>
