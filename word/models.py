@@ -2,6 +2,7 @@
 
 from django.db import models
 
+from simple_history.models import HistoricalRecords
 
 from language.models import Language
 
@@ -56,27 +57,4 @@ class Word(AbstractWord):
     translations = models.ManyToManyField(
         'self', related_name='translations', blank=True
     )
-
-    def save(self):
-        super().save()
-        h = WordHistory()
-        h.old = self
-        h.word = self.word
-        h.desc = self.desc
-        h.upvotes = self.upvotes
-        h.downvotes = self.downvotes
-        h.creation_date = self.creation_date
-        h.status = self.status
-        h.audio = self.audio
-        h.version = self.version
-        h.save()
-        h.tags.add(*self.tags.all())
-        h.translations.add(*self.translations.all())
-        h.save()
-
-
-class WordHistory(AbstractWord):
-    old = models.ForeignKey(Word)
-
-    class Meta:
-        ordering = ['-pk']
+    history = HistoricalRecords()
