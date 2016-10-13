@@ -1,8 +1,6 @@
 
 
-from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
-from django.views import generic
 
 from language.models import Language
 from word.models import Word
