@@ -19,9 +19,9 @@ def dict_view(request, sourcelang='ENG', word=''):
 
 def dict_view_after_search(request, sourcelang, word):
     search = '.*(^| +){word}($| +).*'.format(word=word)
-    words = Word.objects.filter(word__iregex=search, language__name='BAV')
+    words = Word.objects.filter(word__iregex=search, language__name='BAR')
     trans = Word.objects.filter(word__iregex=search, language__name=sourcelang)
- 
+
     kwargs = {
         'words': words,
         'trans': trans,

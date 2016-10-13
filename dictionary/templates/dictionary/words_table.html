@@ -47,5 +47,50 @@
         </tr>
       {% endfor %}
     </table>
+    <table class="table table-striped">
+      {% for word in trans.all %}
+        <tr>
+          <td>
+            <table class="table table-striped">
+              {% for translation in word.translations.all %}
+                <tr><td>{{ translation.word }}</td></tr>
+              {% endfor %}
+            </table>
+            <button type="button" class="btn" data-toggle="modal" data-target="#add_synonym">Add Synonym</button>
+          </td>
+          <td>
+            <a
+              data-toggle="popover"
+              data-html="true"
+              data-content='
+                <table class="table">
+                  <tr>
+                    <td>Upvotes:</td>
+                    <td>{{ word.upvotes }}</td>
+                  </tr>
+                  <tr>
+                    <td>Downvotes:</td>
+                    <td>{{ word.downvotes }}</td>
+                  </tr>
+                  <tr>
+                    <td>Status:</td>
+                    <td>{{ word.status }}</td>
+                  </tr>
+                </table>
+                <div>
+                <a href="">View Discussions</a>
+                </div>
+                <div>
+                <a href="">Create Discussion</a>
+                </div>
+                <div>
+                <a href="">View History</a>
+                </div>'>
+              {{ word.word }}
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
   </div>
 </div>
