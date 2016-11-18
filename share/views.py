@@ -2,7 +2,7 @@
 
 from django.contrib.auth import authenticate, login as auth, logout as out
 from django.shortcuts import render, redirect
-from django.views import generic
+from django.http import HttpResponse
 
 
 def login(request):
@@ -29,15 +29,3 @@ def logout(request):
 
 def not_existing(request):
     return render(request, 'share/not_existing.html', {})
-
-
-class DiscussionIndexView(generic.ListView):
-    template_name = 'discussion/index.html'
-
-
-class WordAdd(generic.ListView):
-    template_name = 'discussion/wordadd.html'
-    context_object_name = 'discussion'
-
-    def get_queryset(self):
-        return WordAddition.objects.order_by('-')
