@@ -7,30 +7,7 @@
             <a
               data-toggle="popover"
               data-html="true"
-              data-content='
-                <table class="table">
-                  <tr>
-                    <td>Upvotes:</td>
-                    <td>{{ word.upvotes }}</td>
-                  </tr>
-                  <tr>
-                    <td>Downvotes:</td>
-                    <td>{{ word.downvotes }}</td>
-                  </tr>
-                  <tr>
-                    <td>Status:</td>
-                    <td>{{ word.status }}</td>
-                  </tr>
-                </table>
-                <div>
-                <a href="">View Discussions</a>
-                </div>
-                <div>
-                <a href="">Create Discussion</a>
-                </div>
-                <div>
-                <a href="">View History</a>
-                </div>'>
+              data-content='{% include "dictionary/word_info.html" %}'>
               {{ word.word }}
             </a>
           </td>
@@ -38,7 +15,14 @@
             <table class="table table-striped">
               {% for translation in word.translations.all %}
                 {% if translation.language.name == target %}
-                  <tr><td>{{ translation.word }}</td></tr>
+                  <tr><td>
+                    <a
+                      data-toggle="popover"
+                      data-html="true"
+                      data-content='{% include "dictionary/word_info.html" %}'>
+                      {{ translation.word }}
+                    </a>
+                  </td></tr>
                 {% endif %}
               {% endfor %}
             </table>
@@ -55,7 +39,16 @@
           <td>
             <table class="table table-striped">
               {% for translation in word.translations.all %}
-                <tr><td>{{ translation.word }}</td></tr>
+                {% if translation.language.name == 'BAR' %}
+                  <tr><td>
+                    <a
+                      data-toggle="popover"
+                      data-html="true"
+                      data-content='{% include "dictionary/word_info.html" %}'>
+                      {{ translation.word }}
+                    </a>
+                  </td></tr>
+                {% endif %}
               {% endfor %}
             </table>
             {% if request.user.is_authenticated %}
@@ -66,30 +59,7 @@
             <a
               data-toggle="popover"
               data-html="true"
-              data-content='
-                <table class="table">
-                  <tr>
-                    <td>Upvotes:</td>
-                    <td>{{ word.upvotes }}</td>
-                  </tr>
-                  <tr>
-                    <td>Downvotes:</td>
-                    <td>{{ word.downvotes }}</td>
-                  </tr>
-                  <tr>
-                    <td>Status:</td>
-                    <td>{{ word.status }}</td>
-                  </tr>
-                </table>
-                <div>
-                <a href="">View Discussions</a>
-                </div>
-                <div>
-                <a href="">Create Discussion</a>
-                </div>
-                <div>
-                <a href="">View History</a>
-                </div>'>
+              data-content='{% include "dictionary/word_info.html" %}'>
               {{ word.word }}
             </a>
           </td>
