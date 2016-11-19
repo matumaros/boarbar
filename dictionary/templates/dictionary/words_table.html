@@ -16,11 +16,6 @@
               {% for translation in word.foreign_translations.all %}
                 {% if translation.language.name == target %}
                   <tr><td>
-                    <!-- <a
-                      data-toggle="popover"
-                      data-html="true"
-                      data-content='{% include "dictionary/word_info.html" %}'>
-                    </a> -->
                     {{ translation.word }}
                   </td></tr>
                 {% endif %}
@@ -54,11 +49,6 @@
             {% endif %}
           </td>
           <td>
-            <!-- <a
-              data-toggle="popover"
-              data-html="true"
-              data-content='{% include "dictionary/word_info.html" %}'>
-            </a> -->
             {{ word.word }}
           </td>
         </tr>
