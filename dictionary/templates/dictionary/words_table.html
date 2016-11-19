@@ -68,3 +68,10 @@
     </table>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-12">
+    {% if request.user.is_authenticated %}
+      <button type="button" class="btn" data-toggle="modal" data-target="#add_word">Nais Voadd</button>
+    {% endif %}
+  </div>
+</div>
