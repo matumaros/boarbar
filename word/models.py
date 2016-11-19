@@ -35,12 +35,9 @@ class AbstractWord(models.Model):
         ('RMV', 'Removed'),   # Removed
     )
 
-    language = models.ForeignKey(Language)
     word = models.CharField(max_length=50)
     desc = models.ManyToManyField(Description, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    upvotes = models.IntegerField(default=0)
-    downvotes = models.IntegerField(default=0)
     creation_date = models.DateField(auto_now_add=True)
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
@@ -53,22 +50,35 @@ class AbstractWord(models.Model):
         return self.word
 
 
-class Word(AbstractWord):
-    translations = models.ManyToManyField(
-        'self', related_name='+',
-        blank=True, through='Translation', symmetrical=False,
+class ForeignWord(AbstractWord):
+    language = models.ForeignKey(Language)
+    history = HistoricalRecords()
+
+
+class BavarianWord(AbstractWord):
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
+    foreign_translations = models.ManyToManyField(
+        ForeignWord, related_name='bavarian_translations',
+        through='Translation',
     )
     history = HistoricalRecords()
 
 
 class Translation(models.Model):
     bavarian = models.ForeignKey(
-        Word, related_name='bavarian', on_delete=models.CASCADE,
+        BavarianWord, related_name='bavarian', on_delete=models.CASCADE,
     )
     foreign = models.ForeignKey(
-        Word, related_name='foreign', on_delete=models.CASCADE,
+        ForeignWord, related_name='foreign', on_delete=models.CASCADE,
     )
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     desc = models.ManyToManyField(Description, blank=True)
     creation_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return '{} - {} ({})'.format(
+            self.bavarian.word, self.foreign.word,
+            self.foreign.language,
+        )

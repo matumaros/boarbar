@@ -13,15 +13,15 @@
           </td>
           <td>
             <table class="table table-striped">
-              {% for translation in word.translations.all %}
+              {% for translation in word.foreign_translations.all %}
                 {% if translation.language.name == target %}
                   <tr><td>
-                    <a
+                    <!-- <a
                       data-toggle="popover"
                       data-html="true"
                       data-content='{% include "dictionary/word_info.html" %}'>
-                      {{ translation.word }}
-                    </a>
+                    </a> -->
+                    {{ translation.word }}
                   </td></tr>
                 {% endif %}
               {% endfor %}
@@ -38,17 +38,15 @@
         <tr>
           <td>
             <table class="table table-striped">
-              {% for translation in word.translations.all %}
-                {% if translation.language.name == 'BAR' %}
-                  <tr><td>
-                    <a
-                      data-toggle="popover"
-                      data-html="true"
-                      data-content='{% include "dictionary/word_info.html" %}'>
-                      {{ translation.word }}
-                    </a>
-                  </td></tr>
-                {% endif %}
+              {% for translation in word.bavarian_translations.all %}
+                <tr><td>
+                  <a
+                    data-toggle="popover"
+                    data-html="true"
+                    data-content='{% include "dictionary/word_info.html" %}'>
+                    {{ translation.word }}
+                  </a>
+                </td></tr>
               {% endfor %}
             </table>
             {% if request.user.is_authenticated %}
@@ -56,12 +54,12 @@
             {% endif %}
           </td>
           <td>
-            <a
+            <!-- <a
               data-toggle="popover"
               data-html="true"
               data-content='{% include "dictionary/word_info.html" %}'>
-              {{ word.word }}
-            </a>
+            </a> -->
+            {{ word.word }}
           </td>
         </tr>
       {% endfor %}
