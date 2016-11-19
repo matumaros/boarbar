@@ -55,6 +55,20 @@ class AbstractWord(models.Model):
 
 class Word(AbstractWord):
     translations = models.ManyToManyField(
-        'self', related_name='translations', blank=True
+        'self', related_name='+',
+        blank=True, through='Translation', symmetrical=False,
     )
     history = HistoricalRecords()
+
+
+class Translation(models.Model):
+    bavarian = models.ForeignKey(
+        Word, related_name='bavarian', on_delete=models.CASCADE,
+    )
+    foreign = models.ForeignKey(
+        Word, related_name='foreign', on_delete=models.CASCADE,
+    )
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
+    desc = models.ManyToManyField(Description, blank=True)
+    creation_date = models.DateField(auto_now_add=True)
