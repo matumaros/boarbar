@@ -1,0 +1,79 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>
+          {{ word.word }}
+        </h1>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-md-12">
+        <div class="btn-group">
+          <button class="btn btn-default">
+            Šbráh
+          </button> 
+          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            {% for lang in languages.all %}
+              <li>
+                <a href="#">{{ lang.name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-md-12">
+        <h3>
+          Bešraibung
+        </h3>
+        {% for desc in word.desc.all %}
+          <h4>
+            {{ desc.language.name }}
+          </h4>
+          <p>
+            {{ desc.short }}
+          </p>
+          <p>
+            {{ desc.extended }}
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                Šbráh
+              </th>
+              <th>
+                Voadd
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for trans in word.foreign_translations.all %}
+              <tr>
+                <td>
+                  {{ trans.language }}
+                </td>
+                <td>
+                  {{ trans.word }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
