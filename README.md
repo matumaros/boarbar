@@ -26,7 +26,7 @@ Currently you can't register on the website since it's still being tested, but o
 
 ## Boariš
 ### Um vós géz in dem broiegd?
-Es is óiss iva de Boariše šbråh, si zum dahóiddn und leana.
+Es is óiss iva de Boariše šbráh, si zum dahóiddn und leana.
 Fia des vui ma an šdándard máha, so das ma uns gšaid mid šrifd unddahoiddn kina.
 
 ### Várum hósd des broiegd ogfánga?
