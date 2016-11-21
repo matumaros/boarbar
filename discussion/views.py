@@ -1,11 +1,11 @@
-
+from django.views.generic import View
 
 from django.shortcuts import render
 
 
-def add_word_discussion(request):
-    return render(request)
+class AddWordDiscussionView(View):
+    http_methods_name = ['get']
 
 
-def word_discussion(request):
-    return render(request)
+class WordDiscussionView(View):
+    http_methods_name = ['get']

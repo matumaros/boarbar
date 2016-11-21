@@ -41,7 +41,6 @@ class AbstractWord(models.Model):
     creation_date = models.DateField(auto_now_add=True)
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
-    version = models.CharField(max_length=50)
 
     class Meta:
         abstract = True
@@ -63,14 +62,17 @@ class BavarianWord(AbstractWord):
         through='Translation',
     )
     history = HistoricalRecords()
+    version = models.CharField(max_length=50)
 
 
 class Translation(models.Model):
     bavarian = models.ForeignKey(
         BavarianWord, related_name='bavarian', on_delete=models.CASCADE,
+        related_query_name='bavarians',
     )
     foreign = models.ForeignKey(
         ForeignWord, related_name='foreign', on_delete=models.CASCADE,
+        related_query_name='foreigns',
     )
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)

@@ -1,4 +1,4 @@
-
+from django.views.generic import DetailView
 
 from django.shortcuts import render
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -54,7 +54,7 @@ def login(
     return TemplateResponse(request, 'user/login.html', context)
 
 
-def profile_view(request, id):
-    profile = Profile.objects.get(id=id)
-    kwargs = {'profile': profile}
-    return render(request, 'user/profile.html', kwargs)
+class ProfileView(DetailView):
+    template_name = 'user/profile.html'
+    http_methods_name = ['get']
+    model = Profile

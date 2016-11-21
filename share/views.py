@@ -1,4 +1,4 @@
-
+from django.views.generic import TemplateView
 
 from django.contrib.auth import authenticate, login as auth, logout as out
 from django.shortcuts import render, redirect
@@ -26,6 +26,6 @@ def logout(request):
     out(request)
     return redirect(request.POST['previous'])
 
-
-def not_existing(request):
-    return render(request, 'share/not_existing.html', {})
+class NotExistingView(TemplateView):
+    template_name = 'share/not_existing.html'
+    http_methods_name = ['get']
