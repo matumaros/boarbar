@@ -3,14 +3,14 @@
 from django.db import models
 
 from user.models import Profile
-from word.models import BavarianWord
+from word.models import Word
 
 
 class Discussion(models.Model):
     dtype = models.CharField(max_length=50)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    linked_words = models.ForeignKey(BavarianWord)
+    linked_words = models.ForeignKey(Word)
     pattern = models.CharField(max_length=200)
     final_decision = models.CharField(max_length=500)
     entry_date = models.DateTimeField(auto_now_add=True)

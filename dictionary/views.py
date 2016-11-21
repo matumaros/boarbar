@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect
 
 from language.models import Language
-from word.models import BavarianWord, ForeignWord
+from word.models import Word, Translation
 
 
 def dict_view(request, sourcelang='ENG', word=''):
@@ -17,10 +17,10 @@ def dict_view(request, sourcelang='ENG', word=''):
 
 def dict_view_after_search(request, sourcelang, word):
     search = '.*(^| +){word}($| +).*'.format(word=word)
-    words = BavarianWord.objects.filter(
+    words = Word.objects.filter(
         word__iregex=search
     )
-    trans = ForeignWord.objects.filter(
+    trans = Translation.objects.filter(
         word__iregex=search, language__name=sourcelang
     )
 

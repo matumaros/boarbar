@@ -2,13 +2,13 @@
 
 from django.shortcuts import render, redirect
 
-from .models import BavarianWord, Description
+from .models import Word, Description
 from language.models import Language
 
 
 def word_view(request, word_id):
     kwargs = {
-        'word': BavarianWord.objects.get(pk=word_id),
+        'word': Word.objects.get(pk=word_id),
     }
     return render(request, 'word/display.html', kwargs)
 
@@ -25,7 +25,7 @@ def suggest_view(request):
             extended=description_long,
             language=language,
         )
-        word = BavarianWord.objects.create(
+        word = Word.objects.create(
             word=word,
             status='SUG',
             version='boarV1',

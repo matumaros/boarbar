@@ -36,6 +36,8 @@ class AbstractWord(models.Model):
     )
 
     word = models.CharField(max_length=50)
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
     desc = models.ManyToManyField(Description, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     creation_date = models.DateField(auto_now_add=True)
@@ -50,35 +52,26 @@ class AbstractWord(models.Model):
         return self.word
 
 
-class ForeignWord(AbstractWord):
-    language = models.ForeignKey(Language)
-    history = HistoricalRecords()
-
-
-class BavarianWord(AbstractWord):
-    upvotes = models.IntegerField(default=0)
-    downvotes = models.IntegerField(default=0)
-    foreign_translations = models.ManyToManyField(
-        ForeignWord, related_name='bavarian_translations',
-        through='Translation',
+class Word(AbstractWord):
+    translations = models.ForeignKey(
+        'Translation', related_name='translation',
     )
     history = HistoricalRecords()
 
 
 class Translation(models.Model):
-    bavarian = models.ForeignKey(
-        BavarianWord, related_name='bavarian', on_delete=models.CASCADE,
-    )
-    foreign = models.ForeignKey(
-        ForeignWord, related_name='foreign', on_delete=models.CASCADE,
-    )
+    word = models.CharField(max_length=50)
+    language = models.ForeignKey(Language)
+    tags = models.ManyToManyField(Tag, blank=True)
+    wiktionary_link = models.CharField(max_length=150)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
-    desc = models.ManyToManyField(Description, blank=True)
+    comment = models.TextField()
     creation_date = models.DateField(auto_now_add=True)
+    history = HistoricalRecords()
 
     def __str__(self):
-        return '{} - {} ({})'.format(
-            self.bavarian.word, self.foreign.word,
-            self.foreign.language,
+        return '{} ({})'.format(
+            self.word,
+            self.language.name,
         )

@@ -19,32 +19,32 @@ The Standard we are creating is between the last two. The thought process for th
 
 ### Can I contribute?
 Yes! The more contributors the better.
-If you want to contribute to the source code, please write me at mat@boar.bar.
-If you want to contribute to anything else, contact me on the same email address.
+If you want to contribute to the source code, just fork the repository and create pull requests.
+If you want to contribute to anything else, please write me at mat@boar.bar.
 Currently you can't register on the website since it's still being tested, but once it's up and running everybody can contribute.
 
 
 ## Boariš
-### Um vås gez in dem proiegd?
-Es is oiss iva de Boariše šbråh, si zum dahoiddn und leana.
-Fia des vui ma an šdåndard måha, so das ma uns gšaid mid šrifd undahoiddn kinna.
+### Um vós géz in dem broiegd?
+Es is óiss iva de Boariše šbráh, si zum dahóiddn und leana.
+Fia des vui ma an šdándard máha, so das ma uns gšaid mid šrifd unddahoiddn kina.
 
-### Vårum hosd des proiegd ogfånga?
-De Boariše Šbråh vead långsåm fo Daic easezzd. De grind fia des san imigranddn, medien und bildung zum gressdn tail in Daic und vail ‘s koan šdåndard  fia Boariš gibd.
-I vui des endan, i vui das Boariš šbreha si zåm hogga und dišgrian vås da logišsde veg var eana muadda šbråh z’šraim.
+### Várum hósd des broiegd ogfánga?
+De Boariše Šbráh vead lángsám fom Daidšn easezd. De grind fia des san imigranddn, medien und buidung zum gréssdn tail in Daidš und vail ‘s koan šdándard fia Boariš gibd.
+I vui des endan, i vui das si de de Boariš šbréha zám hogga und dišgrian vás da logišsde vég var eana muadda šbráh z’šraim.
 
-### Vårum hosd di fia "boar.bar" endšidn?
-Af Boariš a "Boar" is oana fo Bayern, oda a Boariš šbreha. "bar" is da ISO-9 kod fia de Boariše šbråh.
+### Várum hósd di fia "boar.bar" endšidn?
+Af Boariš a "Boar" is oana fo Bayern, oda a Boariš šbréha. "bar" is da ISO-9 kod fia de Boariše šbráh.
 
-### Aiso duasd ned laid zuašdimma de dafoa so vås enlihs gmåhd hom?
-Na. Do han 3 fašine grubbm fo laid de Boariš šraim. De de no nia Boariš dafoa gšrim hom und blos so šraim via s’ moana das’s rihdig is (vobai des noamalavais sea Daic gšrim is), de de si zåmma gsessn hom und driva nohdåhd hom, åva mid da historišn šraibvais fablim san und dånna gibds no de gloane grubbm fo laid de ivaaiffrig  han und šraim so das as gšrimne Boariš so nå åm gšbrohana is via’s blos ged (mid miliona fo buahšdåm).
-Da Šdåndard den mia šåffa is zviššn de zvoa lezdn. Da gedanggn brozess fia den šdåndard is das ma’n so logiš, åva aa so oafah via meglih måhd, und droz dem koa "fårb" obfad de Boariš håd. Mia bedråhdn historiše grind ned ois guiddig (zum baišbui hom ma as Daice "sch" / Engliše "sh" mid "š" easezzd).
+### Aiso duasd ned laid zuašdimma de dáfoa so vás énlihs gmáhd hóm?
+Na. Es gibd 3 fašine grubbm fo laid de Boariš šraim. De de no nia Boariš dafoa gšrim hom und blos so šraim via s’ moana das’s rihdig is (vobai des noamalavais sea Daidš gšrim is), de de si zámma gsessn und driva nohdáhd hóm, áva mid da historišn šraibvais fablim san und dána gibd's no de gloane grubbm fo laid de ivaaiffrig han und šraim so das as gšrimne Boariš so ná ám gšbrohana is via’s blos géd (mid miliona fo buahšdám).
+Da Šdándard den mia šáffa is zviššn de zvoa lezdn. Da gedanggn brozess fia den šdándard is, das ma’n so logiš, áva aa so oafah via meglih máhd, und droz dem koa "fárb" obfad de as Boariše hád. Mia bedráhdn historiše grind ned óis guiddig (zum baišbui hóm ma as Daidše "sch" / Engliše "sh" mid "š" easezzd).
 
 ### Ko i baidrong?
-Iå! Umso mea heiffa umso bessa.
-Vensd zum gvei kod baidrong vuisd, šraib ma biddšee ån mat@boar.bar.
-Vensd zu iangvås åndam baidrong vuisd kosd mi unda da glaihn email ådress ošraim.
-Zua zaid kosd di ned af da nezsaiddn regisdrian vais oivai no tesded vead, åva ven’s laffd ko a ieda baidrong.
+Iá! Umso mea heiffa umso bessa.
+Vensd zum gvei-kod baidrong vuisd, fork de repository und eašdei an pull requests.
+Vensd zu iangvás ándam baidróng vuisd, šraib ma biddšee án mat@boar.bar.
+Zua zaid kosd di ned af da nezsaiddn regisdrian, vai's óivai no tesdd vead, áva ven’s lafd ko a iéda baidróng.
 
 ---
 
