@@ -1,12 +1,9 @@
-
-
-from django.shortcuts import render
+from django.views.generic import DetailView
 
 from .models import BavarianWord
 
 
-def word_view(request, word_id):
-    kwargs = {
-        'word': BavarianWord.objects.get(pk=word_id)
-    }
-    return render(request, 'word/main.html', kwargs)
+class IndexView(DetailView):
+    template_name = 'word/main.html'
+    http_methods_name = ['get']
+    model = BavarianWord

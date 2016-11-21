@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from share.views import login, logout, not_existing
+from share.views import login, logout, NotExistingView
 
 
 urlpatterns = [
@@ -27,14 +27,14 @@ urlpatterns = [
         r'^$',
         RedirectView.as_view(url='home', permanent=True),
     ),
-    url(r'^home/?', include('home.urls')),
-    url(r'^user/?', include('user.urls')),
+    url(r'^home/', include('home.urls', namespace='home')),
+    url(r'^user/?', include('user.urls', namespace='user')),
     url(r'^admin/?', admin.site.urls),
     url(r'^login/?$', login),
     url(r'^logout/?$', logout),
     url(
-        r'^dict/?',
-        include('dictionary.urls')
+        r'^dict/',
+        include('dictionary.urls', namespace='dictionary')
     ),
     url(
         r'^word/?',
@@ -58,7 +58,7 @@ urlpatterns = [
     ),
     url(
        r'^.*$',
-       not_existing,
+       NotExistingView.as_view(),
        name='not_existing',
     ),
 ]
