@@ -69,4 +69,3 @@ target/
 
 # Project Related
 test_settings.py
-migrations/
