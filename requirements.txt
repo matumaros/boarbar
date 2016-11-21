@@ -1,0 +1,4 @@
+Django==1.9.11
+django-crispy-forms==1.6.1
+django-simple-history==1.8.1
+psycopg2==2.6.2
