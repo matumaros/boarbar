@@ -53,14 +53,14 @@ class AbstractWord(models.Model):
 
 
 class Word(AbstractWord):
-    translations = models.ForeignKey(
-        'Translation', related_name='translation',
-    )
     history = HistoricalRecords()
 
 
 class Translation(models.Model):
     word = models.CharField(max_length=50)
+    translation = models.ForeignKey(
+        'Word', related_name='translations',
+    )
     language = models.ForeignKey(Language)
     tags = models.ManyToManyField(Tag, blank=True)
     wiktionary_link = models.CharField(max_length=150)
