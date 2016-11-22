@@ -1,19 +1,19 @@
 <div class="row">
   <div class="col-md-12">
     <table class="table table-striped">
-      {% for word in words.all %}
+      {% for item in words.values %}
         <tr>
           <td>
             <a
               data-toggle="popover"
               data-html="true"
               data-content='{% include "dictionary/word_info.html" %}'>
-              {{ word.word }}
+              {{ item.word.word }}
             </a>
           </td>
           <td>
             <table class="table table-striped">
-              {% for translation in word.foreign_translations.all %}
+              {% for translation in item.trans %}
                 {% if translation.language.name == target %}
                   <tr><td>
                     {{ translation.word }}
@@ -24,32 +24,6 @@
             {% if request.user.is_authenticated %}
               <button type="button" class="btn" data-toggle="modal" data-target="#add_synonym">Add Synonym</button>
             {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-    <table class="table table-striped">
-      {% for word in trans.all %}
-        <tr>
-          <td>
-            <table class="table table-striped">
-              {% for translation in word.bavarian_translations.all %}
-                <tr><td>
-                  <a
-                    data-toggle="popover"
-                    data-html="true"
-                    data-content='{% include "dictionary/word_info.html" %}'>
-                    {{ translation.word }}
-                  </a>
-                </td></tr>
-              {% endfor %}
-            </table>
-            {% if request.user.is_authenticated %}
-              <button type="button" class="btn" data-toggle="modal" data-target="#add_synonym">Add Synonym</button>
-            {% endif %}
-          </td>
-          <td>
-            {{ word.word }}
           </td>
         </tr>
       {% endfor %}
