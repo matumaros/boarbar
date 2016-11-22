@@ -6,12 +6,12 @@ from user.models import Profile
 
 
 class CollectionItem(models.Model):
-    KINDS = {
+    KINDS = (
         ('song', 'liad'),
         ('tongue_twister', 'zunga breha'),
         ('saying', 'šbruh'),
         ('poem', 'gedihd'),
-    }
+    )
 
     author = models.CharField(max_length=100)
     reporter = models.ForeignKey(Profile)
