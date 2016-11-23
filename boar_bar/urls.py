@@ -17,9 +17,10 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 
-from share.views import login, logout, not_existing
+from share.views import not_existing, logout
 
 
 urlpatterns = [
@@ -30,8 +31,12 @@ urlpatterns = [
     url(r'^home/?', include('home.urls')),
     url(r'^user/?', include('user.urls')),
     url(r'^admin/?', admin.site.urls),
-    url(r'^login/?$', login),
-    url(r'^logout/?$', logout),
+    url(r'^login/?$',
+        auth_views.login,
+        {'template_name': 'share/login.html',
+         'redirect_field_name': 'previous'},
+        name='login'),
+    url(r'^logout/?$', logout, name='logout'),
     url(
         r'^dict/?',
         include('dictionary.urls')
@@ -64,5 +69,7 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
- urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
- urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
