@@ -38,8 +38,8 @@ class AbstractWord(models.Model):
     word = models.CharField(max_length=50)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
-    desc = models.ManyToManyField(Description, blank=True)
-    tags = models.ManyToManyField(Tag, blank=True)
+    desc = models.ManyToManyField(Description)
+    tags = models.ManyToManyField(Tag)
     creation_date = models.DateField(auto_now_add=True)
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
@@ -53,6 +53,7 @@ class AbstractWord(models.Model):
 
 
 class Word(AbstractWord):
+    synonyms = models.ManyToManyField('self')
     history = HistoricalRecords()
 
 

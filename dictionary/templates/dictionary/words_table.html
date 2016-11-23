@@ -14,11 +14,9 @@
           <td>
             <table class="table table-striped">
               {% for translation in item.trans %}
-                {% if translation.language.name == target %}
-                  <tr><td>
-                    {{ translation.word }}
-                  </td></tr>
-                {% endif %}
+                <tr><td>
+                  {{ translation.word }}
+                </td></tr>
               {% endfor %}
             </table>
             {% if request.user.is_authenticated %}
