@@ -24,5 +24,7 @@ urlpatterns = [
         auth_views.login,
         {'template_name': 'user/login.html'}
     ),
-    url(r'^profile/(\d*)/?', views.profile_view, name='profile_view'),
+    url(r'^profile/(?P<pk>\d+)/?',
+        views.ProfileView.as_view(),
+        name='profile_view'),
 ]

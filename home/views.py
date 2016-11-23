@@ -1,23 +1,28 @@
 
 
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
-def home_view(request):
-    return render(request, 'home/home.html', {})
+class HomeView(TemplateView):
+    template_name = 'home/home.html'
+    http_method_names = ['get']
 
 
-def news_view(request):
-    return render(request, 'home/news.html', {})
+class NewsView(TemplateView):
+    template_name = 'home/news.html'
+    http_method_names = ['get']
 
 
-def ogf_view(request):
-    return render(request, 'home/ogf.html', {})
+class OgfView(TemplateView):
+    template_name = 'home/ogf.html'
+    http_method_names = ['get']
 
 
-def guest_view(request):
-    return render(request, 'home/guest.html', {})
+class GuestView(TemplateView):
+    template_name = 'home/guest.html'
+    http_method_names = ['get']
 
 
-def about_view(request):
-    return render(request, 'home/about.html', {})
+class AboutView(TemplateView):
+    template_name = 'home/about.html'
+    http_method_names = ['get']
