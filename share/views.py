@@ -1,13 +1,21 @@
 
 
 from django.contrib.auth import logout as out
-from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.views.generic import TemplateView, View
 
 
-def logout(request):
-    out(request)
-    return redirect(request.POST['previous'])
+class Logout(View):
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        out(request)
+
+        previous = request.POST.get('previous', reverse('home_view'))
+        return HttpResponseRedirect(previous)
 
 
-def not_existing(request):
-    return render(request, 'share/not_existing.html', {})
+class NotExisting(TemplateView):
+    http_method_names = ['get']
+    template_name = 'share/not_existing.html'

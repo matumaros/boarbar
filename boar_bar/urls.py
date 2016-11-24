@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 
-from share.views import not_existing, logout
+from share.views import NotExisting, Logout
 
 
 urlpatterns = [
@@ -36,7 +36,7 @@ urlpatterns = [
         {'template_name': 'share/login.html',
          'redirect_field_name': 'previous'},
         name='login'),
-    url(r'^logout/?$', logout, name='logout'),
+    url(r'^logout/?$', Logout.as_view(), name='logout'),
     url(
         r'^dict/?',
         include('dictionary.urls')
@@ -63,7 +63,7 @@ urlpatterns = [
     ),
     url(
        r'^.*$',
-       not_existing,
+       NotExisting.as_view(),
        name='not_existing',
     ),
 ]

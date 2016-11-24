@@ -1,23 +1,27 @@
 
 
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import DetailView, TemplateView
 from django.shortcuts import render, redirect
 
 from .models import Word, Description
 from language.models import Language
 
 
-def word_view(request, word_id):
-    kwargs = {
-        'word': Word.objects.get(pk=word_id),
-    }
-    return render(request, 'word/display.html', kwargs)
+class WordView(DetailView):
+    template_name = 'word/display.html'
+    http_method_names = ['get']
+    model = Word
 
 
-def suggest_view(request):
-    if request.method == 'POST':
-        word = request.POST['word']
-        description_short = request.POST['desc_short']
-        description_long = request.POST['desc_long']
+class SuggestView(TemplateView):
+    template_name = 'word/suggest.html'
+    http_method_names = ['get', 'post']
+
+    def post(self, request, *args, **kwargs):
+        word = request.POST.get('word')
+        description_short = request.POST.get('desc_short')
+        description_long = request.POST.get('desc_long')
 
         language = Language.objects.get(name='BAR')
         desc = Description.objects.create(
@@ -31,6 +35,6 @@ def suggest_view(request):
             version='boarV1',
         )
         word.desc.add(desc)
-        return redirect('/word/{}'.format(word.id))
-    else:
-        return render(request, 'word/suggest.html')
+
+        url = reverse_lazy('word_view', kwargs={'pk': word.id})
+        return HttpResponseRedirect(url)
