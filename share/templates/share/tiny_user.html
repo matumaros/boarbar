@@ -13,5 +13,8 @@
       <input type='hidden' name='previous' value='{{ request.path }}' />
     </div>
     <input class='btn' type='submit' value='Óbmeidn' name='logout' />
-  </form>  
+  </form>
+  {% if request.user.is_staff %}
+  <a href="{% url 'admin:index' %}">Admin</a>
+  {% endif %}
 </li>
