@@ -54,17 +54,13 @@ urlpatterns = [
         include('collection.urls')
     ),
     url(
-        r'^discussion/?',
-        include('discussion.urls')
-    ),
-    url(
         r'^favicon\.ico$',
         RedirectView.as_view(url='/static/favicon.png', permanent=True)
     ),
     url(
-       r'^.*$',
-       NotExisting.as_view(),
-       name='not_existing',
+        r'^.*$',
+        NotExisting.as_view(),
+        name='not_existing',
     ),
 ]
 
