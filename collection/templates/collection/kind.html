@@ -1,12 +1,12 @@
 {% extends 'share/base_site.html' %}
-
+{% debug %}
 {% block content %}
   {% include "share/navbar.html" %}
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-2">
         <h4>Naisde</h4>
-        {% for item in items.all|slice:":10" %}
+        {% for item in object_list|slice:":10" %}
           <p>
             <a class="btn" href="/collection/{{ item.id }}">{{ item.title }}</a>
           </p>

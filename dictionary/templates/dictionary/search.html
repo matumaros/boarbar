@@ -4,22 +4,13 @@
   <div class="row">
     <div class="col-md-5">
       <span class="label label-default">BAR</span>
-      <!-- <div class="input-group">
-        <input type="text" class="txt form-control" id="origin_input" name="origin" value="{{ origin }}">
-        <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href=""><span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-          {% for lang in languages.all %}
-            <li><a href="">{{ lang.name }}</a></li>
-          {% endfor %}
-        </ul>
-      </div> -->
     </div>
     <div class="col-md-5">
       <div class="input-group">
         <input type="text" class="txt form-control" id="target_input" name="sourcelang" value="{{ target }}">
         <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href=""><span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
-          {% for lang in languages.all %}
+          {% for lang in languages %}
             <li><a href="">{{ lang.name }}</a></li>
           {% endfor %}
         </ul>

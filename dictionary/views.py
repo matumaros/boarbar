@@ -17,7 +17,7 @@ class DictView(TemplateView):
         # set only needed things, because origin word is empty and
         # collection empty too (don't search anything)
         context.update({
-            'languages': Language.objects,
+            'languages': Language.objects.all(),
             'target': 'ENG',
         })
         return context
@@ -66,7 +66,7 @@ class DictAfterSearchView(TemplateView):
 
         context.update({
             'words': collection,
-            'languages': Language.objects,
+            'languages': Language.objects.all(),
             'origin': word,
             'target': sourcelang,
         })

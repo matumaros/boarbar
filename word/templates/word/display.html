@@ -6,35 +6,16 @@
     <div class="row">
       <div class="col-md-12">
         <h1>
-          {{ word.word }}
+          {{ object.word }}
         </h1>
       </div>
     </div>
-    <!-- <div class="row">
-      <div class="col-md-12">
-        <div class="btn-group">
-          <button class="btn btn-default">
-            Šbráh
-          </button> 
-          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            {% for lang in languages.all %}
-              <li>
-                <a href="#">{{ lang.name }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-    </div> -->
     <div class="row">
       <div class="col-md-12">
         <h3>
           Bešraibung
         </h3>
-        {% for desc in word.desc.all %}
+        {% for desc in desc %}
           <h4>
             {{ desc.language.name }}
           </h4>
@@ -61,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for trans in word.translations.all %}
+            {% for trans in translations %}
               <tr>
                 <td>
                   {{ trans.language }}
