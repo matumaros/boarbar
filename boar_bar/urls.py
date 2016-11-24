@@ -26,32 +26,32 @@ from share.views import NotExisting, Logout
 urlpatterns = [
     url(
         r'^$',
-        RedirectView.as_view(url='home', permanent=True),
+        RedirectView.as_view(url='/home/', permanent=True),
     ),
-    url(r'^home/?', include('home.urls')),
-    url(r'^user/?', include('user.urls')),
-    url(r'^admin/?', admin.site.urls),
-    url(r'^login/?$',
+    url(r'^home/', include('home.urls', namespace='home')),
+    url(r'^user/', include('user.urls', namespace='user')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^login/$',
         auth_views.login,
         {'template_name': 'share/login.html',
          'redirect_field_name': 'previous'},
         name='login'),
-    url(r'^logout/?$', Logout.as_view(), name='logout'),
+    url(r'^logout/$', Logout.as_view(), name='logout'),
     url(
-        r'^dict/?',
-        include('dictionary.urls')
+        r'^dict/',
+        include('dictionary.urls', namespace='dictionary')
     ),
     url(
-        r'^word/?',
-        include('word.urls')
+        r'^word/',
+        include('word.urls', namespace='word')
     ),
     # url(
     #     r'^grammar/?',
     #     include('grammar.urls')
     # ),
     url(
-        r'^collection/?',
-        include('collection.urls')
+        r'^collection/',
+        include('collection.urls', namespace='collection')
     ),
     url(
         r'^favicon\.ico$',

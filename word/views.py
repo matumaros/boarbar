@@ -45,5 +45,5 @@ class SuggestView(TemplateView):
         )
         word.desc.add(desc)
 
-        url = reverse_lazy('word_view', kwargs={'pk': word.id})
+        url = reverse_lazy('word:word_view', kwargs={'pk': word.id})
         return HttpResponseRedirect(url)

@@ -1,5 +1,5 @@
 {% load crispy_forms_tags %}
-<form role="form" action="/dict/" method="post">
+<form role="form" action="{% url 'dictionary:dict_view' %}" method="post">
   {% csrf_token %}
   <div class="row">
     <div class="col-md-5">

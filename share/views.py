@@ -12,7 +12,7 @@ class Logout(View):
     def post(self, request, *args, **kwargs):
         out(request)
 
-        previous = request.POST.get('previous', reverse('home_view'))
+        previous = request.POST.get('previous', reverse('home:home_view'))
         return HttpResponseRedirect(previous)
 
 

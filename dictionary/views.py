@@ -27,7 +27,7 @@ class DictView(TemplateView):
         word = request.POST.get('word', '')
 
         kwargs = {'sourcelang': sourcelang, 'word': word}
-        url = reverse_lazy('dict_view_after_search', kwargs=kwargs)
+        url = reverse_lazy('dictionary:dict_view_after_search', kwargs=kwargs)
         return HttpResponseRedirect(url)
 
 

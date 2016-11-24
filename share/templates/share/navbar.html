@@ -4,14 +4,14 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#dict_navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>
       </button>
-      <a id='brand' class="navbar-brand" href="/home">Boariš</a>
+      <a id='brand' class="navbar-brand" href="{% url 'home:home_view' %}">Boariš</a>
     </div>
     <div class="collapse navbar-collapse" id="dict_navbar">
       <ul class="nav navbar-nav">
         <li{% if "dict" in request.path %} class="active"{% endif %}>
-          <a href="/dict/">Veaddabuah</a>
+          <a href="{% url 'dictionary:dict_view' %}">Veaddabuah</a>
         </li>
         <li{% if "translate" in request.path %} class="active"{% endif %}>
           <a href="/translate/">Ivasezza</a>
@@ -23,7 +23,7 @@
           <a href="/grammar/">Gramaddig</a>
         </li>
         <li{% if "collection" in request.path %} class="active"{% endif %}>
-          <a href="/collection/">Sámlung</a>
+          <a href="{% url 'collection:collection_view' %}">Sámlung</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
