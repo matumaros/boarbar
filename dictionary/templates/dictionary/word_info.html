@@ -13,5 +13,5 @@
   </tr>
 </table>
 <div>
-<a href="/word/{{ word.id }}">View Word</a>
+<a href="{% url 'word:word_view' word.id %}">View Word</a>
 </div>

@@ -1,12 +1,10 @@
 {% load crispy_forms_tags %}
 
 <li>
-  <form method='post' action='/user/profile/{{ request.user.id }}'>
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input class='btn' type='submit' value='Mei Brofui' name='profile' />
-  </form>  
-  <form method='post' action='/logout/'>
+  <a href="{% url 'user:profile_view' request.user.id %}" class="btn">
+    Mei Brofui
+  </a>
+  <form method='post' action='{% url "logout" %}'>
     {% csrf_token %}
     {{ form|crispy }}
     <div class='form-group'>
