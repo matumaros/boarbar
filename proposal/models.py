@@ -5,6 +5,7 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 
 from share.models import Comment as BaseComment
+from user.models import Profile
 
 
 class ProposalTopic(models.Model):
@@ -16,7 +17,7 @@ class ProposalTopic(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     creation_date = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=50, choices=STATUS)
+    status = models.CharField(max_length=50, choices=STATUS, default='open')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -37,7 +38,10 @@ class Proposal(models.Model):
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     creation_date = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=50, choices=STATUS)
+    created_by = models.ForeignKey(Profile)
+    status = models.CharField(
+        max_length=50, choices=STATUS, default='suggested',
+    )
     topic = models.ForeignKey(ProposalTopic)
     history = HistoricalRecords()
 
@@ -45,5 +49,11 @@ class Proposal(models.Model):
         return self.title
 
 
-class Comment(BaseComment):
+class TopicComment(BaseComment):
+    topic = models.ForeignKey(ProposalTopic)
+    history = HistoricalRecords()
+
+
+class ProposalComment(BaseComment):
+    topic = models.ForeignKey(Proposal)
     history = HistoricalRecords()
