@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'word.apps.WordConfig',
     'language.apps.LanguageConfig',
+    'proposal.apps.ProposalConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

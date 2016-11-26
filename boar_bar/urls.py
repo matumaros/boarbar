@@ -45,10 +45,10 @@ urlpatterns = [
         r'^word/',
         include('word.urls', namespace='word')
     ),
-    # url(
-    #     r'^grammar/?',
-    #     include('grammar.urls')
-    # ),
+    url(
+        r'^proposal/',
+        include('proposal.urls')
+    ),
     url(
         r'^collection/',
         include('collection.urls', namespace='collection')
