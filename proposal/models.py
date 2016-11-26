@@ -4,6 +4,8 @@ from django.db import models
 
 from simple_history.models import HistoricalRecords
 
+from share.models import Comment as BaseComment
+
 
 class ProposalTopic(models.Model):
     STATUS = (
@@ -41,3 +43,7 @@ class Proposal(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(BaseComment):
+    history = HistoricalRecords()
