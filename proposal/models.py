@@ -42,7 +42,7 @@ class Proposal(models.Model):
     status = models.CharField(
         max_length=50, choices=STATUS, default='suggested',
     )
-    topic = models.ForeignKey(ProposalTopic)
+    topic = models.ForeignKey(ProposalTopic, related_name='proposals')
     history = HistoricalRecords()
 
     def __str__(self):

@@ -1,0 +1,52 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>
+          {{ object.word }}
+        </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>
+          {{ object.title }}
+        </h3>
+        <p>
+          {{ object.description }}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                Tiddl
+              </th>
+              <th>
+                Eašdeia
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for proposal in proposals %}
+              <tr>
+                <td>
+                  {{ proposal.title }}
+                </td>
+                <td>
+                  {{ proposal.created_by.user.username }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

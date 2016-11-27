@@ -1,6 +1,6 @@
 
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import ProposalTopic, Proposal
 
@@ -27,3 +27,17 @@ class ProposalView(ListView):
         topics = topics.order_by('creation_date')
 
         return topics
+
+
+class TopicDetailView(DetailView):
+    template_name = 'proposal/topic_detail.html'
+    http_method_names = ['get']
+    model = ProposalTopic
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'proposals': self.object.proposals.all(),
+        })
+        return context
