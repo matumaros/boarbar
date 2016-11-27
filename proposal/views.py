@@ -41,3 +41,9 @@ class TopicDetailView(DetailView):
             'proposals': self.object.proposals.all(),
         })
         return context
+
+
+class ProposalDetailView(DetailView):
+    template_name = 'proposal/proposal_detail.html'
+    http_method_names = ['get']
+    model = Proposal

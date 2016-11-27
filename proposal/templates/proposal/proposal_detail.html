@@ -1,0 +1,34 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>
+          {{ object.title }}
+        </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>
+          Temá: {{ object.topic.title }}
+        </h3>
+        <p>
+          {{ object.description }}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p>
+          {{ object.upvotes }}
+        </p>
+        <p>
+          {{ object.downvotes }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

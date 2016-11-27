@@ -13,4 +13,9 @@ urlpatterns = [
         views.TopicDetailView.as_view(),
         name='proposal_topic_detail_view',
     ),
+    url(
+        r'^proposal/(?P<pk>\d+)$',
+        views.ProposalDetailView.as_view(),
+        name='proposal_detail_view',
+    ),
 ]
