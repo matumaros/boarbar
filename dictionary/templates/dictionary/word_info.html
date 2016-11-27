@@ -1,17 +1,17 @@
 <table class="table">
   <tr>
     <td>Upvotes:</td>
-    <td>{{ word.upvotes }}</td>
+    <td>{{ item.word.upvotes }}</td>
   </tr>
   <tr>
     <td>Downvotes:</td>
-    <td>{{ word.downvotes }}</td>
+    <td>{{ item.word.downvotes }}</td>
   </tr>
   <tr>
     <td>Status:</td>
-    <td>{{ word.status }}</td>
+    <td>{{ item.word.status }}</td>
   </tr>
 </table>
 <div>
-<a href="{% url 'word:word_view' word.id %}">View Word</a>
+  <a href="{% url 'word:word_view' item.word.id %}">View Word</a>
 </div>
