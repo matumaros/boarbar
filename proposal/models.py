@@ -38,7 +38,7 @@ class Proposal(models.Model):
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     creation_date = models.DateField(auto_now_add=True)
-    created_by = models.ForeignKey(Profile)
+    created_by = models.ForeignKey(Profile, related_name='proposals')
     status = models.CharField(
         max_length=50, choices=STATUS, default='suggested',
     )
@@ -50,10 +50,14 @@ class Proposal(models.Model):
 
 
 class TopicComment(BaseComment):
-    topic = models.ForeignKey(ProposalTopic)
+    topic = models.ForeignKey(ProposalTopic, related_name='comments')
+    created_by = models.ForeignKey(
+        Profile, related_name='proposal_topic_comments'
+    )
     history = HistoricalRecords()
 
 
 class ProposalComment(BaseComment):
-    topic = models.ForeignKey(Proposal)
+    topic = models.ForeignKey(Proposal, related_name='comments')
+    created_by = models.ForeignKey(Profile, related_name='proposal_comments')
     history = HistoricalRecords()

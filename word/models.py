@@ -21,7 +21,7 @@ class Tag(models.Model):
 class Description(models.Model):
     short = models.CharField(max_length=150)
     extended = models.TextField()
-    language = models.ForeignKey(Language)
+    language = models.ForeignKey(Language, related_name='descriptions')
 
     def __str__(self):
         return self.short
@@ -62,7 +62,7 @@ class Translation(models.Model):
     translation = models.ForeignKey(
         'Word', related_name='translations',
     )
-    language = models.ForeignKey(Language)
+    language = models.ForeignKey(Language, related_name='foreign_words')
     tags = models.ManyToManyField(Tag, blank=True)
     wiktionary_link = models.CharField(max_length=150)
     upvotes = models.IntegerField(default=0)

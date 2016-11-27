@@ -16,7 +16,7 @@ class Profile(models.Model):
 
 
 class UserLanguage(models.Model):
-    user = models.ForeignKey(Profile)
+    user = models.ForeignKey(Profile, related_name='languages')
     language = models.OneToOneField(Language)
     proficiency = models.PositiveIntegerField()
 
