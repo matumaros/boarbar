@@ -10,6 +10,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     join_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
+    reputation = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
