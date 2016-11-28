@@ -15,7 +15,12 @@
             <table class="table table-striped">
               {% for translation in item.trans %}
                 <tr><td>
-                  {{ translation.word }}
+                  <a
+                    data-toggle="popover"
+                    data-html="true"
+                    data-content='{% include "dictionary/translation_info.html" %}'>
+                    {{ translation.word }}
+                  </a>
                 </td></tr>
               {% endfor %}
             </table>
