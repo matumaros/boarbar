@@ -47,7 +47,7 @@ urlpatterns = [
     ),
     url(
         r'^proposal/',
-        include('proposal.urls')
+        include('proposal.urls', namespace='proposal')
     ),
     url(
         r'^collection/',

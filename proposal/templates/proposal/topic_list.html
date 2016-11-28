@@ -20,7 +20,7 @@
             {% for object in object_list %}
               <tr>
                 <td>
-                  {{ object.title }}
+                  <a class="btn" href="{% url 'proposal:proposal_topic_detail_view' object.id %}">{{ object.title }}
                 </td>
                 <td>
                   {{ object.status }}
