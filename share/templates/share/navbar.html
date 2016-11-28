@@ -19,8 +19,8 @@
         <li{% if "learn" in request.path %} class="active"{% endif %}>
           <a href="/learn/">Leana</a>
         </li>
-        <li{% if "grammar" in request.path %} class="active"{% endif %}>
-          <a href="/grammar/">Gramaddig</a>
+        <li{% if "proposal/topics" in request.path %} class="active"{% endif %}>
+          <a href="/proposal/topics/">Dišgrian</a>
         </li>
         <li{% if "collection" in request.path %} class="active"{% endif %}>
           <a href="{% url 'collection:collection_view' %}">Sámlung</a>
