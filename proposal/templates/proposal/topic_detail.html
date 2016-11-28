@@ -34,7 +34,7 @@
             {% for proposal in proposals %}
               <tr>
                 <td>
-                  {{ proposal.title }}
+                  <a class="btn" href="{% url 'proposal:proposal_detail_view' proposal.id %}">{{ proposal.title }}
                 </td>
                 <td>
                   {{ proposal.created_by.user.username }}
