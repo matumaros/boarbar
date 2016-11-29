@@ -18,4 +18,9 @@ urlpatterns = [
         views.ProposalDetailView.as_view(),
         name='proposal_detail_view',
     ),
+    url(
+        r'^proposal/edit/(?P<pk>\d+)$',
+        views.ProposalEditView.as_view(),
+        name='proposal_edit_view',
+    ),
 ]

@@ -1,5 +1,7 @@
 
 
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 
 from .models import ProposalTopic, Proposal
@@ -47,3 +49,19 @@ class ProposalDetailView(DetailView):
     template_name = 'proposal/proposal_detail.html'
     http_method_names = ['get']
     model = Proposal
+
+
+class ProposalEditView(DetailView):
+    template_name = 'proposal/proposal_edit.html'
+    http_method_names = ['get', 'post']
+    model = Proposal
+
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.title = request.POST.get('title', '')
+        obj.description = request.POST.get('description', '')
+        obj.save()
+
+        kwargs = {'pk': obj.id}
+        url = reverse_lazy('proposal:proposal_detail_view', kwargs=kwargs)
+        return HttpResponseRedirect(url)

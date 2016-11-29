@@ -1,0 +1,29 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <form class="form-horizontal" role="form" action="{% url 'proposal:proposal_edit_view' object.id %}" method="post">
+    {% csrf_token %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <input type="text" class="form-control"
+          id="title" name="title" value="{{ object.title }}"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h3>
+            Temá: {{ object.topic.title }}
+          </h3>
+          <p>
+            <textarea class="form-control" id="description" name="description">{{ object.description }}</textarea>
+          </p>
+        </div>
+      </div>
+      <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn">Endan</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
