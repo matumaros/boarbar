@@ -1,0 +1,10 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <form class="form-horizontal" role="form" action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Endan</button>
+  </form>
+{% endblock %}

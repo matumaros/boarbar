@@ -2,7 +2,7 @@
 
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 
 from .models import ProposalTopic, Proposal
 
@@ -49,6 +49,18 @@ class ProposalDetailView(DetailView):
     template_name = 'proposal/proposal_detail.html'
     http_method_names = ['get']
     model = Proposal
+
+
+class ProposalAddView(CreateView):
+    template_name = 'proposal/proposal_add.html'
+    http_method_names = ['get', 'post']
+    fields = ['title', 'description', 'topic']
+    success_url = '/proposal/proposals/'
+    model = Proposal
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user.profile
+        return super().form_valid(form)
 
 
 class ProposalEditView(DetailView):
