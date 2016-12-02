@@ -6,7 +6,7 @@
       <span class="label label-default">BAR</span>
     </div>
     <div class="col-md-5">
-      <div class="input-group">
+      <!-- <div class="input-group">
         <input type="text" class="txt form-control" id="target_input" name="sourcelang" value="{{ target }}">
         <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href=""><span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
@@ -14,7 +14,12 @@
             <li><a href="">{{ lang.name }}</a></li>
           {% endfor %}
         </ul>
-      </div>
+      </div> -->
+      <select class="form-control">
+        {% for lang in languages %}
+        <option>{{ lang.name }}</option>
+        {% endfor %}
+      </select>
     </div>
   </div>
   <div class="row">
