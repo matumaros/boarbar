@@ -1,0 +1,41 @@
+{% extends 'share/base_site.html' %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                Voadd
+              </th>
+              <th>
+                Šdatus
+              </th>
+              <th>
+                Veasion
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for object in object_list %}
+              <tr>
+                <td>
+                  <a class="btn" href="{% url 'word:word_view' object.id %}">{{ object.word }}</a>
+                </td>
+                <td>
+                  {{ object.status }}
+                </td>
+                <td>
+                  {{ object.version }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

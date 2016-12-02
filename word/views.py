@@ -2,7 +2,7 @@
 
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, ListView
 
 from .models import Word, Description
 from language.models import Language
@@ -47,3 +47,15 @@ class SuggestView(TemplateView):
 
         url = reverse_lazy('word:word_view', kwargs={'pk': word.id})
         return HttpResponseRedirect(url)
+
+
+class WordListView(ListView):
+    http_method_names = ['get']
+    paginate_by = 10
+    template_name = 'word/word_list.html'
+
+    def get_queryset(self):
+        words = Word.objects.all()
+        words = words.order_by('creation_date')
+
+        return words
