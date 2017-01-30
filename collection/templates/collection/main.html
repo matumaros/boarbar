@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -6,23 +7,23 @@
     <div class="row">
       <div class="col-md-2">
         <p>
-          <a class="btn" href="{% url 'collection:song_view' %}">Liada</a>
+          <a class="btn" href="{% url 'collection:song_view' %}">{% trans "Songs" %}</a>
         </p>
         <p>
-          <a class="btn" href="{% url 'collection:tongue_twister_view' %}">Zunga Breha</a>
+          <a class="btn" href="{% url 'collection:tongue_twister_view' %}">{% trans "Tongue Twisters" %}</a>
         </p>
         <p>
-          <a class="btn" href="{% url 'collection:saying_view' %}">Šbrih</a>
+          <a class="btn" href="{% url 'collection:saying_view' %}">{% trans "Sayings" %}</a>
         </p>
         <p>
-          <a class="btn" href="{% url 'collection:poem_view' %}">Gedihd</a>
+          <a class="btn" href="{% url 'collection:poem_view' %}">{% trans "Poems" %}</a>
         </p>
       </div>
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-4">
             <h2>
-              Liada
+              {% trans "Songs" %}
             </h2>
             {% for song in songs %}
               <p>
@@ -31,12 +32,12 @@
               </p>
             {% endfor %}
             <p>
-              <a class="btn" href="">Load more »</a>
+              <a class="btn" href="">{% trans "Load more" %} »</a>
             </p>
           </div>
           <div class="col-md-4">
             <h2>
-              Zunga Breha
+              {% trans "Tongue Twisters" %}
             </h2>
             {% for tongue_twister in tongue_twisters %}
               <p>
@@ -45,12 +46,12 @@
               </p>
             {% endfor %}
             <p>
-              <a class="btn" href="">Load more »</a>
+              <a class="btn" href="">{% trans "Load more" %} »</a>
             </p>
           </div>
           <div class="col-md-4">
             <h2>
-              Šbrih
+              {% trans "Sayings" %}
             </h2>
             {% for saying in sayings %}
               <p>
@@ -59,12 +60,12 @@
               </p>
             {% endfor %}
             <p>
-              <a class="btn" href="">Load more »</a>
+              <a class="btn" href="">{% trans "Load more" %} »</a>
             </p>
           </div>
           <div class="col-md-4">
             <h2>
-              Gedihd
+              {% trans "Poems" %}
             </h2>
             {% for poem in poems %}
               <p>
@@ -73,7 +74,7 @@
               </p>
             {% endfor %}
             <p>
-              <a class="btn" href="">Load more »</a>
+              <a class="btn" href="">{% trans "Load more" %} »</a>
             </p>
           </div>
         </div>

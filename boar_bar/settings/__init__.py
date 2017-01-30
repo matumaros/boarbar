@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 from os.path import dirname
 
+from django.conf import global_settings
+import django.conf.locale
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = dirname(dirname(dirname(os.path.abspath(__file__))))
 
@@ -127,14 +131,34 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+gettext_noop = lambda s: s
 
+LANGUAGES = (
+    ('bv_CE', gettext_noop('Central Bavarian')),
+)
+
+EXTRA_LANG_INFO = {
+    'bv_CE': {
+        'bidi': False,  # right-to-left
+        'code': 'bv',
+        'name': 'Central Bavarian',
+        'name_local': 'Donauboariš',
+    }
+}
+
+# LOCALE_PATHS = (
+#     os.path.join(BASE_DIR, 'share', 'locale'),
+# )
+
+LANG_INFO = dict(
+    list(django.conf.locale.LANG_INFO.items()) + list(EXTRA_LANG_INFO.items())
+)
+django.conf.locale.LANG_INFO = LANG_INFO
+
+LANGUAGE_CODE = 'bv-ce'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 

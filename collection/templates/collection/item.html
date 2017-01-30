@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -11,13 +12,13 @@
         </h2>
         <dl>
           <dt>
-            Autoa
+            {% trans "Author" %}
           </dt>
           <dd>
             {{ item.author }}
           </dd>
           <dt>
-            Eišdeia
+            {% trans "Creator" %}
           </dt>
           <dd>
             {{ item.reporter }}
