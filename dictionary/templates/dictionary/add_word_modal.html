@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="modal fade" id="add_word" tabindex="-1" role="dialog" aria-labelledby="add_word_title" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -5,10 +6,10 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
+          <span class="sr-only">{% trans "Close" %}</span>
         </button>
         <h4 class="modal-title" id="add_word_title">
-          Voadd Foašlóng
+          {% trans "Suggest Word" %}
         </h4>
       </div>
 
@@ -18,7 +19,7 @@
           {% csrf_token %}
           <div class="form-group">
             <label  class="col-sm-2 control-label"
-                      for="add_word_word">Voadd</label>
+                      for="add_word_word">{% trans "Word" %}</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control"
                 id="add_word_word"/>
@@ -26,37 +27,37 @@
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label"
-                  for="add_word_language" >Šbráh</label>
+                  for="add_word_language" >{% trans "Language" %}</label>
             <div class="col-sm-10">
               <div class="btn-group">
-                <button type="button" class="btn">BAR</button>
+                <button type="button" class="btn">{% trans "BAR" %}</button>
                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="">BAR</a></li>
+                  <li><a href="">{% trans "BAR" %}</a></li>
                   {% for lang in languages %}
-                    <li><a href="">{{ lang.name }}</a></li>
+                    <li><a href="">{% trans lang.name %}</a></li>
                   {% endfor %}
                 </ul>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="add_word_description_short">Kuazbešraibung</label>
+            <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Short Description" %}</label>
             <div class="col-sm-offset-2 col-sm-10">
               <textarea class="form-control" id="add_word_description_short"></textarea>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="add_word_description_long">Bešraibung</label>
+            <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Description" %}</label>
             <div class="col-sm-offset-2 col-sm-10">
               <textarea class="form-control" id="add_word_description_long"></textarea>
             </div>
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn">Šlóg Foa</button>
+              <button type="submit" class="btn">{% trans "Suggest" %}</button>
             </div>
           </div>
         </form>

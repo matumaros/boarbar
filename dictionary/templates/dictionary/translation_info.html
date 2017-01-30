@@ -1,13 +1,14 @@
+{% load i18n %}
 <table class="table">
   <tr>
-    <td>Upvotes:</td>
+    <td>{% trans "Upvotes" %}:</td>
     <td>{{ translation.upvotes }}</td>
   </tr>
   <tr>
-    <td>Downvotes:</td>
+    <td>{% trans "Downvotes" %}:</td>
     <td>{{ translation.downvotes }}</td>
   </tr>
 </table>
 <div>
-  <a href="{{ translation.wiktionary_link }}">Mera</a>
+  <a href="{{ translation.wiktionary_link }}">{% trans "More" %}</a>
 </div>

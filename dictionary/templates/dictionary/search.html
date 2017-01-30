@@ -1,9 +1,10 @@
 {% load crispy_forms_tags %}
+{% load i18n %}
 <form role="form" action="{% url 'dictionary:dict_view' %}" method="post">
   {% csrf_token %}
   <div class="row">
     <div class="col-md-5">
-      <span class="label label-default">BAR</span>
+      <span class="label label-default">{% trans "BAR" %}</span>
     </div>
     <div class="col-md-5">
       <!-- <div class="input-group">
@@ -17,7 +18,7 @@
       </div> -->
       <select class="form-control">
         {% for lang in languages %}
-        <option>{{ lang.name }}</option>
+          <option>{% trans lang.name %}</option>
         {% endfor %}
       </select>
     </div>
@@ -27,7 +28,7 @@
       <input type="text" class="txt" name="word" value="{{ origin }}">
     </div>
     <div class="col-md-2">
-      <button type="submit" class="btn" id="search_submit">LOS</button>
+      <button type="submit" class="btn" id="search_submit">{% trans "Search" %}</button>
     </div>
   </div>
 </form>

@@ -1,17 +1,18 @@
+{% load i18n %}
 <table class="table">
   <tr>
-    <td>Upvotes:</td>
+    <td>{% trans "Upvotes" %}:</td>
     <td>{{ item.word.upvotes }}</td>
   </tr>
   <tr>
-    <td>Downvotes:</td>
+    <td>{% trans "Downvotes" %}:</td>
     <td>{{ item.word.downvotes }}</td>
   </tr>
   <tr>
-    <td>Status:</td>
+    <td>{% trans "Status" %}:</td>
     <td>{{ item.word.status }}</td>
   </tr>
 </table>
 <div>
-  <a href="{% url 'word:word_view' item.word.id %}">View Word</a>
+  <a href="{% url 'word:word_view' item.word.id %}">{% trans "View Word" %}</a>
 </div>
