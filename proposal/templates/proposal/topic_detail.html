@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -23,14 +24,14 @@
           <thead>
             <tr>
               <th>
-                Tiddl
+                {% trans "Title" %}
               </th>
               <th>
-                Eašdeia
+                {% trans "Creator" %}
               </th>
             </tr>
           </thead>
-          <a class="btn" href="{% url 'proposal:proposal_add_view' %}">Naia Foašlóg</a>
+          <a class="btn" href="{% url 'proposal:proposal_add_view' %}">{% trans "New Suggestion" %}</a>
           <tbody>
             {% for proposal in proposals %}
               <tr>

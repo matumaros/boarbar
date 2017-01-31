@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -9,13 +10,13 @@
           <thead>
             <tr>
               <th>
-                Tiddl
+                {% trans "Title" %}
               </th>
               <th>
-                Šdatus
+                {% trans "Status" %}
               </th>
               <th>
-                Eašdeid Fo
+                {% trans "Created by" %}
               </th>
             </tr>
           </thead>

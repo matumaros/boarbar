@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -13,7 +14,7 @@
     <div class="row">
       <div class="col-md-12">
         <h3>
-          Temá: {{ object.topic.title }}
+          {% trans "Topic" %}: {{ object.topic.title }}
         </h3>
         <p>
           {{ object.description }}
@@ -32,7 +33,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <a href="{% url 'proposal:proposal_edit_view' pk=object.id %}">Endan</a>
+        <a href="{% url 'proposal:proposal_edit_view' pk=object.id %}">{% trans "Edit" %}</a>
       </div>
     </div>
   </div>
