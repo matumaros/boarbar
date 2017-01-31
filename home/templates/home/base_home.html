@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -9,11 +10,11 @@
     <div class="row">
       <div class="col-md-2">
         <div class="list-group">
-          <a href="{% url 'home:home_view' %}" class="list-group-item{% if '/home/' == request.path %} active{% endif %}" id="home_nav">Hoam</a>
-          <a href="{% url 'home:news_view' %}" class="list-group-item{% if '/home/news/' == request.path %} active{% endif %}" id="news_nav">Nais</a>
-          <a href="{% url 'home:ogf_view' %}" class="list-group-item{% if '/home/ogf/' == request.path %} active{% endif %}" id="ogf_nav">OGF - Ofd Gfrågde Frong</a>
-          <a href="{% url 'home:guest_view' %}" class="list-group-item{% if '/home/guest/' == request.path %} active{% endif %}" id="guest_nav">Gasd Biahe</a>
-          <a href="{% url 'home:about_view' %}" class="list-group-item{% if '/home/about/' == request.path %} active{% endif %}" id="about_nav">Iva Uns</a>
+          <a href="{% url 'home:home_view' %}" class="list-group-item{% if '/home/' == request.path %} active{% endif %}" id="home_nav">{% trans "Home" %}</a>
+          <a href="{% url 'home:news_view' %}" class="list-group-item{% if '/home/news/' == request.path %} active{% endif %}" id="news_nav">{% trans "News" %}</a>
+          <a href="{% url 'home:ogf_view' %}" class="list-group-item{% if '/home/ogf/' == request.path %} active{% endif %}" id="ogf_nav">{% trans "FAQ" %}</a>
+          <a href="{% url 'home:guest_view' %}" class="list-group-item{% if '/home/guest/' == request.path %} active{% endif %}" id="guest_nav">{% trans "Guest Book" %}</a>
+          <a href="{% url 'home:about_view' %}" class="list-group-item{% if '/home/about/' == request.path %} active{% endif %}" id="about_nav">{% trans "About Us" %}</a>
         </div>
       </div>
       <div class="col-md-10">
