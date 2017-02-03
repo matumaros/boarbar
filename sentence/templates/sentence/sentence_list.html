@@ -1,0 +1,42 @@
+{% extends 'share/base_site.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                {% trans "ID" %}
+              </th>
+              <th>
+                {% trans "Raw" %}
+              </th>
+              <th>
+                {% trans "Sentence" %}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for object in object_list %}
+              <tr>
+                <td>
+                  {{ object.id }}
+                </td>
+                <td>
+                  <a class="btn" href="{% url 'sentence:sentence_view' object.id %}">{{ object.text }}</a>
+                </td>
+                <td>
+                  {{ object.get }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

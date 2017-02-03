@@ -10,6 +10,7 @@ from language.models import Language
 
 class Sentence(models.Model):
     text = models.TextField()
+    creation_date = models.DateField(auto_now_add=True)
 
     def get(self):
         def repl(match):
@@ -34,6 +35,7 @@ class Translation(models.Model):
     text = models.TextField()
     sentence = models.ForeignKey(Sentence, related_name='translations')
     language = models.ForeignKey(Language, related_name='foreign_sentences')
+    creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.text[:20]
