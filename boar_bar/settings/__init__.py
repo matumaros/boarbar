@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'collection.apps.CollectionConfig',
     'home.apps.HomeConfig',
     'word.apps.WordConfig',
+    'sentence.apps.SentenceConfig',
     'language.apps.LanguageConfig',
     'proposal.apps.ProposalConfig',
 ]

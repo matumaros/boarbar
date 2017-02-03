@@ -53,7 +53,7 @@ class AbstractWord(models.Model):
 
 
 class Word(AbstractWord):
-    synonyms = models.ManyToManyField('self')
+    synonyms = models.ManyToManyField('self', blank=True)
     history = HistoricalRecords()
 
 
