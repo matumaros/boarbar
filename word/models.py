@@ -27,6 +27,14 @@ class Description(models.Model):
         return self.short
 
 
+class WordVersion(models.Model):
+    name = models.CharField(max_length=50)
+    creation_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
 class AbstractWord(models.Model):
     WORD_STATUS = (
         ('SUG', 'Suggested'),  # Suggested by a user
@@ -43,7 +51,7 @@ class AbstractWord(models.Model):
     creation_date = models.DateField(auto_now_add=True)
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
-    version = models.CharField(max_length=50)
+    version = models.ForeignKey(WordVersion, related_name='words')
 
     class Meta:
         abstract = True
