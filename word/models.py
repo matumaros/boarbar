@@ -20,7 +20,7 @@ class Tag(models.Model):
 
 class Description(models.Model):
     short = models.CharField(max_length=150)
-    extended = models.TextField()
+    extended = models.TextField(blank=True)
     language = models.ForeignKey(Language, related_name='descriptions')
 
     def __str__(self):
@@ -46,8 +46,8 @@ class AbstractWord(models.Model):
     word = models.CharField(max_length=50)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
-    desc = models.ManyToManyField(Description)
-    tags = models.ManyToManyField(Tag)
+    desc = models.ManyToManyField(Description, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     creation_date = models.DateField(auto_now_add=True)
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
@@ -75,7 +75,7 @@ class Translation(models.Model):
     wiktionary_link = models.CharField(max_length=150)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
-    comment = models.TextField()
+    comment = models.TextField(blank=True)
     creation_date = models.DateField(auto_now_add=True)
     history = HistoricalRecords()
 

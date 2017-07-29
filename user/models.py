@@ -9,7 +9,7 @@ from language.models import Language
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     join_date = models.DateTimeField(auto_now_add=True)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     reputation = models.IntegerField(default=0)
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Profile(models.Model):
 class UserLanguage(models.Model):
     user = models.ForeignKey(Profile, related_name='languages')
     language = models.ForeignKey(Language, related_name='user_languages')
-    proficiency = models.PositiveIntegerField()
+    proficiency = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.language.name
