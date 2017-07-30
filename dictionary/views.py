@@ -38,17 +38,19 @@ class DictAfterSearchView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        sourcelang = kwargs.get('sourcelang', 'eng').upper()
+        sourcelang = kwargs.get('sourcelang', 'BAR').upper()
         word = kwargs.get('word', '')
 
         search = '.*(^| +){word}($| +).*'.format(word=word)
         words = Word.objects.filter(
             word__iregex=search
         )
+        print(words.first().translations.exists())
+        print(words.first().translations.all())
         if sourcelang == 'BAR':
             collection = {
                 word.id: {'word': word, 'trans': word.synonyms.all()}
-                for word in words if word.synonyms.all()
+                for word in words if word.synonyms.exists()
             }
         else:
             trans = Translation.objects.filter(
@@ -56,13 +58,12 @@ class DictAfterSearchView(TemplateView):
             )
             collection = {
                 word.id: {'word': word, 'trans': word.translations.all()}
-                for word in words if word.translations.all()
+                for word in words if word.translations.exists()
             }
             for t in trans:
                 wid = t.translation.id
                 if wid not in collection:
                     collection[wid] = {'word': t.translation, 'trans': [t]}
-                collection[t.translation.id]['trans']
 
         context.update({
             'words': collection,
