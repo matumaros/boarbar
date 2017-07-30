@@ -45,8 +45,6 @@ class DictAfterSearchView(TemplateView):
         words = Word.objects.filter(
             word__iregex=search
         )
-        print(words.first().translations.exists())
-        print(words.first().translations.all())
         if sourcelang == 'BAR':
             collection = {
                 word.id: {'word': word, 'trans': word.synonyms.all()}
