@@ -7,9 +7,10 @@
       <span class="label label-default">{% trans "BAR" %}</span>
     </div>
     <div class="col-md-8">
-      <select class="form-control">
+      <select class="form-control" name="sourcelang" id="sel_sourcelang">
+        <option value="BAR">{% trans 'BAR' %}</option>
         {% for lang in languages %}
-          <option>{% trans lang.name %}</option>
+          <option value="{{ lang.name }}">{% trans lang.name %}</option>
         {% endfor %}
       </select>
     </div>

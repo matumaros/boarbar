@@ -23,7 +23,8 @@ class DictView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        sourcelang = request.POST.get('sourcelang', 'eng').upper()
+        print('>', request.POST.get('sourcelang'), '<')
+        sourcelang = request.POST.get('sourcelang') or 'BAR'
         word = request.POST.get('word', '')
 
         kwargs = {'sourcelang': sourcelang, 'word': word}
