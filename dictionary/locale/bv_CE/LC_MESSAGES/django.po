@@ -23,7 +23,7 @@ msgstr "Zua"
 
 #: templates/dictionary/add_word_modal.html:12
 msgid "Suggest Word"
-msgstr "Šlóg Voat Foa"
+msgstr "Šlóg a Voat foa"
 
 #: templates/dictionary/add_word_modal.html:22
 msgid "Word"
@@ -77,12 +77,12 @@ msgstr "Suah"
 #: templates/dictionary/translation_info.html:4
 #: templates/dictionary/word_info.html:4
 msgid "Upvotes"
-msgstr "Zuašdimunga"
+msgstr "Zuaštimunga"
 
 #: templates/dictionary/translation_info.html:8
 #: templates/dictionary/word_info.html:8
 msgid "Downvotes"
-msgstr "Dagéngšdimunga"
+msgstr "Dagéngštimunga"
 
 #: templates/dictionary/translation_info.html:13
 msgid "More"

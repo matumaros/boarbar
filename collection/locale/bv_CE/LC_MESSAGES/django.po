@@ -31,7 +31,7 @@ msgstr "Naiste"
 
 #: templates/collection/main.html:9 templates/collection/main.html:25
 msgid "Songs"
-msgstr "Laida"
+msgstr "Liada"
 
 #: templates/collection/main.html:12 templates/collection/main.html:39
 msgid "Tongue Twisters"
@@ -43,7 +43,7 @@ msgstr "Šprih"
 
 #: templates/collection/main.html:18 templates/collection/main.html:67
 msgid "Poems"
-msgstr "Gedihd"
+msgstr "Getihd"
 
 #: templates/collection/main.html:48 templates/collection/main.html:62
 #: templates/collection/main.html:76
