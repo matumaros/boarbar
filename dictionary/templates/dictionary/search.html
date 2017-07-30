@@ -3,19 +3,10 @@
 <form role="form" action="{% url 'dictionary:dict_view' %}" method="post">
   {% csrf_token %}
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
       <span class="label label-default">{% trans "BAR" %}</span>
     </div>
-    <div class="col-md-5">
-      <!-- <div class="input-group">
-        <input type="text" class="txt form-control" id="target_input" name="sourcelang" value="{{ target }}">
-        <a class="input-group-addon btn dropdown-toggle btn-select input-group-addon" data-toggle="dropdown" href=""><span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-          {% for lang in languages %}
-            <li><a href="">{{ lang.name }}</a></li>
-          {% endfor %}
-        </ul>
-      </div> -->
+    <div class="col-md-8">
       <select class="form-control">
         {% for lang in languages %}
           <option>{% trans lang.name %}</option>
@@ -23,6 +14,7 @@
       </select>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-10">
       <input type="text" class="txt" name="word" value="{{ origin }}">

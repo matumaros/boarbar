@@ -3,18 +3,22 @@
 
 {% block content %}
   {% include "share/navbar.html" %}
-  <div class="row">
-    <div class="col-md-4">
-      <a class="btn" href="{% url 'word:word_list_view' %}">{% trans "to the word list" %}</a>
-    </div>
-    <div class="col-md-4">
-      <div class="row">
-        {% include "dictionary/search.html" %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <a class="btn" href="{% url 'word:word_list_view' %}">{% trans "to the word list" %}</a>
       </div>
-      <div class="row">
-        {% if origin %}
-          {% include "dictionary/words_table.html" %}
-        {% endif %}
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+            {% include "dictionary/search.html" %}
+          </div>
+        </div>
+        <div class="row">
+          {% if origin %}
+            {% include "dictionary/words_table.html" %}
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
