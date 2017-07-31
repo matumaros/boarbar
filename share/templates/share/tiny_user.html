@@ -11,9 +11,17 @@
     <div class='form-group'>
       <input type='hidden' name='previous' value='{{ request.path }}' />
     </div>
-    <input class='btn' type='submit' value='Óbmeidn' name='logout' />
+    <input class='btn' type='submit' value='{% trans "Logout" %}' name='logout' />
   </form>
   {% if request.user.is_staff %}
-  <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+  </br>
+  <a href="/proposal/topics/" class="active">
+    <span class="glyphicon glyphicon-transfer"></span> {% trans "Discuss" %}
+  </a>
+  {% endif %}
+  {% if request.user.is_superuser %}
+  <a href="{% url 'admin:index' %}">
+    <span class="glyphicon glyphicon-knight"></span> {% trans "Admin" %}
+  </a>
   {% endif %}
 </li>

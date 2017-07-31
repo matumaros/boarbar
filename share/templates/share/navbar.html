@@ -20,9 +20,6 @@
         <li{% if "learn" in request.path %} class="active"{% endif %}>
           <a href="/learn/">{% trans "Learn" %}</a>
         </li>
-        <li{% if "proposal/topics" in request.path %} class="active"{% endif %}>
-          <a href="/proposal/topics/">{% trans "Discuss" %}</a>
-        </li>
         <li{% if "collection" in request.path %} class="active"{% endif %}>
           <a href="{% url 'collection:collection_list_view' %}">{% trans "Collection" %}</a>
         </li>
