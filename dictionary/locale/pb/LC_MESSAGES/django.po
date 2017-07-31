@@ -88,3 +88,15 @@ msgstr "Fig Ivasezzung Ei"
 #: .\dictionary\templates\dictionary\words_table.html:40
 msgid "New Word"
 msgstr "Nais Voat"
+
+#: .\dictionary\templates\dictionary\search.html:13
+msgid "ENG"
+msgstr "Engliš"
+
+#: .\dictionary\templates\dictionary\search.html:13
+msgid "SPA"
+msgstr "Španiš"
+
+#: .\dictionary\templates\dictionary\search.html:13
+msgid "DEU"
+msgstr "Daitš"
