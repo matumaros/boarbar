@@ -17,9 +17,19 @@ class Profile(models.Model):
 
 
 class UserLanguage(models.Model):
+    PROF = (
+        ('beginner', 'beginner'),
+        ('novice', 'novice'),
+        ('intermediate', 'intermediate'),
+        ('advanced', 'advanced'),
+        ('fluent', 'fluent'),
+        ('native', 'native'),
+    )
     user = models.ForeignKey(Profile, related_name='languages')
     language = models.ForeignKey(Language, related_name='user_languages')
-    proficiency = models.PositiveIntegerField(default=0)
+    proficiency = models.CharField(
+        max_length=25, default='beginner', choices=PROF
+    )
 
     def __str__(self):
-        return self.language.name
+        return ' - '.join([self.language.name, proficiency])
