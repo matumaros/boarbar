@@ -14,7 +14,7 @@ class CollectionItem(models.Model):
     )
 
     author = models.CharField(max_length=100)
-    reporter = models.ForeignKey(Profile, related_name='collection_items')
+    reporter = models.ForeignKey(Profile, related_name='collection_items_old')
     title = models.CharField(max_length=150)
     text = models.TextField()
     kind = models.CharField(max_length=50, choices=KINDS)
