@@ -32,4 +32,4 @@ class UserLanguage(models.Model):
     )
 
     def __str__(self):
-        return ' - '.join([self.language.name, proficiency])
+        return ' - '.join([self.language.name, self.proficiency])
