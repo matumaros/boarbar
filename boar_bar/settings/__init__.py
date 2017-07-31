@@ -135,15 +135,29 @@ AUTH_PASSWORD_VALIDATORS = [
 gettext_noop = lambda s: s
 
 LANGUAGES = (
-    ('bv_CE', gettext_noop('Central Bavarian')),
+    ('db', gettext_noop('Danube Bavarian')),
+    ('pb', gettext_noop('Alpine Bavarian')),
+    ('vb', gettext_noop('Forest Bavarian')),
 )
 
 EXTRA_LANG_INFO = {
-    'bv_CE': {
+    'db': {
         'bidi': False,  # right-to-left
-        'code': 'bv',
-        'name': 'Central Bavarian',
-        'name_local': 'Donauboariš',
+        'code': 'db',
+        'name': 'Danube Bavarian',
+        'name_local': 'Donau Boariš',
+    },
+    'ob': {
+        'bidi': False,  # right-to-left
+        'code': 'pb',
+        'name': 'Alpine Bavarian',
+        'name_local': 'Óipm Boariš',
+    },
+    'vb': {
+        'bidi': False,  # right-to-left
+        'code': 'vb',
+        'name': 'Forest Bavarian',
+        'name_local': 'Vóid Boariš',
     }
 }
 
@@ -156,7 +170,7 @@ LANG_INFO = dict(
 )
 django.conf.locale.LANG_INFO = LANG_INFO
 
-LANGUAGE_CODE = 'bv-ce'
+LANGUAGE_CODE = 'db'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True

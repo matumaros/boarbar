@@ -1,8 +1,9 @@
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 <li>
   <a href="{% url 'user:profile_view' request.user.id %}" class="btn">
-    Mei Brofui
+    {% trans "My Profile" %}
   </a>
   <form method='post' action='{% url "logout" %}'>
     {% csrf_token %}
@@ -13,6 +14,6 @@
     <input class='btn' type='submit' value='Óbmeidn' name='logout' />
   </form>
   {% if request.user.is_staff %}
-  <a href="{% url 'admin:index' %}">Admin</a>
+  <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
   {% endif %}
 </li>

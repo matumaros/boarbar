@@ -1,0 +1,56 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-31 11:10+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\collection\templates\collection\item.html:15
+msgid "Author"
+msgstr "Autoa"
+
+#: .\collection\templates\collection\item.html:21
+msgid "Creator"
+msgstr "Eašteia"
+
+#: .\collection\templates\collection\kind.html:9
+msgid "Newest"
+msgstr ""
+
+#: .\collection\templates\collection\main.html:10
+#: .\collection\templates\collection\main.html:26
+msgid "Songs"
+msgstr "Liada"
+
+#: .\collection\templates\collection\main.html:13
+#: .\collection\templates\collection\main.html:40
+msgid "Tongue Twisters"
+msgstr "Zunga Bréha"
+
+#: .\collection\templates\collection\main.html:16
+#: .\collection\templates\collection\main.html:54
+msgid "Sayings"
+msgstr "Šprih"
+
+#: .\collection\templates\collection\main.html:19
+#: .\collection\templates\collection\main.html:68
+msgid "Poems"
+msgstr "Gdihd"
+
+#: .\collection\templates\collection\main.html:35
+#: .\collection\templates\collection\main.html:49
+#: .\collection\templates\collection\main.html:63
+#: .\collection\templates\collection\main.html:77
+msgid "Load more"
+msgstr "Lód meara"

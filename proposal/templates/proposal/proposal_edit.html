@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col-md-12">
           <h3>
-            Temá: {{ object.topic.title }}
+            {% trans "Topic" %}: {{ object.topic.title }}
           </h3>
           <p>
             <textarea class="form-control" id="description" name="description">{{ object.description }}</textarea>

@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -6,6 +7,6 @@
     <h1>{{ profile.user.username }}</h1>
   </div>
   <p>
-    Baidreen: {{ profile.join_date }}
+    {% trans "Joined" %}: {{ profile.join_date }}
   </p>
 {% endblock %}

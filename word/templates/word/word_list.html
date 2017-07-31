@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
   {% include "share/navbar.html" %}
@@ -9,13 +10,13 @@
           <thead>
             <tr>
               <th>
-                Voadd
+                {% trans "Word" %}
               </th>
               <th>
-                Šdatus
+                {% trans "Status" %}
               </th>
               <th>
-                Veasion
+                {% trans "Version" %}
               </th>
             </tr>
           </thead>

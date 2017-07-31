@@ -1,0 +1,192 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-31 10:41+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\user\templates\user\base_site.html:3
+msgid "Django site admin"
+msgstr ""
+
+#: .\user\templates\user\base_site.html:6
+msgid "Django administration"
+msgstr ""
+
+#: .\user\templates\user\logged_out.html:4
+#: .\user\templates\user\password_change_done.html:6
+#: .\user\templates\user\password_change_form.html:7
+#: .\user\templates\user\password_reset_complete.html:6
+#: .\user\templates\user\password_reset_confirm.html:6
+#: .\user\templates\user\password_reset_done.html:6
+#: .\user\templates\user\password_reset_form.html:6
+msgid "Home"
+msgstr ""
+
+#: .\user\templates\user\logged_out.html:8
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr ""
+
+#: .\user\templates\user\logged_out.html:10
+msgid "Log in again"
+msgstr ""
+
+#: .\user\templates\user\login.html:21
+#: .\user\templates\user\password_change_form.html:21
+msgid "Please correct the error below."
+msgstr ""
+
+#: .\user\templates\user\login.html:21
+#: .\user\templates\user\password_change_form.html:21
+msgid "Please correct the errors below."
+msgstr ""
+
+#: .\user\templates\user\login.html:37
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: .\user\templates\user\login.html:57
+msgid "Forgotten your password or username?"
+msgstr ""
+
+#: .\user\templates\user\login.html:61
+#: .\user\templates\user\password_reset_complete.html:18
+msgid "Log in"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:3
+#: .\user\templates\user\password_change_form.html:4
+msgid "Documentation"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:3
+#: .\user\templates\user\password_change_form.html:4
+msgid "Change password"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:3
+#: .\user\templates\user\password_change_form.html:4
+msgid "Log out"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:7
+#: .\user\templates\user\password_change_form.html:8
+msgid "Password change"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:14
+msgid "Your password was changed."
+msgstr ""
+
+#: .\user\templates\user\password_change_form.html:26
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: .\user\templates\user\password_change_form.html:54
+#: .\user\templates\user\password_reset_confirm.html:24
+msgid "Change my password"
+msgstr ""
+
+#: .\user\templates\user\password_reset_complete.html:7
+#: .\user\templates\user\password_reset_done.html:7
+#: .\user\templates\user\password_reset_form.html:7
+msgid "Password reset"
+msgstr ""
+
+#: .\user\templates\user\password_reset_complete.html:16
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:7
+msgid "Password reset confirmation"
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:17
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:21
+msgid "New password:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:23
+msgid "Confirm password:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:29
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: .\user\templates\user\password_reset_done.html:15
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: .\user\templates\user\password_reset_done.html:17
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: .\user\templates\user\password_reset_form.html:15
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: .\user\templates\user\password_reset_form.html:19
+msgid "Email address:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_form.html:19
+msgid "Reset my password"
+msgstr ""
+
+#: .\user\templates\user\profile.html:10
+msgid "Joined"
+msgstr ""

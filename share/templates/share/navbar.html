@@ -1,3 +1,4 @@
+{% load i18n %}
 <nav class="navbar-inverse navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -11,19 +12,19 @@
     <div class="collapse navbar-collapse" id="dict_navbar">
       <ul class="nav navbar-nav">
         <li{% if "dict" in request.path %} class="active"{% endif %}>
-          <a href="{% url 'dictionary:dict_view' %}">Veaddabuah</a>
+          <a href="{% url 'dictionary:dict_view' %}">{% trans "Dictionary" %}</a>
         </li>
         <li{% if "translate" in request.path %} class="active"{% endif %}>
-          <a href="/translate/">Ivasezza</a>
+          <a href="/translate/">{% trans "Translator" %}</a>
         </li>
         <li{% if "learn" in request.path %} class="active"{% endif %}>
-          <a href="/learn/">Leana</a>
+          <a href="/learn/">{% trans "Learn" %}</a>
         </li>
         <li{% if "proposal/topics" in request.path %} class="active"{% endif %}>
-          <a href="/proposal/topics/">Dišgrian</a>
+          <a href="/proposal/topics/">{% trans "Discuss" %}</a>
         </li>
         <li{% if "collection" in request.path %} class="active"{% endif %}>
-          <a href="{% url 'collection:collection_view' %}">Sámlung</a>
+          <a href="{% url 'collection:collection_view' %}">{% trans "Collection" %}</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -32,7 +33,7 @@
             {% if request.user.is_authenticated %}
               <span class="glyphicon glyphicon-user"></span> {{ request.user.username }}
             {% else %}
-              <span class="glyphicon glyphicon-log-in"></span> Omeidn
+              <span class="glyphicon glyphicon-log-in"></span> {% trans "Login" %}
             {% endif %}
           </a>
           <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
