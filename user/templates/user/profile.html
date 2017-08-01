@@ -7,6 +7,17 @@
     <h1>{{ profile.user.username }}</h1>
   </div>
   <p>
+      {{ profile.description }}
+  </p>
+  <p>
+    {% trans "Reputation:" %} {{ profile.reputation }}
+  </p>
+  {% for lang in profile.languages.all %}
+  <p>
+      {% trans lang.language.name %} {% trans lang.proficiency %}
+  </p>
+  {% endfor %}
+  <p>
     {% trans "Joined" %}: {{ profile.join_date }}
   </p>
 {% endblock %}

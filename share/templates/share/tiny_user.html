@@ -5,14 +5,9 @@
   <a href="{% url 'user:profile_view' request.user.profile.id %}" class="btn">
     {% trans "My Profile" %}
   </a>
-  <form method='post' action='{% url "logout" %}'>
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class='form-group'>
-      <input type='hidden' name='previous' value='{{ request.path }}' />
-    </div>
-    <input class='btn' type='submit' value='{% trans "Logout" %}' name='logout' />
-  </form>
+  <p class="white-text">
+    {% trans "Reputation:" %} {{ request.user.profile.reputation }}
+  </p>
   {% if request.user.is_staff %}
   </br>
   <a href="/proposal/topics/" class="active">
@@ -24,4 +19,12 @@
     <span class="glyphicon glyphicon-knight"></span> {% trans "Admin" %}
   </a>
   {% endif %}
+  <form method='post' action='{% url "logout" %}'>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class='form-group'>
+      <input type='hidden' name='previous' value='{{ request.path }}' />
+    </div>
+    <input class='btn' type='submit' value='{% trans "Logout" %}' name='logout' />
+  </form>
 </li>
