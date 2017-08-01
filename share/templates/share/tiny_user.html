@@ -2,29 +2,45 @@
 {% load i18n %}
 
 <li>
-  <a href="{% url 'user:profile_view' request.user.profile.id %}" class="btn">
-    {% trans "My Profile" %}
-  </a>
-  <p class="white-text">
-    {% trans "Reputation:" %} {{ request.user.profile.reputation }}
-  </p>
-  {% if request.user.is_staff %}
-  </br>
-  <a href="/proposal/topics/" class="active">
-    <span class="glyphicon glyphicon-transfer"></span> {% trans "Discuss" %}
-  </a>
-  {% endif %}
-  {% if request.user.is_superuser %}
-  <a href="{% url 'admin:index' %}">
-    <span class="glyphicon glyphicon-knight"></span> {% trans "Admin" %}
-  </a>
-  {% endif %}
-  <form method='post' action='{% url "logout" %}'>
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class='form-group'>
-      <input type='hidden' name='previous' value='{{ request.path }}' />
-    </div>
-    <input class='btn' type='submit' value='{% trans "Logout" %}' name='logout' />
-  </form>
+  <ul>
+    <li>
+      <label for="reputation" class="white-text">
+        {% trans "Reputation:" %}
+      </label>
+      <p id="reputation" class="white-text">
+        {{ request.user.profile.reputation }}
+      </p>
+    </li>
+    <li role="separator" class="divider"></li>
+    <li>
+      <a href="{% url 'user:profile_view' request.user.profile.id %}"" type="button" class="btn">
+        <span class="glyphicon glyphicon-user"></span> {% trans "My Profile" %}
+      </a>
+    </li>
+    <li>
+      {% if request.user.is_staff %}
+      <a href="/proposal/topics/" type="button" class="btn">
+        <span class="glyphicon glyphicon-transfer"></span> {% trans "Discuss" %}
+      </a>
+      {% endif %}
+    </li>
+    <li>
+      {% if request.user.is_superuser %}
+      <a href="{% url 'admin:index' %}" type="button" class="btn">
+        <span class="glyphicon glyphicon-knight"></span> {% trans "Admin" %}
+      </a>
+      {% endif %}
+    </li>
+    <li role="separator" class="divider"></li>
+    <li>
+      <form method='post' action='{% url "logout" %}'>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class='form-group'>
+          <input type='hidden' name='previous' value='{{ request.path }}' />
+        </div>
+        <input class='btn' type='submit' value='{% trans "Logout" %}' name='logout' />
+      </form>
+    </li>
+  </ul>
 </li>
