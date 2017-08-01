@@ -6,7 +6,7 @@ from .models import Collection
 
 
 class CollectionView(DetailView):
-    template_name = 'collection/collection.html'
+    template_name = 'collection/detail.html'
     http_method_names = ['get']
     model = Collection
 

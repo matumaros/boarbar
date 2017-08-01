@@ -6,26 +6,26 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-2"></div>
-      <div class="col-md-8">
+      <div class="col-md-10">
         <h2>
-          {{ item.title }}
+          {{ collection.title }}
         </h2>
         <dl>
           <dt>
             {% trans "Author" %}
           </dt>
           <dd>
-            {{ item.author }}
+            {{ collection.author }}
           </dd>
           <dt>
             {% trans "Creator" %}
           </dt>
           <dd>
-            {{ item.reporter }}
+            {{ collection.reporter }}
           </dd>
         </dl>
         <p class="text-center">
-          {{ item.text|linebreaks }}
+          {{ collection.processed_text|safe|linebreaks }}
         </p>
       </div>
     </div>
