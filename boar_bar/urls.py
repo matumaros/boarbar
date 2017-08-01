@@ -46,8 +46,8 @@ urlpatterns = [
         include('word.urls', namespace='word')
     ),
     url(
-        r'^sentence/',
-        include('sentence.urls', namespace='sentence')
+        r'^learn/',
+        include('course.urls', namespace='course')
     ),
     url(
         r'^proposal/',
