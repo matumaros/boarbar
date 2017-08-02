@@ -16,10 +16,10 @@
         <h3>
           {% trans "Description" %}
         </h3>
-        {% for desc in desc %}
-          <h4>
+        {% for desc in descriptions %}
+          <h5>
             {{ desc.language.name }}
-          </h4>
+          </h5>
           <p>
             {{ desc.short }}
           </p>
