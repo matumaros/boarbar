@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-2"></div>
-      <div class="col-md-10">
+      <div class="col-md-6">
         <h2>
           {{ collection.title }}
         </h2>
@@ -27,6 +27,9 @@
         <p class="text-center">
           {{ collection.processed_text|safe|linebreaks }}
         </p>
+      </div>
+      <div class="col-md-4">
+        <h2>{% trans "Click on a word to show its details" %}</h2>
       </div>
     </div>
   </div>
