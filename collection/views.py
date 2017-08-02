@@ -15,6 +15,9 @@ class CollectionView(DetailView):
 
         context.update({
             'collection': self.object,
+            'text': self.object.processed_text(
+                '<a href="/word/{id}">{word}</a>'
+            )
         })
         return context
 

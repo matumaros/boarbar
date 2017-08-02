@@ -3,6 +3,7 @@
 import re
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 from user.models import Profile
@@ -12,12 +13,12 @@ from word.models import Word
 class Collection(models.Model):
     """A collection of words and sentences"""
     TYPES = (
-        ('song_lyrics', 'liad'),
-        ('tongue_twister', 'zunga breha'),
-        ('saying', 'šbruh'),
-        ('poem', 'gedihd'),
-        ('story', 'gšihd'),
-        ('help', 'huif'),
+        ('song_lyrics', _('song_lyrics')),
+        ('tongue_twister', _('tongue_twister')),
+        ('saying', _('saying')),
+        ('poem', _('poem')),
+        ('story', _('story')),
+        ('help', _('help')),
     )
     PROC_MODS = {
         'title': lambda s: s.title(),
@@ -35,14 +36,13 @@ class Collection(models.Model):
         return ' '.join([self.title, 'by', self.author])
 
     @property
-    def processed_text(self):
+    def processed_text(self, format_):
         def repl(match):
             id = int(match.group(1))
             mods = match.group(2).split(' ')
             word = Word.objects.filter(id=id)
             if word.exists():
-                word = word.first()
-                word = f'''<a href="/word/{word.id}">{word.word}</a>'''
+                word = word.first().format(id=word.id, word=word.word)
                 for mod in mods:
                     word = self.PROC_MODS.get(mod, lambda s: s)(word)
             else:
