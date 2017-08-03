@@ -41,7 +41,7 @@ class SuggestView(TemplateView):
         word = Word.objects.create(
             word=word,
             status='SUG',
-            version='boarV1',
+            version='1',
         )
         word.desc.add(desc)
 

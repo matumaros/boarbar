@@ -3,7 +3,7 @@
 
 {% block content %}
   {% include "share/navbar.html" %}
-  <form class="form-horizontal" role="form" action="{% url 'home:suggest_view' %}" method="post">
+  <form class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
     {% csrf_token %}
     <div class="form-group">
       <label  class="col-sm-2 control-label"
