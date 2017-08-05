@@ -11,6 +11,7 @@ class Profile(models.Model):
     join_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True)
     reputation = models.IntegerField(default=0)
+    place = models.CharField(max_length=150)
 
     def __str__(self):
         return self.user.username
