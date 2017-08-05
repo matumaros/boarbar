@@ -63,11 +63,15 @@
 <script>
 
 function myMap() {
+  var heatmapData = [];
   var myCenter = new google.maps.LatLng(47.9316939,12.6261546);
   var mapCanvas = document.getElementById("map");
   var mapOptions = {center: myCenter, zoom: 6};
   var map = new google.maps.Map(mapCanvas, mapOptions);
   var geocoder = new google.maps.Geocoder();
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatmapData
+  });
 
   {% for address in locations %}
   var address = "{{ address.place }}";
@@ -80,12 +84,14 @@ function myMap() {
           position:pos
         });
         marker.setMap(map);
+        heatmapData.push(pos);
+        heatmap.setMap(map);
     }
   });
   {% endfor %}
 }
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhu-iZmNwpCjsuQyqH5p1ea69HU0xbDgo&callback=myMap"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhu-iZmNwpCjsuQyqH5p1ea69HU0xbDgo&callback=myMap&libraries=visualization">
+</script>
 {% endblock %}
