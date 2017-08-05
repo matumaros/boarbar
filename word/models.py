@@ -85,3 +85,12 @@ class Translation(models.Model):
             self.word,
             self.language.name,
         )
+
+
+class WordLocation(models.Model):
+    word = models.ForeignKey(Word, blank=True, related_name='locations')
+    place = models.CharField(max_length=150)
+    submitter = models.ForeignKey(Profile)
+
+    def __str__(self):
+        return self.place

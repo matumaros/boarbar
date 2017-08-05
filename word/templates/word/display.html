@@ -57,5 +57,35 @@
         </table>
       </div>
     </div>
+    <div id="map" style="width:100%;height:500px"></div>
   </div>
+
+<script>
+
+function myMap() {
+  var myCenter = new google.maps.LatLng(47.9316939,12.6261546);
+  var mapCanvas = document.getElementById("map");
+  var mapOptions = {center: myCenter, zoom: 6};
+  var map = new google.maps.Map(mapCanvas, mapOptions);
+  var geocoder = new google.maps.Geocoder();
+
+  {% for address in locations %}
+  var address = "{{ address.place }}";
+  geocoder.geocode({ 'address': address }, function (results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+        var latitude = results[0].geometry.location.lat();
+        var longitude = results[0].geometry.location.lng();
+        var pos = new google.maps.LatLng(latitude,longitude);
+        var marker = new google.maps.Marker({
+          position:pos
+        });
+        marker.setMap(map);
+    }
+  });
+  {% endfor %}
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhu-iZmNwpCjsuQyqH5p1ea69HU0xbDgo&callback=myMap"></script>
+
 {% endblock %}
