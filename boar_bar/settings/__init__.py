@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'language.apps.LanguageConfig',
     'proposal.apps.ProposalConfig',
     'course.apps.CourseConfig',
+    'translator.apps.TranslatorConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

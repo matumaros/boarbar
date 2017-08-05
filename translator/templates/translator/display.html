@@ -1,0 +1,43 @@
+{% extends 'share/base_site.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <textarea>{{ text }}</textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="btn-group">
+           
+          <button class="btn btn-default">
+            {{ direction }}
+          </button> 
+          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#">to</a>
+            </li>
+            <li>
+              <a href="#">from</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="jumbotron">
+          <p>
+            {{ translation }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

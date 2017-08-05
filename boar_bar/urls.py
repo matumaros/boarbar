@@ -58,6 +58,10 @@ urlpatterns = [
         include('collection.urls', namespace='collection')
     ),
     url(
+        r'^translate/',
+        include('translator.urls', namespace='translator')
+    ),
+    url(
         r'^favicon\.ico$',
         RedirectView.as_view(url='/static/favicon.png', permanent=True)
     ),
