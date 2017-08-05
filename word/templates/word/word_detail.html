@@ -1,0 +1,57 @@
+{% load i18n %}
+
+<div id="word_details" class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>
+        {{ object.word }}
+      </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h3>
+        {% trans "Description" %}
+      </h3>
+      {% for desc in descriptions %}
+        <h5>
+          {{ desc.language.name }}
+        </h5>
+        <p>
+          {{ desc.short }}
+        </p>
+        <p>
+          {{ desc.extended }}
+        </p>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              {% trans "Language" %}
+            </th>
+            <th>
+              {% trans "Word" %}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for trans in translations %}
+            <tr>
+              <td>
+                {{ trans.language }}
+              </td>
+              <td>
+                {{ trans.word }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

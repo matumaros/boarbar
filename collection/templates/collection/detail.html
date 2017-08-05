@@ -1,7 +1,13 @@
 {% extends 'share/base_site.html' %}
 {% load i18n %}
 
+
 {% block content %}
+  <style type="text/css">
+    #word_details {
+      position: fixed;
+    }
+  </style>
   {% include "share/navbar.html" %}
   <div class="container-fluid">
     <div class="row">
@@ -28,9 +34,23 @@
           {{ text|safe|linebreaks }}
         </p>
       </div>
-      <div class="col-md-4">
-        <h2>{% trans "Click on a word to show its details" %}</h2>
+      <div id="word_detail" class="col-md-4">
+        <h2 id="word_click_hint">{% trans "Click on a word to show its details" %}</h2>
       </div>
     </div>
   </div>
+
+  <script>
+  function show_word_detail(id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange =  function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("word_detail").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "/word/" + id + "/bare/", true);
+    xhttp.send();
+  }
+
+  </script>
 {% endblock %}

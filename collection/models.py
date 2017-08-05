@@ -35,14 +35,17 @@ class Collection(models.Model):
     def __str__(self):
         return ' '.join([self.title, 'by', self.author])
 
-    @property
     def processed_text(self, format_):
         def repl(match):
             id = int(match.group(1))
             mods = match.group(2).split(' ')
             word = Word.objects.filter(id=id)
             if word.exists():
-                word = word.first().format(id=word.id, word=word.word)
+                word = format_.format(
+                    id=id,
+                    word=word.first().word,
+                    type='word_detail_link',
+                )
                 for mod in mods:
                     word = self.PROC_MODS.get(mod, lambda s: s)(word)
             else:

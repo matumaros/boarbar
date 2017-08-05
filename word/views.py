@@ -59,3 +59,18 @@ class WordListView(ListView):
         words = words.order_by('creation_date')
 
         return words
+
+
+class BareWordView(DetailView):
+    template_name = 'word/word_detail.html'
+    http_method_names = ['get']
+    model = Word
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'descriptions': self.object.desc.all(),
+            'translations': self.object.translations.all(),
+        })
+        return context
