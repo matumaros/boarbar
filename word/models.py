@@ -91,6 +91,7 @@ class WordLocation(models.Model):
     word = models.ForeignKey(Word, blank=True, related_name='locations')
     place = models.CharField(max_length=150)
     submitter = models.ForeignKey(Profile)
+    creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.place
