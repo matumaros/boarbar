@@ -2,17 +2,17 @@
 <table class="table">
   <tr>
     <td>{% trans "Upvotes" %}:</td>
-    <td>{{ item.word.upvotes }}</td>
+    <td>{{ word.upvotes }}</td>
   </tr>
   <tr>
     <td>{% trans "Downvotes" %}:</td>
-    <td>{{ item.word.downvotes }}</td>
+    <td>{{ word.downvotes }}</td>
   </tr>
   <tr>
     <td>{% trans "Status" %}:</td>
-    <td>{{ item.word.status }}</td>
+    <td>{{ word.status }}</td>
   </tr>
 </table>
 <div>
-  <a href="{% url 'word:word_view' item.word.id %}">{% trans "View Word" %}</a>
+  <a href="{% url 'word:word_view' word.id %}">{% trans "View Word" %}</a>
 </div>

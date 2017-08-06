@@ -14,21 +14,36 @@ class DictView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # set only needed things, because origin word is empty and
-        # collection empty too (don't search anything)
+
+        word = context['word'] or ''
+        sourcelang = context['sourcelang'] or 'ENG'
+        search = '.*(^| +){word}($| +).*'.format(word=word)
+        words = Word.objects.filter(
+            word__iregex=search,
+            language__name=sourcelang,
+        ).all()
         context.update({
             'languages': Language.objects.all(),
-            'target': 'ENG',
+            'sourcelang': sourcelang,
+            'targetlang': context['targetlang'] or 'BAR',
+            'words': words,
+            'word': word,
         })
         return context
 
     def post(self, request, *args, **kwargs):
         sourcelang = request.POST.get('sourcelang') or 'BAR'
+        targetlang = request.POST.get('targetlang') or 'BAR'
         word = request.POST.get('word', '')
 
-        kwargs = {'sourcelang': sourcelang, 'word': word}
-        url = reverse_lazy('dictionary:dict_view_after_search', kwargs=kwargs)
-        return HttpResponseRedirect(url)
+        kwargs = {
+            'sourcelang': sourcelang,
+            'targetlang': targetlang,
+            'word': word,
+        }
+        # url = reverse_lazy('dictionary:dict_view', kwargs=kwargs)
+        # Fixme: reverse doesn't seem to work for some reason
+        return HttpResponseRedirect(f'/dict/{sourcelang}/{targetlang}/{word}')
 
 
 class DictAfterSearchView(TemplateView):

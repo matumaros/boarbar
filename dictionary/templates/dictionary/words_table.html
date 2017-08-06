@@ -2,27 +2,29 @@
 <div class="row">
   <div class="col-md-12">
     <table class="table table-striped">
-      {% for item in words.values %}
+      {% for word in words %}
         <tr>
           <td>
             <a
               data-toggle="popover"
               data-html="true"
               data-content='{% include "dictionary/word_info.html" %}'>
-              {{ item.word.word }}
+              {{ word.word }}
             </a>
           </td>
           <td>
             <table class="table table-striped">
-              {% for translation in item.trans %}
+              {% for synonym in word.synonyms.all %}
+              {% if synonym.language.name == targetlang %}
                 <tr><td>
                   <a
                     data-toggle="popover"
                     data-html="true"
                     data-content='{% include "dictionary/translation_info.html" %}'>
-                    {{ translation.word }}
+                    {{ synonym.word }}
                   </a>
                 </td></tr>
+              {% endif %}
               {% endfor %}
             </table>
             {% if request.user.is_authenticated %}
