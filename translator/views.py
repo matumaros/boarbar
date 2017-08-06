@@ -4,7 +4,7 @@ import re
 
 from django.views.generic import TemplateView
 
-from word.models import Word, Translation
+from word.models import Word
 from language.models import Language
 
 

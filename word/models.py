@@ -30,6 +30,7 @@ class Description(models.Model):
 
 class WordVersion(models.Model):
     name = models.CharField(max_length=50)
+    link = models.CharField(max_length=150, default='')
     creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -53,6 +54,7 @@ class AbstractWord(models.Model):
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
     version = models.ForeignKey(WordVersion, related_name='words')
+    wiktionary_link = models.CharField(max_length=150, blank=True)
 
     class Meta:
         abstract = True
@@ -64,27 +66,6 @@ class AbstractWord(models.Model):
 class Word(AbstractWord):
     synonyms = models.ManyToManyField('self', blank=True)
     history = HistoricalRecords()
-
-
-class Translation(models.Model):
-    word = models.CharField(max_length=50)
-    translation = models.ForeignKey(
-        'Word', related_name='translations',
-    )
-    language = models.ForeignKey(Language, related_name='foreign_words')
-    tags = models.ManyToManyField(Tag, blank=True)
-    wiktionary_link = models.CharField(max_length=150)
-    upvotes = models.IntegerField(default=0)
-    downvotes = models.IntegerField(default=0)
-    comment = models.TextField(blank=True)
-    creation_date = models.DateField(auto_now_add=True)
-    history = HistoricalRecords()
-
-    def __str__(self):
-        return '{} ({})'.format(
-            self.word,
-            self.language.name,
-        )
 
 
 class WordLocation(models.Model):

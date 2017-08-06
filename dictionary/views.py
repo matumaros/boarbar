@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 
 from language.models import Language
-from word.models import Word, Translation
+from word.models import Word
 
 
 class DictView(TemplateView):
