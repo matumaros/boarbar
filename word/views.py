@@ -18,7 +18,7 @@ class WordView(DetailView):
 
         context.update({
             'descriptions': self.object.desc.all(),
-            'translations': self.object.translations.all(),
+            'synonyms': self.object.synonyms.all(),
             'locations': self.object.locations.all(),
         })
         return context

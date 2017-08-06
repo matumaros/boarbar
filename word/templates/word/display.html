@@ -43,13 +43,13 @@
             </tr>
           </thead>
           <tbody>
-            {% for trans in translations %}
+            {% for synonym in synonyms %}
               <tr>
                 <td>
-                  {{ trans.language }}
+                  {{ synonym.language }}
                 </td>
                 <td>
-                  {{ trans.word }}
+                  {{ synonym.word }}
                 </td>
               </tr>
             {% endfor %}
