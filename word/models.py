@@ -55,6 +55,7 @@ class AbstractWord(models.Model):
     status = models.CharField(max_length=50, choices=WORD_STATUS)
     version = models.ForeignKey(WordVersion, related_name='words')
     wiktionary_link = models.CharField(max_length=150, blank=True)
+    language = models.ForeignKey(Language, related_name='words')
 
     class Meta:
         abstract = True
