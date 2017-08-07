@@ -67,6 +67,8 @@ class AbstractWord(models.Model):
     def save(self, *args, **kwargs):
         if not self.submitter.has_used_suggested_words_limit:
             super().save(*args, **kwargs)
+        else:
+            raise ValueError("User is over his word suggestion limit")
 
 
 class Word(AbstractWord):
