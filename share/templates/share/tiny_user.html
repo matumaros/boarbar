@@ -31,6 +31,14 @@
       </a>
       {% endif %}
     </li>
+    {% if request.user.profile.has_used_suggested_words_limit %}
+      <li role="separator" class="divider"></li>
+      <li>
+        <p id="suggestion_limit_warning" class="yellow-text">
+        {% trans "You have used up your word suggestion limit for today." %}
+        </p>
+      </li>
+    {% endif %}
     <li role="separator" class="divider"></li>
     <li>
       <form method='post' action='{% url "logout" %}'>

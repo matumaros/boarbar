@@ -1,5 +1,7 @@
 
 
+from datetime import datetime, timedelta
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -12,10 +14,17 @@ class Profile(models.Model):
     description = models.TextField(blank=True)
     reputation = models.IntegerField(default=0)
     place = models.CharField(max_length=150)
+    max_suggest_words_per_day = models.IntegerField(default=10)
 
     def __str__(self):
         return self.user.username
 
+    @property
+    def has_used_suggested_words_limit(self):
+        used = self.submitted_words.filter(
+            creation_date__gte=datetime.now()-timedelta(days=1)
+        ).count()
+        return used >= self.max_suggest_words_per_day
 
 class UserLanguage(models.Model):
     PROF = (

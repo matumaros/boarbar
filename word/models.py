@@ -64,6 +64,10 @@ class AbstractWord(models.Model):
     def __str__(self):
         return self.word
 
+    def save(self, *args, **kwargs):
+        if not self.submitter.has_used_suggested_words_limit:
+            super().save(*args, **kwargs)
+
 
 class Word(AbstractWord):
     synonyms = models.ManyToManyField('self', blank=True)

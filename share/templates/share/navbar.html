@@ -58,6 +58,9 @@
           <a class="dropdown-toggle" data-toggle="dropdown">
             {% if request.user.is_authenticated %}
               <span class="glyphicon glyphicon-user"></span> {{ request.user.username }}
+              {% if request.user.profile.has_used_suggested_words_limit %}
+                <span class="glyphicon glyphicon-alert yellow-text"></span>
+              {% endif %}
             {% else %}
               <span class="glyphicon glyphicon-log-in"></span> {% trans "Login" %}
             {% endif %}
