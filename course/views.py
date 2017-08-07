@@ -26,7 +26,12 @@ class CourseListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        course = Collection.objects.first()
+        text = course.processed_text(
+            '<a class={type} href="/word/{id}">{word}</a>'
+        )
         context.update({
-            'course': Collection.objects.first(),
+            'course': course,
+            'text': text,
         })
         return context

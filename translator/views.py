@@ -1,6 +1,7 @@
 
 
 import re
+from urllib.parse import quote
 
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
@@ -49,6 +50,7 @@ class TransView(TemplateView):
         sourcelang = request.POST.get('sourcelang') or 'BAR'
         targetlang = request.POST.get('targetlang') or 'BAR'
         text = request.POST.get('text', '')
+        text = quote(text)
 
         kwargs = {
             'sourcelang': sourcelang,
