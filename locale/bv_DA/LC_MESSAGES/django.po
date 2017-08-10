@@ -1,0 +1,441 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-08-10 08:08+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\boar_bar\settings\__init__.py:145
+msgid "Danube Bavarian"
+msgstr ""
+
+#: .\boar_bar\settings\__init__.py:146
+msgid "Alpine Bavarian"
+msgstr ""
+
+#: .\boar_bar\settings\__init__.py:147
+msgid "Palatinate Bavarian"
+msgstr ""
+
+#: .\collection\models.py:16
+msgid "song_lyrics"
+msgstr ""
+
+#: .\collection\models.py:17
+msgid "tongue_twister"
+msgstr ""
+
+#: .\collection\models.py:18
+msgid "saying"
+msgstr ""
+
+#: .\collection\models.py:19
+msgid "poem"
+msgstr ""
+
+#: .\collection\models.py:20
+msgid "story"
+msgstr ""
+
+#: .\collection\models.py:21
+msgid "help"
+msgstr ""
+
+#: .\collection\templates\collection\detail.html:21
+msgid "Author"
+msgstr ""
+
+#: .\collection\templates\collection\detail.html:27
+#: .\proposal\templates\proposal\topic_detail.html:30
+msgid "Creator"
+msgstr ""
+
+#: .\collection\templates\collection\detail.html:38
+msgid "Click on a word to show its details"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:9
+msgid "Close"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:12
+msgid "Suggest Word"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:22
+#: .\sentence\templates\sentence\display.html:41
+#: .\word\templates\word\display.html:41 .\word\templates\word\suggest.html:10
+#: .\word\templates\word\word_detail.html:38
+#: .\word\templates\word\word_list.html:13
+msgid "Word"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:30
+#: .\sentence\templates\sentence\display.html:38
+#: .\word\templates\word\display.html:38
+#: .\word\templates\word\word_detail.html:35
+msgid "Language"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:33
+msgid "BAR"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:46
+#: .\word\templates\word\suggest.html:17
+msgid "Short Description"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:52
+#: .\sentence\templates\sentence\display.html:17
+#: .\word\templates\word\display.html:17 .\word\templates\word\suggest.html:23
+#: .\word\templates\word\word_detail.html:14
+msgid "Description"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\add_word_modal.html:59
+#: .\word\templates\word\suggest.html:30
+msgid "Suggest"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\main.html:9
+msgid "to the word list"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\search.html:32
+#: .\translator\templates\translator\display.html:31
+msgid "Search"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\translation_info.html:4
+#: .\dictionary\templates\dictionary\word_info.html:4
+msgid "Upvotes"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\translation_info.html:8
+#: .\dictionary\templates\dictionary\word_info.html:8
+msgid "Downvotes"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\translation_info.html:13
+msgid "More"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\word_info.html:12
+#: .\proposal\templates\proposal\proposal_list.html:16
+#: .\proposal\templates\proposal\topic_list.html:16
+#: .\word\templates\word\word_list.html:16
+msgid "Status"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\word_info.html:17
+msgid "View Word"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\words_table.html:31
+msgid "Add Translation"
+msgstr ""
+
+#: .\dictionary\templates\dictionary\words_table.html:42
+msgid "New Word"
+msgstr ""
+
+#: .\home\templates\home\about.html:6 .\home\templates\home\base_home.html:17
+msgid "About Us"
+msgstr ""
+
+#: .\home\templates\home\base_home.html:13 .\home\templates\home\home.html:6
+#: .\user\templates\user\logged_out.html:4
+#: .\user\templates\user\password_change_done.html:6
+#: .\user\templates\user\password_change_form.html:7
+#: .\user\templates\user\password_reset_complete.html:6
+#: .\user\templates\user\password_reset_confirm.html:6
+#: .\user\templates\user\password_reset_done.html:6
+#: .\user\templates\user\password_reset_form.html:6
+msgid "Home"
+msgstr ""
+
+#: .\home\templates\home\base_home.html:14 .\home\templates\home\news.html:6
+msgid "News"
+msgstr ""
+
+#: .\home\templates\home\base_home.html:15 .\home\templates\home\ogf.html:6
+msgid "FAQ"
+msgstr ""
+
+#: .\home\templates\home\base_home.html:16 .\home\templates\home\guest.html:6
+msgid "Guest Book"
+msgstr ""
+
+#: .\proposal\templates\proposal\proposal_add.html:9
+#: .\proposal\templates\proposal\proposal_detail.html:36
+#: .\proposal\templates\proposal\proposal_edit.html:26
+msgid "Edit"
+msgstr ""
+
+#: .\proposal\templates\proposal\proposal_detail.html:17
+#: .\proposal\templates\proposal\proposal_edit.html:18
+msgid "Topic"
+msgstr ""
+
+#: .\proposal\templates\proposal\proposal_list.html:13
+#: .\proposal\templates\proposal\topic_detail.html:27
+#: .\proposal\templates\proposal\topic_list.html:13
+msgid "Title"
+msgstr ""
+
+#: .\proposal\templates\proposal\proposal_list.html:19
+msgid "Created by"
+msgstr ""
+
+#: .\proposal\templates\proposal\topic_detail.html:34
+msgid "New Suggestion"
+msgstr ""
+
+#: .\sentence\templates\sentence\sentence_list.html:13
+msgid "ID"
+msgstr ""
+
+#: .\sentence\templates\sentence\sentence_list.html:16
+msgid "Raw"
+msgstr ""
+
+#: .\sentence\templates\sentence\sentence_list.html:19
+msgid "Sentence"
+msgstr ""
+
+#: .\share\templates\share\login.html:14
+#: .\share\templates\share\navbar.html:65
+msgid "Login"
+msgstr ""
+
+#: .\share\templates\share\navbar.html:18
+#: .\share\templates\share\navbar.html:20
+msgid "Dictionary"
+msgstr ""
+
+#: .\share\templates\share\navbar.html:28
+#: .\share\templates\share\navbar.html:30
+msgid "Translator"
+msgstr ""
+
+#: .\share\templates\share\navbar.html:38
+#: .\share\templates\share\navbar.html:40
+msgid "Learn"
+msgstr ""
+
+#: .\share\templates\share\navbar.html:48
+#: .\share\templates\share\navbar.html:50
+msgid "Collection"
+msgstr ""
+
+#: .\share\templates\share\not_existing.html:7
+msgid ""
+"Duad uns laid, de saiddn gibds (no) ned. Vensd glabsd dasas gem sÃ³iddad, "
+"Å¡raib ma: mat@boar.bar"
+msgstr ""
+
+#: .\share\templates\share\tiny_user.html:8
+#: .\user\templates\user\profile.html:13
+msgid "Reputation:"
+msgstr ""
+
+#: .\share\templates\share\tiny_user.html:17
+msgid "My Profile"
+msgstr ""
+
+#: .\share\templates\share\tiny_user.html:23
+msgid "Discuss"
+msgstr ""
+
+#: .\share\templates\share\tiny_user.html:30
+msgid "Admin"
+msgstr ""
+
+#: .\share\templates\share\tiny_user.html:38
+msgid "You have used up your word suggestion limit for today."
+msgstr ""
+
+#: .\share\templates\share\tiny_user.html:50
+msgid "Logout"
+msgstr ""
+
+#: .\user\templates\user\base_site.html:3
+msgid "Django site admin"
+msgstr ""
+
+#: .\user\templates\user\base_site.html:6
+msgid "Django administration"
+msgstr ""
+
+#: .\user\templates\user\logged_out.html:8
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr ""
+
+#: .\user\templates\user\logged_out.html:10
+msgid "Log in again"
+msgstr ""
+
+#: .\user\templates\user\login.html:21
+#: .\user\templates\user\password_change_form.html:21
+msgid "Please correct the error below."
+msgstr ""
+
+#: .\user\templates\user\login.html:21
+#: .\user\templates\user\password_change_form.html:21
+msgid "Please correct the errors below."
+msgstr ""
+
+#: .\user\templates\user\login.html:37
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: .\user\templates\user\login.html:57
+msgid "Forgotten your password or username?"
+msgstr ""
+
+#: .\user\templates\user\login.html:61
+#: .\user\templates\user\password_reset_complete.html:18
+msgid "Log in"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:3
+#: .\user\templates\user\password_change_form.html:4
+msgid "Documentation"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:3
+#: .\user\templates\user\password_change_form.html:4
+msgid "Change password"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:3
+#: .\user\templates\user\password_change_form.html:4
+msgid "Log out"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:7
+#: .\user\templates\user\password_change_form.html:8
+msgid "Password change"
+msgstr ""
+
+#: .\user\templates\user\password_change_done.html:14
+msgid "Your password was changed."
+msgstr ""
+
+#: .\user\templates\user\password_change_form.html:26
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: .\user\templates\user\password_change_form.html:54
+#: .\user\templates\user\password_reset_confirm.html:24
+msgid "Change my password"
+msgstr ""
+
+#: .\user\templates\user\password_reset_complete.html:7
+#: .\user\templates\user\password_reset_done.html:7
+#: .\user\templates\user\password_reset_form.html:7
+msgid "Password reset"
+msgstr ""
+
+#: .\user\templates\user\password_reset_complete.html:16
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:7
+msgid "Password reset confirmation"
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:17
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:21
+msgid "New password:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:23
+msgid "Confirm password:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_confirm.html:29
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: .\user\templates\user\password_reset_done.html:15
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: .\user\templates\user\password_reset_done.html:17
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: .\user\templates\user\password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: .\user\templates\user\password_reset_form.html:15
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: .\user\templates\user\password_reset_form.html:19
+msgid "Email address:"
+msgstr ""
+
+#: .\user\templates\user\password_reset_form.html:19
+msgid "Reset my password"
+msgstr ""
+
+#: .\user\templates\user\profile.html:21
+msgid "Joined"
+msgstr ""
+
+#: .\word\templates\word\word_list.html:19
+msgid "Version"
+msgstr ""

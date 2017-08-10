@@ -137,43 +137,43 @@ AUTH_PASSWORD_VALIDATORS = [
 
 gettext_noop = lambda s: s
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
 LANGUAGES = (
-    ('db', gettext_noop('Danube Bavarian')),
-    ('pb', gettext_noop('Alpine Bavarian')),
-    ('vb', gettext_noop('Forest Bavarian')),
+    ('bv_DA', gettext_noop('Danube Bavarian')),
+    ('bv_AL', gettext_noop('Alpine Bavarian')),
+    ('bv_PL', gettext_noop('Palatinate Bavarian')),
 )
 
 EXTRA_LANG_INFO = {
-    'db': {
+    'bv_DA': {
         'bidi': False,  # right-to-left
-        'code': 'db',
+        'code': 'bv_DA',
         'name': 'Danube Bavarian',
         'name_local': 'Donau Boariš',
     },
-    'ob': {
+    'bv_AL': {
         'bidi': False,  # right-to-left
-        'code': 'pb',
+        'code': 'bv_AL',
         'name': 'Alpine Bavarian',
         'name_local': 'Óipm Boariš',
     },
-    'vb': {
+    'bv_PL': {
         'bidi': False,  # right-to-left
-        'code': 'vb',
-        'name': 'Forest Bavarian',
-        'name_local': 'Vóid Boariš',
+        'code': 'bv_PL',
+        'name': 'Palatinate Bavarian',
+        'name_local': 'Pfóits Boariš',
     }
 }
-
-# LOCALE_PATHS = (
-#     os.path.join(BASE_DIR, 'share', 'locale'),
-# )
 
 LANG_INFO = dict(
     list(django.conf.locale.LANG_INFO.items()) + list(EXTRA_LANG_INFO.items())
 )
 django.conf.locale.LANG_INFO = LANG_INFO
 
-LANGUAGE_CODE = 'db'
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
