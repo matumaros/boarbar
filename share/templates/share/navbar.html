@@ -7,49 +7,29 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a id='brand' class="navbar-brand" href="{% url 'home:home_view' %}">Boariš</a>
+      <a id='brand' class="navbar-brand" href="{% url 'home:home_view' %}">Custidioma</a>
     </div>
     {% get_current_language as LANGUAGE_CODE %}
     <div class="collapse navbar-collapse" id="dict_navbar">
       <ul class="nav navbar-nav">
         <li{% if "dict" in request.path %} class="active"{% endif %}>
           <a href="{% url 'dictionary:dict_view' %}">
-            <ruby>
-              {% language 'db' %}{% trans "Dictionary" %}{% endlanguage %}
-              <rt>
-                {% if LANGUAGE_CODE != "db" %}{% trans "Dictionary" %}{% endif %}
-              </rt>
-            </ruby>
+            {% trans "Dictionary" %}
           </a>
         </li>
         <li{% if "translate" in request.path %} class="active"{% endif %}>
           <a href="/translate/">
-            <ruby>
-              {% language 'db' %}{% trans "Translator" %}{% endlanguage %}
-              <rt>
-                {% if LANGUAGE_CODE != "db" %}{% trans "Translator" %}{% endif %}
-              </rt>
-            </ruby>
+            {% trans "Translator" %}
           </a>
         </li>
         <li{% if "learn" in request.path %} class="active"{% endif %}>
           <a href="/learn/">
-            <ruby>
-              {% language 'db' %}{% trans "Learn" %}{% endlanguage %}
-              <rt>
-                {% if LANGUAGE_CODE != "db" %}{% trans "Learn" %}{% endif %}
-              </rt>
-            </ruby>
+            {% trans "Learn" %}
           </a>
         </li>
         <li{% if "collection" in request.path %} class="active"{% endif %}>
           <a href="{% url 'collection:collection_list_view' %}">
-            <ruby>
-              {% language 'db' %}{% trans "Collection" %}{% endlanguage %}
-              <rt>
-                {% if LANGUAGE_CODE != "db" %}{% trans "Collection" %}{% endif %}
-              </rt>
-            </ruby>
+            {% trans "Collection" %}
           </a>
         </li>
       </ul>
