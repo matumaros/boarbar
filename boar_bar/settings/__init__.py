@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # third party
     'crispy_forms',
     'simple_history',
+    'rest_framework',
     # project
     'share.apps.AppConfig',
     'dictionary.apps.DictionaryConfig',
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     'proposal.apps.ProposalConfig',
     'course.apps.CourseConfig',
     'translator.apps.TranslatorConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -178,6 +180,14 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
 
 
 # Static files (CSS, JavaScript, Images)

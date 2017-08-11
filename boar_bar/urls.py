@@ -62,6 +62,10 @@ urlpatterns = [
         include('translator.urls', namespace='translator')
     ),
     url(
+        r'^api/',
+        include('api.urls', namespace='api')
+    ),
+    url(
         r'^favicon\.ico$',
         RedirectView.as_view(url='/static/favicon.png', permanent=True)
     ),
