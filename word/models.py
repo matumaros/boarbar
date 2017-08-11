@@ -14,6 +14,7 @@ def audio_path(instance, filename):
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
@@ -45,7 +46,8 @@ class AbstractWord(models.Model):
         ('RMV', 'Removed'),   # Removed
     )
 
-    word = models.CharField(max_length=50)
+    word = models.CharField(max_length=150)
+    ipa = models.CharField(default='', max_length=150)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     desc = models.ManyToManyField(Description, blank=True)
