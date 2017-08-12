@@ -13,7 +13,7 @@ def audio_path(instance, filename):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -30,9 +30,10 @@ class Description(models.Model):
 
 
 class WordVersion(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=150, default='')
     creation_date = models.DateField(auto_now_add=True)
+    language = models.ForeignKey(Language, related_name='versions')
 
     def __str__(self):
         return self.name
@@ -47,7 +48,7 @@ class AbstractWord(models.Model):
     )
 
     word = models.CharField(max_length=150)
-    ipa = models.CharField(default='', max_length=150)
+    ipa = models.CharField(default='', max_length=150, blank=True)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     desc = models.ManyToManyField(Description, blank=True)
@@ -57,7 +58,6 @@ class AbstractWord(models.Model):
     status = models.CharField(max_length=50, choices=WORD_STATUS)
     version = models.ForeignKey(WordVersion, related_name='words')
     wiktionary_link = models.CharField(max_length=150, blank=True)
-    language = models.ForeignKey(Language, related_name='words')
     submitter = models.ForeignKey(Profile, related_name='submitted_words')
 
     class Meta:

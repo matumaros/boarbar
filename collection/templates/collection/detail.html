@@ -48,7 +48,7 @@
         document.getElementById("word_detail").innerHTML = this.responseText;
       }
     };
-    xhttp.open("GET", "/word/" + id + "/bare/", true);
+    xhttp.open("POST", "/api/words/" + id + "/bare/", true);
     xhttp.send();
   }
 

@@ -19,16 +19,25 @@
             {% include "dictionary/words_table.html" %}
           {% endif %}
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
+              <a href="{% url 'word:suggest_view' %}">{% trans "Suggest Word" %}</a>
+              {# <button type="button" class="btn" data-toggle="modal" data-target="#add_word">{% trans "Suggest Word" %}</button> #}
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   {% include "dictionary/add_word_modal.html" %}
 {% endblock %}
-
+{# 
 <script>
 $(".dropdown-menu li a").click(function(){
   var sel_text = $(this).text();
   $(this).parents('.input-group').find('.txt').val(sel_text);
 });
 </script>
+ #}

@@ -20,7 +20,7 @@ class DictView(TemplateView):
         search = '.*(^| +){word}($| +).*'.format(word=word)
         words = Word.objects.filter(
             word__iregex=search,
-            language__name=sourcelang,
+            version__language__name=sourcelang,
         ).all()
         context.update({
             'languages': Language.objects.all(),
@@ -44,44 +44,3 @@ class DictView(TemplateView):
         # url = reverse_lazy('dictionary:dict_view', kwargs=kwargs)
         # Fixme: reverse doesn't seem to work for some reason
         return HttpResponseRedirect(f'/dict/{sourcelang}/{targetlang}/{word}')
-
-
-class DictAfterSearchView(TemplateView):
-    template_name = 'dictionary/main.html'
-    http_method_names = ['get']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        sourcelang = kwargs.get('sourcelang', 'BAR').upper()
-        word = kwargs.get('word', '')
-
-        search = '.*(^| +){word}($| +).*'.format(word=word)
-        words = Word.objects.filter(
-            word__iregex=search
-        )
-        if sourcelang == 'BAR':
-            collection = {
-                word.id: {'word': word, 'trans': word.synonyms.all()}
-                for word in words if word.synonyms.exists()
-            }
-        else:
-            trans = Translation.objects.filter(
-                word__iregex=search, language__name=sourcelang
-            )
-            collection = {
-                word.id: {'word': word, 'trans': word.translations.all()}
-                for word in words if word.translations.exists()
-            }
-            for t in trans:
-                wid = t.translation.id
-                if wid not in collection:
-                    collection[wid] = {'word': t.translation, 'trans': [t]}
-
-        context.update({
-            'words': collection,
-            'languages': Language.objects.all(),
-            'origin': word,
-            'target': sourcelang,
-        })
-        return context

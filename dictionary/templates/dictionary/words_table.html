@@ -15,7 +15,7 @@
           <td>
             <table class="table table-striped">
               {% for synonym in word.synonyms.all %}
-              {% if synonym.language.name == targetlang %}
+              {% if synonym.version.language.name == targetlang %}
                 <tr><td>
                   <a
                     data-toggle="popover"
@@ -34,12 +34,5 @@
         </tr>
       {% endfor %}
     </table>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
-      <button type="button" class="btn" data-toggle="modal" data-target="#add_word">{% trans "New Word" %}</button>
-    {% endif %}
   </div>
 </div>

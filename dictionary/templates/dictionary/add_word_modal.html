@@ -15,47 +15,49 @@
 
       <!-- Modal Body -->
       <div class="modal-body">
-        <form class="form-horizontal" role="form" action="">
+        <form id="add_word_form" class="form-horizontal" role="form" action="">
           {% csrf_token %}
           <div class="form-group">
             <label  class="col-sm-2 control-label"
-                      for="add_word_word">{% trans "Word" %}</label>
+                      for="add_word_word">{% trans "Word" %}*</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control"
                 id="add_word_word"/>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label"
-                  for="add_word_language" >{% trans "Language" %}</label>
+            <label  class="col-sm-2 control-label"
+                      for="add_word_ipa">{% trans "IPA" %}</label>
             <div class="col-sm-10">
-              <div class="btn-group">
-                <button type="button" class="btn">{% trans "BAR" %}</button>
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  {% for lang in languages %}
-                    <li><a href="">{% trans lang.name %}</a></li>
-                  {% endfor %}
-                </ul>
-              </div>
+                <input type="text" class="form-control"
+                id="add_word_ipa"/>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Short Description" %}</label>
-            <div class="col-sm-offset-2 col-sm-10">
+            <label class="col-sm-2 control-label"
+                  for="add_word_version" >{% trans "Language" %}*</label>
+            <div class="col-sm-10">
+              <select id="add_word_version">
+                {% for version in versions %}
+                  <option value="{{ version.id }}">{% trans version.name %}</option>  
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Short Description" %}*</label>
+            <div class="col-sm-10">
               <textarea class="form-control" id="add_word_description_short"></textarea>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Description" %}</label>
-            <div class="col-sm-offset-2 col-sm-10">
+            <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Description" %}*</label>
+            <div class="col-sm-10">
               <textarea class="form-control" id="add_word_description_long"></textarea>
             </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-10">
               <button type="submit" class="btn">{% trans "Suggest" %}</button>
             </div>
           </div>
@@ -64,3 +66,30 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  function on_add_word_submit(e) {
+      if (e.preventDefault) e.preventDefault();
+      var word = document.getElementById('add_word_word');
+      var ipa = document.getElementById('add_word_ipa');
+      var version = document.getElementById('add_word_version');
+      var desc_short = document.getElementById('add_word_description_short');
+      var desc_long = document.getElementById('add_word_description_long');
+      var version = version.options[version.selectedIndex].value;
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange =  function() {
+        if (this.readyState == 4 && this.status == 200) {
+          alert(this.responseText);
+        }
+      };
+      xhttp.open("POST", "/api/words/", true);
+      xhttp.send("word=" + word + "&ipa=" + ipa + "&version=" + "&status=1");
+  }
+
+  var form = document.getElementById('add_word_form');
+  if (form.attachEvent) {
+      form.attachEvent("submit", on_add_word_submit);
+  } else {
+      form.addEventListener("submit", on_add_word_submit);
+  }
+</script>

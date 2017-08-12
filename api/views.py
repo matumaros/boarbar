@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from . import serializers
 
+from language.models import Language
 from word.models import Word, WordVersion
 
 
@@ -24,6 +25,14 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.GroupSerializer
 
 
+# language
+class LanguageViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows languages to be viewed or edited.
+    """
+    queryset = Language.objects.all()
+    serializer_class = serializers.LanguageSerializer
+
 # word
 class WordViewSet(viewsets.ModelViewSet):
     """
@@ -31,6 +40,9 @@ class WordViewSet(viewsets.ModelViewSet):
     """
     queryset = Word.objects.all()
     serializer_class = serializers.WordSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(submitter=self.request.user)
 
 class WordVersionViewSet(viewsets.ModelViewSet):
     """
