@@ -5,7 +5,7 @@
       {% for word in words %}
         <tr>
           <td>
-            <a
+            <a class="{% if word.status == "SUG" %}grey-text{% else %}black-text{% endif %}
               data-toggle="popover"
               data-html="true"
               data-content='{% include "dictionary/word_info.html" %}'>
@@ -17,7 +17,7 @@
               {% for synonym in word.synonyms.all %}
               {% if synonym.version.language.name == targetlang %}
                 <tr><td>
-                  <a
+                  <a class="{% if synonym.status == 'SUG' %}grey-text{% else %}black-text{% endif %}
                     data-toggle="popover"
                     data-html="true"
                     data-content='{% include "dictionary/translation_info.html" %}'>
