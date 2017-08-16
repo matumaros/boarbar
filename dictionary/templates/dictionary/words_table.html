@@ -28,7 +28,7 @@
               {% endfor %}
             </table>
             {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
-              <button type="button" class="btn" data-toggle="modal" data-target="#add_synonym">{% trans "Add Translation" %}</button>
+              <button class="btn" type="button" action="{% url 'word:suggest_view' %}" id="suggest_translation">{% trans "Add Translation" %}</button>
             {% endif %}
           </td>
         </tr>
