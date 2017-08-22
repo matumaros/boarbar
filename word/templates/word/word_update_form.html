@@ -1,0 +1,17 @@
+{% extends 'share/base_site.html' %}
+{% load i18n %}
+
+{% block content %}
+  {% include "share/navbar.html" %}
+  <div id="suggest_word" class="container-fluid">
+    <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-group">
+        <div class="col-sm-10">
+          <button type="submit" class="btn">{% trans "Change" %}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

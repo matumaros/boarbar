@@ -3,6 +3,7 @@
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView, ListView
+from django.views.generic.edit import UpdateView
 
 from .models import Word, Description, WordVersion, WordLocation
 from language.models import Language
@@ -68,6 +69,62 @@ class SuggestView(TemplateView):
 
         url = reverse_lazy('word:word_view', kwargs={'pk': word.id})
         return HttpResponseRedirect(url)
+
+
+class EditView(UpdateView):
+    model = Word
+    fields = [
+        'word', 'ipa', 'desc', 'tags', 'audio', 'wiktionary_link', 'synonyms'
+    ]
+    template_name_suffix = '_update_form'
+
+    # template_name = 'word/edit.html'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+
+    #     pk = kwargs.get('pk')
+    #     word = Word.objects.get(pk=pk)
+
+    #     context.update({
+    #         'word': word,
+    #         'versions': WordVersion.objects.all(),
+    #     })
+    #     return context
+
+    # def post(self, request, *args, **kwargs):
+    #     word = request.POST.get('word')
+    #     ipa = request.POST.get('ipa')
+    #     version = request.POST.get('version')
+    #     location = request.POST.get('location')
+    #     description_short = request.POST.get('desc_short')
+    #     description_long = request.POST.get('desc_long')
+
+    #     version = WordVersion.objects.get(pk=version)
+
+    #     desc = Description.objects.create(
+    #         short=description_short,
+    #         extended=description_long,
+    #         language=version.language,
+    #     )
+    #     word = Word.objects.create(
+    #         word=word,
+    #         ipa=ipa,
+    #         status='SUG',
+    #         version=version,
+    #         submitter=request.user.profile,
+    #     )
+    #     word.desc.add(desc)
+    #     if location:
+    #         location = WordLocation.objects.create(
+    #             word=word,
+    #             place=location,
+    #             submitter=request.user.profile,
+    #         )
+
+    #     url = reverse_lazy('word:word_view', kwargs={'pk': word.id})
+    #     return HttpResponseRedirect(url)
+
 
 
 class WordListView(ListView):
