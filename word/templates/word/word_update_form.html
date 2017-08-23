@@ -1,11 +1,12 @@
 {% extends 'share/base_site.html' %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 
 {% block content %}
   <div id="suggest_word" class="container-fluid">
     <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
       {% csrf_token %}
-      {{ form.as_p }}
+      {{ form|crispy }}
       <div class="form-group">
         <div class="col-sm-10">
           <button type="submit" class="btn">{% trans "Change" %}</button>
