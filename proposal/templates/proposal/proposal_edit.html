@@ -2,7 +2,6 @@
 {% load i18n %}
 
 {% block content %}
-  {% include "share/navbar.html" %}
   <form class="form-horizontal" role="form" action="{% url 'proposal:proposal_edit_view' object.id %}" method="post">
     {% csrf_token %}
     <div class="container-fluid">

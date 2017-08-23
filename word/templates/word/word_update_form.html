@@ -2,7 +2,6 @@
 {% load i18n %}
 
 {% block content %}
-  {% include "share/navbar.html" %}
   <div id="suggest_word" class="container-fluid">
     <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
       {% csrf_token %}

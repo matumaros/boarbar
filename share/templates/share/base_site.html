@@ -4,8 +4,11 @@
   {% include "share/header.html" %}
 </head>
 <body>
+  {% include "share/navbar.html" %}
   {% block content %}
   {% endblock %}
   {% include "share/footer.html" %}
 </body>
 </html>
+{% block script %}
+{% endblock %}

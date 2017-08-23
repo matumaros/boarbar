@@ -2,7 +2,6 @@
 {% load i18n %}
 
 {% block content %}
-  {% include "share/navbar.html" %}
   <form class="form-horizontal" role="form" action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}

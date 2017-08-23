@@ -3,7 +3,6 @@
 {% load i18n %}
 
 {% block content %}
-  {% include "share/navbar.html" %}
   <form role="form" action="{% url 'translator:trans_view' %}" method="post">
     {% csrf_token %}
     <div class="container-fluid">
