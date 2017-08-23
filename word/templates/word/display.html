@@ -45,10 +45,12 @@
             {% for synonym in synonyms %}
               <tr>
                 <td>
-                  {{ synonym.language }}
+                  {{ synonym.version.language.name }}
                 </td>
                 <td>
-                  {{ synonym.word }}
+                  <a class="{% if synonym.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' synonym.id %}">
+                    {{ synonym.word }}
+                  </a>
                 </td>
               </tr>
             {% endfor %}
@@ -58,7 +60,9 @@
     </div>
     <div id="map" style="width:100%;height:500px"></div>
   </div>
+{% endblock %}
 
+{% block script %}
 <script>
 
 function myMap() {

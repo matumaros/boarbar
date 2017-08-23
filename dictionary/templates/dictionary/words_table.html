@@ -5,10 +5,7 @@
       {% for word in words %}
         <tr>
           <td>
-            <a class="{% if word.status == "SUG" %}grey-text{% else %}black-text{% endif %}
-              data-toggle="popover"
-              data-html="true"
-              data-content='{% include "dictionary/word_info.html" %}'>
+            <a class="{% if word.status == "SUG" %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' word.id %}">
               {{ word.word }}
             </a>
           </td>
@@ -17,10 +14,7 @@
               {% for synonym in word.synonyms.all %}
               {% if synonym.version.language.name == targetlang %}
                 <tr><td>
-                  <a class="{% if synonym.status == 'SUG' %}grey-text{% else %}black-text{% endif %}
-                    data-toggle="popover"
-                    data-html="true"
-                    data-content='{% include "dictionary/translation_info.html" %}'>
+                  <a class="{% if synonym.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' synonym.id %}">
                     {{ synonym.word }}
                   </a>
                 </td></tr>
