@@ -4,10 +4,13 @@
 {% block content %}
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-4">
         <h1>
           {{ object.word }}
         </h1>
+      </div>
+      <div class="col-md-8">
+        <a class="button" href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "Edit" %}</a>
       </div>
     </div>
     <div class="row">
