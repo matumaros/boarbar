@@ -41,6 +41,7 @@
     <li role="separator" class="divider"></li>
     <li>
       <form method='post' action='{% url "logout" %}'>
+        {% csrf_token %}
         <div class='form-group'>
           <input type='hidden' name='previous' value='{{ request.path }}' />
         </div>
