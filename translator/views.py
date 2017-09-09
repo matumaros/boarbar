@@ -18,12 +18,12 @@ class TransView(TemplateView):
         def repl(match):
             word = match.group()
             word = Word.objects.filter(
-                word=word, language__name=sourcelang
+                word=word, version__language__name=sourcelang
             ).first()
             trans = '???'
             if word:
                 trans = word.synonyms.filter(
-                    language__name=targetlang
+                    version__language__name=targetlang
                 ).first()
                 if trans:
                     trans = trans.word
