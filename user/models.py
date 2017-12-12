@@ -36,6 +36,7 @@ class UserLanguage(models.Model):
         ('native', 'native'),
     )
     user = models.ForeignKey(Profile, related_name='languages')
+    is_moderator = models.BooleanField(default=False)
     language = models.ForeignKey(Language, related_name='user_languages')
     proficiency = models.CharField(
         max_length=25, default='beginner', choices=PROF
