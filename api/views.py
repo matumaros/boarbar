@@ -9,6 +9,7 @@ from rest_framework import status
 
 from language.models import Language
 from word.models import Word, WordVersion
+from .permissions import IsModeratorPermission
 
 
 # auth
@@ -44,6 +45,7 @@ class WordViewSet(viewsets.ModelViewSet):
     """
     queryset = Word.objects.all()
     serializer_class = serializers.WordSerializer
+    permission_classes = (IsModeratorPermission,)
 
     def perform_create(self, serializer):
         serializer.save(submitter=self.request.user)
@@ -59,5 +61,5 @@ class WordVersionViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def user_by_token(request):
-    user = request._user
+    user = request.us
     return Response({'email': user.email})
