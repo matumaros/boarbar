@@ -33,6 +33,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'www.boar.bar',
     'www.custidioma.org',
+    'www.servare.org',
 ]
 
 
