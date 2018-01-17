@@ -1,6 +1,7 @@
-Django==1.11.3
-django-crispy-forms==1.6.1
-django-simple-history==1.9.0
+Django==2.0.1
+django-crispy-forms==1.7.0
+git+https://github.com/flesser/django-simple-history@django2.0
 psycopg2==2.7.3
-pytz==2017.2
-django-rest-framework==3.7.3
+pytz==2017.3
+djangorestframework==3.7.7
+

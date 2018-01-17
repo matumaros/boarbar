@@ -38,11 +38,13 @@ class Proposal(models.Model):
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     creation_date = models.DateField(auto_now_add=True)
-    created_by = models.ForeignKey(Profile, related_name='proposals')
+    created_by = models.ForeignKey(Profile, related_name='proposals',
+                                   on_delete=models.SET_NULL, null=True)
     status = models.CharField(
         max_length=50, choices=STATUS, default='suggested',
     )
-    topic = models.ForeignKey(ProposalTopic, related_name='proposals')
+    topic = models.ForeignKey(ProposalTopic, related_name='proposals',
+                              on_delete=models.SET_NULL, null=True)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -50,14 +52,18 @@ class Proposal(models.Model):
 
 
 class TopicComment(BaseComment):
-    topic = models.ForeignKey(ProposalTopic, related_name='comments')
+    topic = models.ForeignKey(ProposalTopic, related_name='comments',
+                              on_delete=models.CASCADE)
     created_by = models.ForeignKey(
-        Profile, related_name='proposal_topic_comments'
+        Profile, related_name='proposal_topic_comments',
+        on_delete=models.SET_NULL, null=True
     )
     history = HistoricalRecords()
 
 
 class ProposalComment(BaseComment):
-    topic = models.ForeignKey(Proposal, related_name='comments')
-    created_by = models.ForeignKey(Profile, related_name='proposal_comments')
+    topic = models.ForeignKey(Proposal, related_name='comments',
+                              on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Profile, related_name='proposal_comments',
+                                   on_delete=models.SET_NULL, null=True)
     history = HistoricalRecords()

@@ -1,7 +1,7 @@
 
 
 from django.contrib.auth import logout as out
-from django.core.urlresolvers import reverse
+from django.shortcuts import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, View
 

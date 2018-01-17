@@ -11,6 +11,8 @@ router.register(r'languages', views.LanguageViewSet)
 router.register(r'wordversions', views.WordVersionViewSet)
 router.register(r'words', views.WordViewSet)
 
+app_name = "api"
+
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
