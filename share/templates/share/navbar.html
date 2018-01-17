@@ -7,7 +7,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a id='brand' class="navbar-brand" href="{% url 'home:home_view' %}">Custidioma</a>
+      <a id='brand' class="navbar-brand" href="{% url 'home:home_view' %}">
+        <img src="/static/img/logo.png" style="height:25px;"/>
+      </a>
     </div>
     {% get_current_language as LANGUAGE_CODE %}
     <div class="collapse navbar-collapse" id="dict_navbar">
