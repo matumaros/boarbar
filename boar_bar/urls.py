@@ -22,7 +22,6 @@ from django.views.generic.base import RedirectView
 
 from share.views import NotExisting, Logout
 
-
 urlpatterns = [
     url(
         r'^$',
