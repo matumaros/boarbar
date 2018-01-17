@@ -23,7 +23,8 @@ class Tag(models.Model):
 class Description(models.Model):
     short = models.CharField(max_length=150)
     extended = models.TextField(blank=True)
-    language = models.ForeignKey(Language, related_name='descriptions')
+    language = models.ForeignKey(Language, related_name='descriptions',
+                                 on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.short
@@ -33,7 +34,8 @@ class WordVersion(models.Model):
     name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=150, default='')
     creation_date = models.DateField(auto_now_add=True)
-    language = models.ForeignKey(Language, related_name='versions')
+    language = models.ForeignKey(Language, related_name='versions',
+                                 on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -56,9 +58,11 @@ class AbstractWord(models.Model):
     creation_date = models.DateField(auto_now_add=True)
     audio = models.FileField(upload_to=audio_path, blank=True, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
-    version = models.ForeignKey(WordVersion, related_name='words')
+    version = models.ForeignKey(WordVersion, related_name='words',
+                                on_delete=models.SET_NULL, null=True)
     wiktionary_link = models.CharField(max_length=150, blank=True)
-    submitter = models.ForeignKey(Profile, related_name='submitted_words')
+    submitter = models.ForeignKey(Profile, related_name='submitted_words',
+                                  on_delete=models.SET_NULL, null=True)
 
     class Meta:
         abstract = True
@@ -79,9 +83,10 @@ class Word(AbstractWord):
 
 
 class WordLocation(models.Model):
-    word = models.ForeignKey(Word, blank=True, related_name='locations')
+    word = models.ForeignKey(Word, blank=True, related_name='locations',
+                             on_delete=models.CASCADE)
     place = models.CharField(max_length=150)
-    submitter = models.ForeignKey(Profile)
+    submitter = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import user_passes_test
 from . import views
 
 
+app_name = "word"
+
 urlpatterns = [
     url(r'^$', views.WordListView.as_view(), name='word_list_view'),
     url(r'^bare/(?P<pk>\d+)/$', views.BareWordView.as_view(), name='bare_word_view'),

@@ -1,6 +1,6 @@
 
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import UpdateView

@@ -5,6 +5,8 @@ from django.conf.urls import url
 from . import views
 
 
+app_name = "proposal"
+
 urlpatterns = [
     url(r'^topics/?$', views.TopicView.as_view(), name='proposal_topic_view'),
     url(r'^proposals/?$', views.ProposalView.as_view(), name='proposals_view'),

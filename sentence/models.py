@@ -33,8 +33,10 @@ class Sentence(models.Model):
 
 class Translation(models.Model):
     text = models.TextField()
-    sentence = models.ForeignKey(Sentence, related_name='translations')
-    language = models.ForeignKey(Language, related_name='foreign_sentences')
+    sentence = models.ForeignKey(Sentence, related_name='translations',
+                                 on_delete=models.SET_NULL, null=True )
+    language = models.ForeignKey(Language, related_name='foreign_sentences',
+                                 on_delete=models.SET_NULL, null=True)
     creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

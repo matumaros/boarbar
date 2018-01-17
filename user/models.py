@@ -35,9 +35,11 @@ class UserLanguage(models.Model):
         ('fluent', 'fluent'),
         ('native', 'native'),
     )
-    user = models.ForeignKey(Profile, related_name='languages')
+    user = models.ForeignKey(Profile, related_name='languages',
+                             on_delete=models.CASCADE)
     is_moderator = models.BooleanField(default=False)
-    language = models.ForeignKey(Language, related_name='user_languages')
+    language = models.ForeignKey(Language, related_name='user_languages',
+                                 on_delete=models.SET_NULL, null=True)
     proficiency = models.CharField(
         max_length=25, default='beginner', choices=PROF
     )

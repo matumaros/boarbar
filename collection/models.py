@@ -25,7 +25,8 @@ class Collection(models.Model):
     }
 
     author = models.CharField(max_length=100)
-    reporter = models.ForeignKey(Profile, related_name='collection_items')
+    reporter = models.ForeignKey(Profile, related_name='collection_items',
+                                 on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=150)
     text = models.TextField()
     creation_date = models.DateField(auto_now_add=True)
