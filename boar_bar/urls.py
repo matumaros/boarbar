@@ -19,8 +19,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
+from django.template import RequestContext
 
 from share.views import NotExisting, Logout
+
 
 urlpatterns = [
     url(

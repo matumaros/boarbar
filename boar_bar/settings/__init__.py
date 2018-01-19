@@ -28,7 +28,7 @@ BASE_DIR = dirname(dirname(dirname(os.path.abspath(__file__))))
 SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'www.boar.bar',
@@ -67,14 +67,13 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     # django
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # third party
