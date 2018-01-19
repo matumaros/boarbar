@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 
-<form method='post' action='{% url 'login' %}'>
+<form method='post' action="{% url 'login' %}">
   {% csrf_token %}
   {{ form|crispy }}
 
@@ -11,5 +11,5 @@
     <input type='password' class='form-control' name='password' placeholder='Passvoadd' />
     <input type='hidden' name='previous' value='{{ request.path }}' />
   </div>
-  <input class='btn' type='submit' value='{% trans 'Login' %}' name='login' />
+  <input class='btn' type='submit' value="{% trans 'Login' %}" name='login' />
 </form>
