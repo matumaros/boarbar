@@ -25,16 +25,15 @@ BASE_DIR = dirname(dirname(dirname(os.path.abspath(__file__))))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l3i)q^q=2dp4ro_nv#olw2t824ehk!4c%m9f7oj2sm9_pih4nf'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'www.boar.bar',
     'www.custidioma.org',
     'www.servare.org',
-    '*',
 ]
 
 
@@ -107,10 +106,12 @@ WSGI_APPLICATION = 'boar_bar.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
-        
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'database',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -219,4 +220,3 @@ if DEBUG:
         from .test import *
     except ImportError:
         pass
-
