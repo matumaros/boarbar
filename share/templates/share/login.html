@@ -1,9 +1,9 @@
 {% load i18n %}
-{% load crispy_forms_tags %}
+
 
 <form method='post' action="{% url 'login' %}">
   {% csrf_token %}
-  {{ form|crispy }}
+
 
   <div class='form-group'>
     <input type='text' class='form-control' name='username' placeholder='Nuzza' />

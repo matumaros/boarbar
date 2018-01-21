@@ -21,7 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 
 from share.views import NotExisting, Logout
-from home.views import login
+
 
 urlpatterns = [
     url(
