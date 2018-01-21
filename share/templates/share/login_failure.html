@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "share/header.html" %}
+</head>
+<body>
+
+{% include "share/navbar.html" %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-10">
+
+      {% if user.is_authenticated %}
+         <br />
+         <div class="alert alert-success">
+           You are login!
+         </div>
+      {% else %}
+        <form method='post' action="{% url 'login' %}">
+          {% csrf_token %}
+          {{ form|crispy }}
+
+          <div class='form-group'>
+            <input type='hidden' name='previous' value='{{ request.path }}' />
+          </div>
+          <input class='btn' type='submit' value="{% trans 'Login' %}" name='login' />
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% include "share/footer.html" %}
+
+</body>
+</html>
