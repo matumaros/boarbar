@@ -26,3 +26,4 @@ class GuestView(TemplateView):
 class AboutView(TemplateView):
     template_name = 'home/about.html'
     http_method_names = ['get']
+
