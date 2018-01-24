@@ -19,3 +19,17 @@ Currently you can't register on the website since it's still being tested, but o
 
 
 <b>Copyright ©2018</b>
+
+config.json
+```
+{
+
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "DB_NAME": "your database name",
+        "USER": "postgres",
+        "DB_PASS": "your database password",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
+        "SECRET_KEY": "your secret key"
+}
+```
