@@ -19,3 +19,19 @@ Currently you can't register on the website since it's still being tested, but o
 
 
 <b>Copyright ©2018</b>
+
+#### Configure
+
+Create a config.json file to keep private credentials to use by settings files:
+```
+{
+
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "DB_NAME": "your database name",
+        "DB_USER": "your database user",
+        "DB_PASS": "your database password",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
+        "SECRET_KEY": "your secret key"
+}
+```

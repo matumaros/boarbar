@@ -1,4 +1,4 @@
-boar_bar/settings/local.py
+config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
