@@ -1,5 +1,3 @@
-
-
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView, ListView
@@ -8,8 +6,11 @@ from django.views.generic.edit import UpdateView
 from .models import Word, Description, WordVersion, WordLocation
 from language.models import Language
 
+from rest_framework.views import APIView
 
 class WordView(DetailView):
+
+
     template_name = 'word/display.html'
     http_method_names = ['get']
     model = Word
@@ -25,7 +26,7 @@ class WordView(DetailView):
         return context
 
 
-class SuggestView(TemplateView):
+class SuggestView(TemplateView, APIView):
     template_name = 'word/suggest.html'
     http_method_names = ['get', 'post']
 
