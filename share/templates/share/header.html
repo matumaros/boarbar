@@ -24,9 +24,13 @@
   /* login button should be on top of footer */
   .login-button {
     bottom: 0px;
-    z-index: 9999999;
-    position: fixed;
+    z-index: 1;
+    position: absolute;
   }
+.navbar-fixed-bottom {
+    position: fixed;
+    z-index: -1;
+}
 
   /* Remove the navbar's default margin-bottom and rounded borders */
   .navbar {
