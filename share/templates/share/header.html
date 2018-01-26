@@ -8,6 +8,7 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="{% static 'share/css/navbar-fixed-right.min.css' %}" />
 <link rel="stylesheet" href="{% static 'share/css/navbar-fixed-left.css' %}" />
+<link rel="stylesheet" href="css/responsive.css">
 
 <!-- Hotjar Tracking Code for www.boar.bar -->
 <script>
@@ -21,16 +22,30 @@
     })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 <style>
+
   /* login button should be on top of footer */
   .login-button {
     bottom: 0px;
     z-index: 1;
     position: absolute;
   }
-.navbar-fixed-bottom {
+ .navbar-fixed-bottom {
     position: fixed;
     z-index: -1;
-}
+ }
+  #authenticated-login {
+   padding: 15px;
+   min-width: 250px;
+   top: -210px;
+  }
+
+  #no-authenticated-login {
+    padding: 15px;
+    min-width: 250px;
+    top: -100px;
+  }
+
+
 
   /* Remove the navbar's default margin-bottom and rounded borders */
   .navbar {
@@ -120,13 +135,16 @@
   }
   
   /* On small screens, set height to 'auto' for sidenav and grid */
-  @media screen and (max-width: 767px) {
+  /* put the dropdown below the login-button  */
+  @media (max-width: 767px) {
     .row.content {height:auto;}
+    .login-button {position:relative;}
   }
 
   /* Popovers */
   .popover {
     min-width: 150px;
   }
+
 </style>
 

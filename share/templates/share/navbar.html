@@ -34,6 +34,8 @@
             {% trans "Collection" %}
           </a>
         </li>
+        <br>
+        <br>
       </ul>
       <ul class="nav navbar-nav login-button">
         <li class="dropdown">
@@ -49,9 +51,9 @@
           </a>
 
         {% if request.user.is_authenticated %}
-          <ul class="dropdown-menu" style="padding: 15px;min-width: 250px; top: -210px;">
+          <ul id="authenticated-login" class="dropdown-menu">
         {% else %}
-          <ul class="dropdown-menu" style="padding: 15px;min-width: 250px; top: -100px;">
+          <ul id ="no-authenticated-login" class="dropdown-menu">
         {% endif %}
             <li>
               <div class="row">
