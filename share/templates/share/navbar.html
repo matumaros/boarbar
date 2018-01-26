@@ -1,5 +1,5 @@
 {% load i18n %}
-<nav class="navbar-inverse navbar-default">
+<nav class="navbar navbar-inverse navbar-fixed-left">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#dict_navbar">
@@ -34,8 +34,10 @@
             {% trans "Collection" %}
           </a>
         </li>
+        <br>
+        <br>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav login-button">
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown">
             {% if request.user.is_authenticated %}
@@ -47,7 +49,12 @@
               <span class="glyphicon glyphicon-log-in"></span> {% trans "Login" %}
             {% endif %}
           </a>
-          <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+
+        {% if request.user.is_authenticated %}
+          <ul id="authenticated-login" class="dropdown-menu">
+        {% else %}
+          <ul id ="no-authenticated-login" class="dropdown-menu">
+        {% endif %}
             <li>
               <div class="row">
                 <div class="col-md-12">

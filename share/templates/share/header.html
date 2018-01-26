@@ -3,9 +3,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {% load staticfiles %}
 <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png"/>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'share/css/navbar-fixed-right.min.css' %}" />
+<link rel="stylesheet" href="{% static 'share/css/navbar-fixed-left.css' %}" />
+
 <!-- Hotjar Tracking Code for www.boar.bar -->
 <script>
     (function(h,o,t,j,a,r){
@@ -18,7 +21,32 @@
     })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 <style>
-  /* Remove the navbar's default margin-bottom and rounded borders */ 
+
+  /* login button should be on top of footer */
+  .login-button {
+    bottom: 0px;
+    z-index: 1;
+    position: absolute;
+  }
+
+ .navbar-fixed-bottom {
+    position: fixed;
+    z-index: -1;
+ }
+ 
+  #authenticated-login {
+   padding: 15px;
+   min-width: 250px;
+   top: -210px;
+  }
+
+  #no-authenticated-login {
+    padding: 15px;
+    min-width: 250px;
+    top: -100px;
+  }
+
+  /* Remove the navbar's default margin-bottom and rounded borders */
   .navbar {
     margin-bottom: 0;
     border-radius: 0;
@@ -106,12 +134,16 @@
   }
   
   /* On small screens, set height to 'auto' for sidenav and grid */
-  @media screen and (max-width: 767px) {
+  /* put the dropdown below the login-button  */
+  @media (max-width: 767px) {
     .row.content {height:auto;}
+    .login-button {position:relative;}
   }
 
   /* Popovers */
   .popover {
     min-width: 150px;
   }
+
 </style>
+
