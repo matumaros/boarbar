@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import UpdateView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from .models import Word, Description, WordVersion, WordLocation
 from language.models import Language
@@ -25,6 +27,7 @@ class WordView(DetailView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class SuggestView(TemplateView):
     template_name = 'word/suggest.html'
     http_method_names = ['get', 'post']
@@ -124,7 +127,6 @@ class EditView(UpdateView):
 
     #     url = reverse_lazy('word:word_view', kwargs={'pk': word.id})
     #     return HttpResponseRedirect(url)
-
 
 
 class WordListView(ListView):
