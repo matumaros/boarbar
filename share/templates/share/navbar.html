@@ -34,6 +34,23 @@
             {% trans "Collection" %}
           </a>
         </li>
+        <li{% if "contribute" in request.path %} class="active"{% endif %}>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Contribute
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a href="{% url 'contribute:contrib_view' %}">
+                     {% trans "Contribute" %}
+                  </a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li><a href="{% url 'word:suggest_view' %}">{% trans "Suggest Word" %}</a></li>
+              <li><a href="">Random in progress word</a></li>
+            </ul>
+          </div>
+        </li>
         <br>
         <br>
       </ul>

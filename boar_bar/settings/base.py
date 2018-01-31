@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'course.apps.CourseConfig',
     'translator.apps.TranslatorConfig',
     'api.apps.ApiConfig',
+    'contribute.apps.ContributeConfig',
 ]
 
 MIDDLEWARE = [
