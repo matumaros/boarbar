@@ -1,5 +1,5 @@
 {% load i18n %}
-<nav class="navbar navbar-inverse navbar-fixed-left">
+<nav class="navbar-default navbar-inverse navbar-fixed-left">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#dict_navbar">
@@ -34,22 +34,14 @@
             {% trans "Collection" %}
           </a>
         </li>
-        <li{% if "contribute" in request.path %} class="active"{% endif %}>
-          <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Contribute
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="{% url 'contribute:contrib_view' %}">
-                     {% trans "Contribute" %}
-                  </a>
-              </li>
-              <li role="separator" class="divider"></li>
-              <li><a href="{% url 'word:suggest_view' %}">{% trans "Suggest Word" %}</a></li>
-              <li><a href="">Random in progress word</a></li>
-            </ul>
-          </div>
+         <li{% if "contribute" in request.path %} class="active"{% endif %}>
+          <a class="contribute-link" href="{% url 'contribute:contrib_view' %}">
+            {% trans "Contribute" %}
+          </a>
+          <ul class="contribute-submenu">
+            <li><a href="{% url 'word:suggest_view' %}">{% trans "Suggest Word" %}</a></li>
+            <li><a href="">Random in progress word</a></li>
+          </ul>
         </li>
         <br>
         <br>
@@ -94,5 +86,12 @@
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
+
+    if ( window.location.href.indexOf("/contribute/") !== -1 ) {
+         $('.contribute-submenu').show();
+    }
+
+
 });
 </script>
+     
