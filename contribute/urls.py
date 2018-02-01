@@ -7,7 +7,7 @@ app_name = "contribute"
 
 urlpatterns = [
     url(
-        r'^((?P<sourcelang>\w{3})/(?P<targetlang>\w{3})/(?P<word>.*))?$',
+        r'^$',
         views.ContribView.as_view(),
         name='contrib_view'
     ),
