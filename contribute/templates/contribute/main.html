@@ -1,0 +1,26 @@
+{% extends 'share/base_site.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <h2>Contribute</h2>
+    <p>This is where you can contribute:</p>
+      {% if not user.is_authenticated %}
+        <p class="alert alert-warning">But you need to be login</p>
+      {% elif request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
+        <div class="row">
+          <div class="col-md-5">
+             <div class="list-group">
+                  <a href="{% url 'word:suggest_view' %}" class="list-group-item">{% trans "Suggest Word" %}</a>
+                  {# <button type="button" class="btn" data-toggle="modal" data-target="#add_word">{% trans "Suggest Word" %}</button> #}
+                  <a href="" class="list-group-item">Random in progress word</a>
+
+              </div>
+          </div>
+        </div>
+      {% endif %}
+
+</div>
+
+{% endblock %}

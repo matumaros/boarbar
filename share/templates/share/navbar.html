@@ -1,5 +1,5 @@
 {% load i18n %}
-<nav class="navbar navbar-inverse navbar-fixed-left">
+<nav class="navbar-default navbar-inverse navbar-fixed-left">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#dict_navbar">
@@ -33,6 +33,15 @@
           <a href="{% url 'collection:collection_list_view' %}">
             {% trans "Collection" %}
           </a>
+        </li>
+         <li{% if "contribute" in request.path %} class="active"{% endif %}>
+          <a class="contribute-link" href="{% url 'contribute:contrib_view' %}">
+            {% trans "Contribute" %}
+          </a>
+          <ul class="contribute-submenu">
+            <div><a href="{% url 'word:suggest_view' %}">{% trans "Suggest Word" %}</a></div>
+            <div><a href="">Random in progress word</a></div>
+          </ul>
         </li>
         <br>
         <br>
@@ -77,5 +86,10 @@
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
+
+    if ( window.location.href.indexOf("/contribute/") !== -1 ) {
+         $('.contribute-submenu').show();
+    }
 });
 </script>
+     

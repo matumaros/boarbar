@@ -58,6 +58,10 @@ urlpatterns = [
         include('collection.urls', namespace='collection')
     ),
     url(
+        r'^contribute/',
+        include('contribute.urls', namespace='contribute')
+    ),
+    url(
         r'^translate/',
         include('translator.urls', namespace='translator')
     ),
