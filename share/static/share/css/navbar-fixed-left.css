@@ -37,7 +37,7 @@ body {
 @media (min-width: 768px) and (min-width: 768px) {
   .navbar-fixed-right,
   .navbar-fixed-left {
-    width: 132px;
+    width: 182px;
     height: 100vh;
     border-radius: 0;
   }
@@ -77,7 +77,7 @@ body {
 }
 @media (min-width: 768px) {
   body {
-    padding-left: 152px;
+    padding-left: 202px;
   }
 }
 @media (min-width: 768px) {
