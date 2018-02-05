@@ -71,4 +71,5 @@ target/
 
 # Project Related
 test_settings.py
-custom.py
+custom_settings.py
+production_settings.py
