@@ -17,7 +17,9 @@ If you want to contribute to anything else, please write me at mat@pyfection.com
 Currently you can't register on the website since it's still being tested, but once it's up and running everybody can contribute.
 
 ### How do I set it up locally?
+Make sure you have Python 3.6+ installed (preferably in a virtualenv)
 ```git clone https://github.com/pyfection/servare.git servare```
+```pip install -r requirements.txt```
 
 Create custom settings to adjust to your environment. By convention it's called "custom_settings" and it is placed in the same location as the normal settings. This file should look something like this:
 ```
@@ -43,5 +45,6 @@ DATABASES = {
     }
 }
 ```
+And then start with ```python manage.py runserver --settings=boar_bar.custom_settings```
 
 <b>Copyright ©2018</b>
