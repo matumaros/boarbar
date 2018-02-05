@@ -1,7 +1,6 @@
 # servare
 The Django code for the website www.servare.org
 
-## <u>English</u>
 ### What is this project about?
 It is a website to preserve, standardize and teach endangered languages.
 
@@ -17,21 +16,32 @@ If you want to contribute to the source code, just fork the repository and creat
 If you want to contribute to anything else, please write me at mat@pyfection.com.
 Currently you can't register on the website since it's still being tested, but once it's up and running everybody can contribute.
 
+### How do I set it up locally?
+```git clone https://github.com/pyfection/servare.git servare```
 
-<b>Copyright ©2018</b>
-
-#### Configure
-
-Create a config.json file to keep private credentials to use by settings files:
+Create custom settings to adjust to your environment. By convention it's called "custom_settings" and it is placed in the same location as the normal settings. This file should look something like this:
 ```
-{
+from .settings import *
 
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "DB_NAME": "your database name",
-        "DB_USER": "your database user",
-        "DB_PASS": "your database password",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-        "SECRET_KEY": "your secret key"
+
+SECRET_KEY = '<your secret key here>'
+
+DEBUG = True
+
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '<your database name here>',
+        'USER': '<your database user here>,
+        'PASSWORD': '<your database password here>',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 ```
+
+<b>Copyright ©2018</b>
