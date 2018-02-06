@@ -1,8 +1,10 @@
 {% extends 'share/base_site.html' %}
+
 {% load i18n %}
 
 {% block content %}
-<div class="container">
+
+
     <br>
     <h2>Contribute</h2>
     <p>This is where you can contribute:</p>
@@ -12,15 +14,117 @@
         <div class="row">
           <div class="col-md-5">
              <div class="list-group">
-                  <a href="{% url 'word:suggest_view' %}" class="list-group-item">{% trans "Suggest Word" %}</a>
-                  {# <button type="button" class="btn" data-toggle="modal" data-target="#add_word">{% trans "Suggest Word" %}</button> #}
-                  <a href="" class="list-group-item">Random in progress word</a>
 
+                 <!-- Button trigger modal -->
+                 <button type="button" class="btn btn-primary" data-toggle="modal"
+                         data-target="#suggest_modal">
+                     {% trans "Suggest Word" %}
+                 </button>
+
+                 <!-- Modal -->
+                 <div class="modal fade" id="suggest_modal" tabindex="-1" role="dialog" aria-labelledby="suggest_modal_label">
+                   <div class="modal-dialog" role="document">
+                     <div class="modal-content">
+                       <div class="modal-body">
+                           <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                          for="add_word_word">{% trans "Word" %}*</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control"
+                                    id="add_word_word" name="word"/>
+                                </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                       for="add_word_description_short">{% trans "Language Version" %}*</label>
+                                <div class="col-sm-10">
+                                </div>
+                              </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Short Description" %}*</label>
+                                <div class="col-sm-10">
+                                  <textarea class="form-control" id="add_word_description_short" name="desc_short"></textarea>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Audio" %}</label>
+                                <div class="col-sm-10">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Tags" %}</label>
+                                <div class="col-sm-10">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                              <a class="col-sm-2 link">advanced</a>
+                              </div>
+                               <div class="advanced-options">
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label"
+                                              for="add_word_ipa">{% trans "IPA" %}</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                        id="add_word_ipa" name="ipa"/>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label"
+                                          for="add_word_version" >{% trans "Standard" %}*</label>
+                                    <div class="col-sm-10">
+                                      <select id="add_word_version" name="version">
+                                        {% for version in versions %}
+                                          <option value="{{ version.id }}">{% trans version.name %}</option>
+                                        {% endfor %}
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label"
+                                              for="add_word_location">{% trans "Confirmed Location" %}</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                        id="add_word_location" name="location" value="{{ request.user.profile.place }}"/>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Description" %}</label>
+                                    <div class="col-sm-10">
+                                      <textarea class="form-control" id="add_word_description_long" name="desc_long"></textarea>
+                                    </div>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                <div class="col-sm-10">
+                                  <button type="submit" class="btn">{% trans "Suggest" %}</button>
+                                </div>
+                              </div>
+                            </form>
+
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <a href="" class="list-group-item">Random in progress word</a>
               </div>
           </div>
         </div>
       {% endif %}
 
 </div>
+
+<script>
+$(document).ready(function(){
+    $('#suggest_modal').on('click', '.link', function () {
+
+         $('.advanced-options').slideToggle("fast");
+    });
+});
+</script>
 
 {% endblock %}
