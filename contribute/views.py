@@ -8,5 +8,5 @@ class ContribView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all()
-        context["version"] = WordVersion.objects.all()
+        context["versions"] = WordVersion.objects.all()
         return context
