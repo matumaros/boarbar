@@ -42,7 +42,7 @@ class SuggestView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         uploaded_file_url = None
-        if request.method == "POST" and request.FILES["myfile"]:
+        if request.method == "POST" and "myfile" in request.FILES:
             myfile = request.FILES["myfile"]
             fs = FileSystemStorage()
             filename = fs.save(myfile.name, myfile)
@@ -56,11 +56,14 @@ class SuggestView(TemplateView):
         word = request.POST.get('word')
         tags = request.POST.get('tags')
         ipa = request.POST.get('ipa')
-        version = request.POST.get('version')
+        language = request.POST.get('language')
         location = request.POST.get('location')
         description_short = request.POST.get('desc_short')
         description_long = request.POST.get('desc_long')
-        print(tags, "#"*20)
+        synonyms = request.POST.get('synonyms')
+        wiktionary_link = request.POST.get('wiktionary_link')
+        print(version, "#"*20)
+
         try:
             version = WordVersion.objects.get(pk=version)
         except WordVersion.DoesNotExist:
@@ -77,10 +80,14 @@ class SuggestView(TemplateView):
             status='SUG',
             version=version,
             submitter=request.user.profile,
+            wiktionary_link = wiktionary_link,
         )
         if tags:
             word.tags.add(tags)
         word.desc.add(desc)
+        if synonyms:
+            word.synonyms.add(synonyms)
+
         if location:
             location = WordLocation.objects.create(
                 word=word,

@@ -31,17 +31,17 @@
                                           for="add_word_word">{% trans "Word" %}*</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control"
-                                    id="add_word_word" name="word"/>
+                                    id="add_word_word" name="word" required />
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label"
                                       for="add_word_version" >{% trans "Word Version" %}</label>
                                 <div class="col-sm-10">
-                                  <select id="add_word_version" name="version">
+                                  <select id="add_word_version" name="language">
                                     <option disabled selected value> --- </option>
-                                    {% for version in versions %}
-                                      <option value="{{ version.id }}">{% trans version.name %}</option>
+                                    {% for lan in language %}
+                                      <option value="{{ lan.id }}">{% trans lan.name %}</option>
                                     {% endfor %}
                                   </select>
                                 </div>
@@ -56,7 +56,7 @@
                                 <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Audio" %}</label>
                                 <div class="col-sm-10">
 
-                                    <input type="file" name="myfile">
+                                    <input type="file" name="myfile"/>
 
                                     {% if uploaded_file_url %}
                                       <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
@@ -88,20 +88,31 @@
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label class="col-sm-2 control-label"
-                                              for="add_word_location">{% trans "Confirmed Location" %}</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control"
-                                        id="add_word_location" name="location" value="{{ request.user.profile.place }}"/>
-                                    </div>
-                                  </div>
-
-                                  <div class="form-group">
                                     <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Description" %}</label>
                                     <div class="col-sm-10">
                                       <textarea class="form-control" id="add_word_description_long" name="desc_long"></textarea>
                                     </div>
                                   </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label"
+                                              for="add_wik_link">{% trans "Wiktionary link" %}</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                        id="add_wik_link" name="wiktionary_link"/>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="select_synonym">{% trans "Synonyms" %}</label>
+                                    <div class="col-sm-10">
+                                        <select id="select_synonym" name="synonyms">
+                                            <option disabled selected value> ------- </option>
+                                            {% for synonym in synonyms %}
+                                              <option value="{{ synonym.id }}">{% trans synonym.word %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                  </div>
+
                               </div>
 
                               <div class="form-group">

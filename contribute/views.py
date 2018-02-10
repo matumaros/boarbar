@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from word.models import Tag, WordVersion
+from word.models import Tag, Word, Language
 
 class ContribView(TemplateView):
     template_name = 'contribute/main.html'
@@ -8,5 +8,6 @@ class ContribView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all()
-        context["versions"] = WordVersion.objects.all()
+        context["language"] = Language.objects.all()
+        context["synonyms"] = Word.objects.all()
         return context
