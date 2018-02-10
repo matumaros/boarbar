@@ -68,15 +68,15 @@
                                 <label class="col-sm-2 control-label" for="select_tag">{% trans "Tags" %}</label>
                                 <div class="col-sm-10">
                                     {% if user_moderator %}
-                                      <select id="select-moderator" name="tags">
-                                        <option disabled selected value> --- </option>
+                                      <select id="tag-moderator" name="tags">
+                                        <option disabled selected value></option>
                                         {% for tag in tags %}
                                           <option value="{{ tag.id }}">{% trans tag.name %}</option>
                                         {% endfor %}
                                       </select>
                                     {% else %}
-                                      <select id="select-no-moderator" name="tags">
-                                        <option disabled selected value> --- </option>
+                                      <select id="tag-no-moderator" name="tags">
+                                        <option disabled selected value></option>
                                         {% for tag in tags %}
                                           <option value="{{ tag.id }}">{% trans tag.name %}</option>
                                         {% endfor %}
@@ -113,12 +113,21 @@
                                   <div class="form-group">
                                     <label class="col-sm-2 control-label" for="select_synonym">{% trans "Synonyms" %}</label>
                                     <div class="col-sm-10">
-                                        <select id="select_synonym" name="synonyms">
-                                            <option disabled selected value> ------- </option>
+                                        {% if user_moderator %}
+                                        <select id="synonym-moderator" name="synonyms">
+                                            <option disabled selected value></option>
                                             {% for synonym in synonyms %}
                                               <option value="{{ synonym.id }}">{% trans synonym.word %}</option>
                                             {% endfor %}
                                         </select>
+                                        {% else %}
+                                        <select id="synonym-no-moderator" name="synonyms">
+                                            <option disabled selected value></option>
+                                            {% for synonym in synonyms %}
+                                              <option value="{{ synonym.id }}">{% trans synonym.word %}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {% endif %}
                                     </div>
                                   </div>
 
@@ -150,13 +159,20 @@ $(document).ready(function(){
 
          $('.advanced-options').slideToggle("fast");
     });
-    $('#select-moderator').selectize({
-    create: true,
-     maxItems: 4
-});
-    $('#select-no-moderator').selectize({
-    maxItems: 4
-});
+    $('#tag-moderator').selectize({
+        create: true,
+        maxItems: 4
+    });
+    $('#tag-no-moderator').selectize({
+        maxItems: 4
+    });
+    $('#synonym-moderator').selectize({
+        create: true,
+        maxItems: 4
+    });
+    $('#synonym-no-moderator').selectize({
+        maxItems: 4
+    });
 });
 </script>
 
