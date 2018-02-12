@@ -116,9 +116,7 @@
                                         {% if user_moderator %}
                                         <select id="synonym-moderator" name="synonyms">
                                             <option disabled selected value></option>
-                                            {% for synonym in synonyms %}
-                                              <option value="{{ synonym.id }}">{% trans synonym.word %}</option>
-                                            {% endfor %}
+
                                         </select>
                                         {% else %}
                                         <select id="synonym-no-moderator" name="synonyms">
@@ -167,27 +165,29 @@ $(document).ready(function(){
         maxItems: 4
     });
     $('#synonym-moderator').selectize({
-        persist: false,
         create: true,
         maxItems: 4,
-        valueField: 'description',
+
+        valueField: 'name',
         labelField: 'name',
         searchField: ['name', 'description'],
         options: [
-        {name: 'nombre1', description: 'description1'},
-        {name: 'nombre2', description: 'description description2'},
-        {name: 'nombre3', description: 'description descriptioon3'}
+        {% for synonym in synonyms %}
+            {name: '{% trans synonym.word %}', description: '{{ synonym.desc.all.0.short }}' },
+        {% endfor %}
+
         ],
         render: {
             option: function(item, escape) {
-                var label = item.name || item.email;
-                var caption = item.description ? item.description : null;
+                var label = item.name || item.description;
+                var caption = item.name ? item.description : null;
                 return '<div>' +
-                    '<span class="label">' + escape(label) + '</span>' +
-                    (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+                    '<span class="label label-default">' + escape(label) + '</span>' +
+                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
                 '</div>';
             }
         }
+
     });
     $('#synonym-no-moderator').selectize({
         maxItems: 4

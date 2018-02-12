@@ -1,8 +1,9 @@
+import json
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 
 from user.models import Profile, UserLanguage
-from word.models import Tag, Word, WordVersion
+from word.models import Tag, Word, WordVersion, Description
 
 
 class ContribView(TemplateView):
