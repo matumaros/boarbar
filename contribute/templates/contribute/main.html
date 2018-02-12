@@ -111,24 +111,13 @@
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="synonym-moderator">{% trans "Synonyms" %}</label>
+                                    <label class="col-sm-2 control-label" for="synonym">{% trans "Synonyms" %}</label>
                                     <div class="col-sm-10">
-                                        {% if user_moderator %}
-                                        <select id="synonym-moderator" name="synonyms">
+                                        <select id="synonym" name="synonyms">
                                             <option disabled selected value></option>
-
                                         </select>
-                                        {% else %}
-                                        <select id="synonym-no-moderator" name="synonyms">
-                                            <option disabled selected value></option>
-                                            {% for synonym in synonyms %}
-                                              <option value="{{ synonym.id }}">{% trans synonym.word %}</option>
-                                            {% endfor %}
-                                        </select>
-                                        {% endif %}
                                     </div>
                                   </div>
-
                               </div>
 
                               <div class="form-group">
@@ -158,16 +147,14 @@ $(document).ready(function(){
          $('.advanced-options').slideToggle("fast");
     });
     $('#tag-moderator').selectize({
-        create: true,
+
         maxItems: 4
     });
     $('#tag-no-moderator').selectize({
         maxItems: 4
     });
-    $('#synonym-moderator').selectize({
-        create: true,
+    $('#synonym').selectize({
         maxItems: 4,
-
         valueField: 'name',
         labelField: 'name',
         searchField: ['name', 'description'],
@@ -187,10 +174,9 @@ $(document).ready(function(){
                 '</div>';
             }
         }
-
-    });
-    $('#synonym-no-moderator').selectize({
-        maxItems: 4
+        {% if user_moderator %}
+            create: true,
+        {% endif %}
     });
 });
 </script>
