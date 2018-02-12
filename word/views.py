@@ -62,7 +62,7 @@ class SuggestView(TemplateView):
         description_long = request.POST.get('desc_long')
         synonyms = request.POST.getlist('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
-        print(synonyms, "poto"*10)
+        print(tags, "poto"*10)
         try:
             version = WordVersion.objects.get(pk=version)
         except WordVersion.DoesNotExist:
