@@ -7,7 +7,7 @@ from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from .models import Word, Description, WordVersion, WordLocation, AbstractWord
+from .models import Word, Description, WordVersion, WordLocation, AbstractWord, Tag
 from language.models import Language
 
 
@@ -54,38 +54,47 @@ class SuggestView(TemplateView):
                 uploaded_file_url = fs.url(filename)
 
         word = request.POST.get('word')
-        tags = request.POST.get('tags')
+        tags = request.POST.getlist('tags')
         ipa = request.POST.get('ipa')
-        language_id = request.POST.get('language')
+        version = request.POST.get('version')
         location = request.POST.get('location')
         description_short = request.POST.get('desc_short')
         description_long = request.POST.get('desc_long')
-        synonyms = request.POST.get('synonyms')
+        synonyms = request.POST.getlist('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
-        print(language_id, "#"*20)
+        print("=================", tags)
 
-        language = WordVersion.objects.get(pk=language_id)
+        try:
+            version = WordVersion.objects.get(pk=version)
+        except WordVersion.DoesNotExist:
+            version = WordVersion.objects.all()[0]
 
         desc = Description.objects.create(
             short=description_short,
             extended=description_long,
-            language=language.language,
+            language=version.language,
         )
         word = Word.objects.create(
             word=word,
             ipa=ipa,
             status='SUG',
-            version=language,
+            version=version,
             audio=uploaded_file_url,
             submitter=request.user.profile,
             wiktionary_link = wiktionary_link,
         )
-        if tags:
-            word.tags.add(tags)
         word.desc.add(desc)
-        if synonyms:
-            word.synonyms.add(synonyms)
 
+        for tag in tags:
+            tag_object, _ = Tag.objects.get_or_create(name=tag.lower())
+            word.tags.add(tag_object)
+        print("%%%%%%%%%%%%%%%%%",synonyms)
+        for syn in synonyms:
+            syn_object, _ = Word.objects.get_or_create(
+                submitter=request.user.profile,
+                word=syn.lower(),
+            )
+            word.synonyms.add(syn_object)
         if location:
             location = WordLocation.objects.create(
                 word=word,

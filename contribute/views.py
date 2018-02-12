@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from django.http import HttpResponse
 
 from user.models import Profile, UserLanguage
-from word.models import Tag, Word, Language
+from word.models import Tag, Word, WordVersion
 
 
 class ContribView(TemplateView):
@@ -23,11 +23,12 @@ class ContribView(TemplateView):
             else:
                 user_moderator = False
             context["user_moderator"] = user_moderator
+            #context["user_language"] = user_language.language
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all()
-        context["language"] = Language.objects.all()
         context["synonyms"] = Word.objects.all()
+        context["version"] = WordVersion.objects.all()
         return context
