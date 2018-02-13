@@ -38,7 +38,7 @@
                                 <label class="col-sm-2 control-label"
                                       for="add_word_version" >{% trans "Word Version" %}</label>
                                 <div class="col-sm-10">
-                                  <select id="add_word_version" name="version">
+                                  <select id="add_word_version" name="version" required>
                                     <option disabled selected value> --- </option>
                                     {% for ver in version %}
                                       <option value="{{ ver.id }}">{% trans ver.name %}</option>
