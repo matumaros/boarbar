@@ -1,4 +1,5 @@
-import re
+
+
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
@@ -7,8 +8,7 @@ from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from .models import Word, Description, WordVersion, WordLocation, AbstractWord, Tag
-from language.models import Language
+from .models import Word, Description, WordVersion, WordLocation, Tag
 
 
 class WordView(DetailView):
