@@ -24,7 +24,6 @@ class ContribView(TemplateView):
             else:
                 user_moderator = False
             context["user_moderator"] = user_moderator
-            #context["user_language"] = user_language.language
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):

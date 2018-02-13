@@ -153,11 +153,13 @@ $(document).ready(function(){
                     (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
                 '</div>';
             }
-        }
-
-
+        },
+         {% if user_moderator %}
+            create: true,
+        {% endif %}
     });
     $('#synonym').selectize({
+
         maxItems: 4,
         valueField: 'name',
         labelField: 'name',
@@ -177,10 +179,10 @@ $(document).ready(function(){
                     (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
                 '</div>';
             }
-        }
-
-
-
+        },
+        {% if user_moderator %}
+            create: true,
+        {% endif %}
     });
 });
 </script>
