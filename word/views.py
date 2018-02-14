@@ -84,7 +84,7 @@ class SuggestView(TemplateView):
         for tag in tags:
             tag_object, _ = Tag.objects.get_or_create(name=tag.lower())
             word.tags.add(tag_object)
-
+        print("=====================", tags)
         for syn in synonyms:
             syn_object, _ = Word.objects.get_or_create(
                 submitter=request.user.profile,
