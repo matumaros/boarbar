@@ -18,11 +18,12 @@ class ContribView(TemplateView):
             user_profile = None
 
         if user_profile:
-            user_language = UserLanguage.objects.get(user=user_profile)
-            if user_language.is_moderator:
-                user_moderator = True
-            else:
-                user_moderator = False
+            user_languages = UserLanguage.objects.filter(user=user_profile)
+            user_moderator = False
+            for user_language in user_languages:
+                if user_language.is_moderator:
+                    user_moderator = True
+                    break
             context["user_moderator"] = user_moderator
         return self.render_to_response(context)
 
@@ -31,4 +32,5 @@ class ContribView(TemplateView):
         context["tags"] = Tag.objects.all()
         context["synonyms"] = Word.objects.all()
         context["version"] = WordVersion.objects.all()
+        context["language"] = UserLanguage.objects.all()
         return context

@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from .models import Word, Description, WordVersion, WordLocation, Tag
+from language.models import Language
 
 
 class WordView(DetailView):
@@ -58,17 +59,26 @@ class SuggestView(TemplateView):
         ipa = request.POST.get('ipa')
         version_id = request.POST.get('version')
         location = request.POST.get('location')
-        description_short = request.POST.get('desc_short')
-        description_long = request.POST.get('desc_long')
+        description_long = request.POST.getlist('desc_long')
         synonyms = request.POST.getlist('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
 
+        print("====================desc short")
+        descriptions_list = []
+        for key in request.POST.keys():
+            if "desc_short_" in key:
+                # desc_short_spanish
+                desc_short_string = request.POST.get(key)
+                language_string = key.split("_")[-1]
+                language_obj = Language.objects.get(name=language_string)
+                desc, _ = Description.objects.get_or_create(
+                    short=desc_short_string.strip(),
+                    #extended=potooo
+                    language=language_obj
+                )
+                descriptions_list.append(desc)
+
         version_object = WordVersion.objects.get(pk=version_id)
-        desc = Description.objects.create(
-            short=description_short,
-            extended=description_long,
-            language=version_object.language,
-        )
 
         word = Word.objects.create(
             word=word,
@@ -79,12 +89,13 @@ class SuggestView(TemplateView):
             submitter=request.user.profile,
             wiktionary_link = wiktionary_link,
         )
-        word.desc.add(desc)
+        for desc in descriptions_list:
+            word.desc.add(desc)
 
         for tag in tags:
             tag_object, _ = Tag.objects.get_or_create(name=tag.lower())
             word.tags.add(tag_object)
-        print("=====================", tags)
+
         for syn in synonyms:
             syn_object, _ = Word.objects.get_or_create(
                 submitter=request.user.profile,

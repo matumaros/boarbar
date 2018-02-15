@@ -31,7 +31,11 @@ class Description(models.Model):
 
 
 class WordVersion(models.Model):
-    """A word version is a dialect variant of a same word used by certain populations"""
+    """A word version is the orthography version that is used for a word. For
+    example Russian can be written in Cyrillic and it can also be written in
+    Latin script. Cyrillic can be the primary WordVersion of Russian and Latin
+    would be a secondary WordVersion"""
+
     name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=150, default='')
     creation_date = models.DateField(auto_now_add=True)
