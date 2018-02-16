@@ -75,7 +75,7 @@ class SuggestView(TemplateView):
                 language_obj = Language.objects.get(name=language_string)
                 desc, _ = Description.objects.get_or_create(
                     short=desc_short_string.strip(),
-                    #extended=potooo
+                    #extended=mmmmmm?
                     language=language_obj
                 )
                 descriptions_list.append(desc)
