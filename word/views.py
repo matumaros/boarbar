@@ -1,5 +1,7 @@
 
 
+import re
+
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
@@ -47,9 +49,10 @@ class SuggestView(TemplateView):
             myfile = request.FILES["myfile"]
             fs = FileSystemStorage()
             filename = fs.save(myfile.name, myfile)
-            if filename.endswith(".mp3") or filename.endswith(".wma") or\
-                filename.endswith(".wav") or filename.endswith(".m4a"):
-                    uploaded_file_url = fs.url(filename)
+            r1, r2, r3, r4 = re.compile(r"\.mp3$"), re.compile(r"\.wma$"), \
+                             re.compile(r"\.wav$"), re.compile(r"\.m4a$")
+            if r1.search(filename) or r2.search(filename) or r3.search(filename) or r4.search(filename):
+                uploaded_file_url = fs.url(filename)
             else:
                 filename = None
                 uploaded_file_url = fs.url(filename)
@@ -63,7 +66,6 @@ class SuggestView(TemplateView):
         synonyms = request.POST.getlist('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
 
-        print("====================desc short")
         descriptions_list = []
         for key in request.POST.keys():
             if "desc_short_" in key:

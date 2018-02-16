@@ -1,5 +1,6 @@
 
 
+import logging
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
@@ -7,6 +8,8 @@ from django.views.generic import TemplateView
 from language.models import Language
 from user.models import Profile, UserLanguage
 from word.models import Word, Tag, WordVersion
+
+logger = logging.getLogger(__name__)
 
 
 class DictView(TemplateView):
@@ -19,9 +22,8 @@ class DictView(TemplateView):
         try:
             user_profile = Profile.objects.get(user=request.user)
         except TypeError:
-            user_profile = None
-
-        if user_profile:
+            logger.info("user does not have profile")
+        else:
             user_languages = UserLanguage.objects.filter(user=user_profile)
             user_moderator = False
             for user_language in user_languages:

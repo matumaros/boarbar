@@ -1,9 +1,12 @@
 
 
+import logging
 from django.views.generic import TemplateView
 
 from user.models import Profile, UserLanguage
 from word.models import Tag, Word, WordVersion
+
+logger = logging.getLogger(__name__)
 
 
 class ContribView(TemplateView):
@@ -15,9 +18,8 @@ class ContribView(TemplateView):
         try:
             user_profile = Profile.objects.get(user=request.user)
         except TypeError:
-            user_profile = None
-
-        if user_profile:
+            logger.info("user does not have profile")
+        else:
             user_languages = UserLanguage.objects.filter(user=user_profile)
             user_moderator = False
             for user_language in user_languages:
