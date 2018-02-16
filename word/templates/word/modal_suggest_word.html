@@ -31,24 +31,29 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-3 control-label" for="add_word_description_short">{% trans "Short Description" %}</label>
+                <label class="col-sm-3 control-label">{% trans "Short Description" %}</label>
               </div>
               <div class="form-group">
                 {% for lan in language %}
                   {% if lan.proficiency == "advanced" or lan.proficiency == "fluent" or lan.proficiency == "native" %}
-                    <label class="col-sm-2">
-                      In {% trans lan.language.name %}
-                    </label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="add_word_description_short"
+                    <div>
+                      <label class="col-sm-2" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
+                      <div class="col-sm-10">
+                        <textarea class="form-control" id="description_short_{{ lan.language.name }}"
                                 name="desc_short_{{ lan.language.name }}"></textarea>
+                      </div>
+                    </div>
+                    <div class="long-desc long_description_{{ lan.language.name }}">
+                        <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" id="add_word_description_long" name="desc_long"></textarea>
+                        </div>
                     </div>
                   {% endif %}
                 {% endfor %}
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label"
-                       for="add_word_description_short">{% trans "Audio" %}</label>
+                <label class="col-sm-2 control-label">{% trans "Audio" %}</label>
                 <div class="col-sm-10">
                     <input type="file" name="myfile" />
                     {% if uploaded_file_url %}
@@ -74,12 +79,6 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control"
                         id="add_word_ipa" name="ipa"/>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Description" %}</label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="add_word_description_long" name="desc_long"></textarea>
                     </div>
                   </div>
                   <div class="form-group">
@@ -114,6 +113,14 @@
                  <!-- Modal -->
 <script>
 $(document).ready(function(){
+
+    $('[id^=description_short_]').on('click', function () {
+         var my_id = $(this).attr("id");
+         var language = my_id.split("_")[2];
+         var long_description_id = "long_description_" + language;
+         $('.' + long_description_id).slideToggle("fast");
+    });
+
     $('#tag').selectize({
         maxItems: 4,
 
