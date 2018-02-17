@@ -6,8 +6,8 @@
 
 
   <div class='form-group'>
-    <input type='text' class='form-control' name='username' placeholder='Nuzza' />
-    <input type='password' class='form-control' name='password' placeholder='Passvoadd' />
+    <input type='text' class='form-control' name='username' placeholder="{% trans 'User' %}" />
+    <input type='password' class='form-control' name='password' placeholder="{% trans 'Password' %}" />
     <input type='hidden' name='previous' value='{{ request.path }}' />
   </div>
   <input class='btn' type='submit' value="{% trans 'Login' %}" name='login' />
