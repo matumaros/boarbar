@@ -4,7 +4,7 @@
 
 {% block content %}
 
-
+<div>
     <br>
     <h2>Contribute</h2>
     <p>This is where you can contribute:</p>
@@ -67,12 +67,21 @@
                               <div class="form-group">
                                 <label class="col-sm-2 control-label" for="select_tag">{% trans "Tags" %}</label>
                                 <div class="col-sm-10">
-                                    <select id="select_tag" name="tags">
+                                    {% if user_moderator %}
+                                      <select id="select-moderator" name="tags">
                                         <option disabled selected value> --- </option>
                                         {% for tag in tags %}
                                           <option value="{{ tag.id }}">{% trans tag.name %}</option>
                                         {% endfor %}
-                                    </select>
+                                      </select>
+                                    {% else %}
+                                      <select id="select-no-moderator" name="tags">
+                                        <option disabled selected value> --- </option>
+                                        {% for tag in tags %}
+                                          <option value="{{ tag.id }}">{% trans tag.name %}</option>
+                                        {% endfor %}
+                                      </select>
+                                    {% endif %}
                                 </div>
                               </div>
                               <div class="form-group">
@@ -141,6 +150,13 @@ $(document).ready(function(){
 
          $('.advanced-options').slideToggle("fast");
     });
+    $('#select-moderator').selectize({
+    create: true,
+     maxItems: 4
+});
+    $('#select-no-moderator').selectize({
+    maxItems: 4
+});
 });
 </script>
 

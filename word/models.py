@@ -31,6 +31,7 @@ class Description(models.Model):
 
 
 class WordVersion(models.Model):
+    """A word version is a dialect variant of a same word used by certain populations"""
     name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=150, default='')
     creation_date = models.DateField(auto_now_add=True)

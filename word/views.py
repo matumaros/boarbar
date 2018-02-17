@@ -56,29 +56,27 @@ class SuggestView(TemplateView):
         word = request.POST.get('word')
         tags = request.POST.get('tags')
         ipa = request.POST.get('ipa')
-        language = request.POST.get('language')
+        language_id = request.POST.get('language')
         location = request.POST.get('location')
         description_short = request.POST.get('desc_short')
         description_long = request.POST.get('desc_long')
         synonyms = request.POST.get('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
-        print(version, "#"*20)
+        print(language_id, "#"*20)
 
-        try:
-            version = WordVersion.objects.get(pk=version)
-        except WordVersion.DoesNotExist:
-            version = WordVersion.objects.all()[0]
+        language = WordVersion.objects.get(pk=language_id)
 
         desc = Description.objects.create(
             short=description_short,
             extended=description_long,
-            language=version.language,
+            language=language.language,
         )
         word = Word.objects.create(
             word=word,
             ipa=ipa,
             status='SUG',
-            version=version,
+            version=language,
+            audio=uploaded_file_url,
             submitter=request.user.profile,
             wiktionary_link = wiktionary_link,
         )
