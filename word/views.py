@@ -1,5 +1,5 @@
-
-
+import re
+from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView, ListView
@@ -7,7 +7,7 @@ from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from .models import Word, Description, WordVersion, WordLocation
+from .models import Word, Description, WordVersion, WordLocation, AbstractWord
 from language.models import Language
 
 
@@ -41,6 +41,18 @@ class SuggestView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        uploaded_file_url = None
+        if request.method == "POST" and request.FILES["myfile"]:
+            myfile = request.FILES["myfile"]
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            if filename.endswith(".mp3") or filename.endswith(".wma") or\
+                filename.endswith(".wav") or filename.endswith(".m4a"):
+                    uploaded_file_url = fs.url(filename)
+            else:
+                filename = None
+                uploaded_file_url = fs.url(filename)
+
         word = request.POST.get('word')
         ipa = request.POST.get('ipa')
         version = request.POST.get('version')
