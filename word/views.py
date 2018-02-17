@@ -62,7 +62,6 @@ class SuggestView(TemplateView):
         ipa = request.POST.get('ipa')
         version_id = request.POST.get('version')
         location = request.POST.get('location')
-        #description_long = request.POST.getlist('desc_long')
         synonyms = request.POST.getlist('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
 
@@ -104,8 +103,7 @@ class SuggestView(TemplateView):
         return HttpResponseRedirect(url)
 
     def create_descriptions(self, request):
-        """Function to generate list of description objects for one word
-
+        """Function to generate list of description objects for one word,
         each description object is in a different language and contains both
         short and long description strings
 

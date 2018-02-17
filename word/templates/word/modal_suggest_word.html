@@ -31,7 +31,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">{% trans "Description" %}</label>
+                <label class="col-sm-2 control-label">{% trans "Short Description" %}</label>
               </div>
               <div class="form-group">
                 {% for lan in language %}
@@ -114,17 +114,14 @@
                  <!-- Modal -->
 <script>
 $(document).ready(function(){
-
     $('[id^=description_short_]').on('click', function () {
          var my_id = $(this).attr("id");
          var language = my_id.split("_")[2];
          var long_description_id = "long_description_" + language;
          $('.' + long_description_id).slideToggle("fast");
     });
-
     $('#tag').selectize({
         maxItems: 4,
-
         valueField: 'name',
         labelField: 'name',
         searchField: ['name', 'description'],
@@ -132,7 +129,6 @@ $(document).ready(function(){
         {% for tag in tags %}
              {name: '{%trans tag.name %}', description: '{{ tag.description }}' },
          {% endfor %}
-
         ],
         render: {
             option: function(item, escape) {
@@ -149,7 +145,6 @@ $(document).ready(function(){
         {% endif %}
     });
     $('#synonym').selectize({
-
         maxItems: 4,
         valueField: 'name',
         labelField: 'name',
@@ -158,7 +153,6 @@ $(document).ready(function(){
         {% for synonym in synonyms %}
             {name: '{% trans synonym.word %}', description: '{{ synonym.desc.all.0.short }}' },
         {% endfor %}
-
         ],
         render: {
             option: function(item, escape) {
@@ -175,7 +169,4 @@ $(document).ready(function(){
         {% endif %}
     });
 });
-
-
-
 </script>
