@@ -19,104 +19,9 @@
                  <a href="" class="list-group-item" data-toggle="modal"
                          data-target="#suggest_modal">{% trans "Suggest Word" %}</a>
 
-                 <!-- Modal -->
-                 <div class="modal fade" id="suggest_modal" tabindex="-1" role="dialog" aria-labelledby="suggest_modal_label">
-                   <div class="modal-dialog" role="document">
-                     <div class="modal-content">
-                       <div class="modal-body">
-                           <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
-                              {% csrf_token %}
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label"
-                                          for="add_word_word">{% trans "Word" %}*</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control"
-                                    id="add_word_word" name="word" required />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label"
-                                      for="add_word_version" >{% trans "Word Version" %}</label>
-                                <div class="col-sm-10">
-                                  <select id="add_word_version" name="version" required>
-                                    <option disabled selected value> --- </option>
-                                    {% for ver in version %}
-                                      <option value="{{ ver.id }}">{% trans ver.name %}</option>
-                                    {% endfor %}
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Short Description" %}</label>
-                                <div class="col-sm-10">
-                                  <textarea class="form-control" id="add_word_description_short" name="desc_short"></textarea>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label" for="add_word_description_short">{% trans "Audio" %}</label>
-                                <div class="col-sm-10">
-                                    <input type="file" name="myfile"/>
-                                    {% if uploaded_file_url %}
-                                      <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-                                    {% endif %}
-
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label" for="tag">{% trans "Tags" %}</label>
-                                <div class="col-sm-10">
-                                    <select id="tag" name="tags">
-                                        <option disabled selected value></option>
-                                    </select>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                              <a class="col-sm-2 link">advanced</a>
-                              </div>
-                               <div class="advanced-options">
-                                  <div class="form-group">
-                                    <label class="col-sm-2 control-label"
-                                              for="add_word_ipa">{% trans "IPA" %}</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control"
-                                        id="add_word_ipa" name="ipa"/>
-                                    </div>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Description" %}</label>
-                                    <div class="col-sm-10">
-                                      <textarea class="form-control" id="add_word_description_long" name="desc_long"></textarea>
-                                    </div>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="col-sm-2 control-label"
-                                              for="add_wik_link">{% trans "Wiktionary link" %}</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control"
-                                        id="add_wik_link" name="wiktionary_link"/>
-                                    </div>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="synonym">{% trans "Synonyms" %}</label>
-                                    <div class="col-sm-10">
-                                        <select id="synonym" name="synonyms">
-                                            <option disabled selected value></option>
-                                        </select>
-                                    </div>
-                                  </div>
-                              </div>
-
-                              <div class="form-group">
-                                <div class="col-sm-10">
-                                  <button type="submit" class="btn">{% trans "Suggest" %}</button>
-                                </div>
-                              </div>
-                            </form>
-
-                       </div>
-                     </div>
-                   </div>
-                 </div>
+                     <!-- Modal -->
+                     {% include 'word/modal_suggest_word.html' %}
+                     <!-- Modal -->
 
                  <a href="" class="list-group-item">Random in progress word</a>
               </div>
@@ -129,60 +34,7 @@
 <script>
 $(document).ready(function(){
     $('#suggest_modal').on('click', '.link', function () {
-
          $('.advanced-options').slideToggle("fast");
-    });
-    $('#tag').selectize({
-        maxItems: 4,
-
-        valueField: 'name',
-        labelField: 'name',
-        searchField: ['name', 'description'],
-        options: [
-        {% for tag in tags %}
-             {name: '{%trans tag.name %}', description: '{{ tag.description }}' },
-         {% endfor %}
-
-        ],
-        render: {
-            option: function(item, escape) {
-                var label = item.name || item.description;
-                var caption = item.name ? item.description : null;
-                return '<div>' +
-                    '<span class="label label-default">' + escape(label) + '</span>' +
-                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
-                '</div>';
-            }
-        },
-         {% if user_moderator %}
-            create: true,
-        {% endif %}
-    });
-    $('#synonym').selectize({
-
-        maxItems: 4,
-        valueField: 'name',
-        labelField: 'name',
-        searchField: ['name', 'description'],
-        options: [
-        {% for synonym in synonyms %}
-            {name: '{% trans synonym.word %}', description: '{{ synonym.desc.all.0.short }}' },
-        {% endfor %}
-
-        ],
-        render: {
-            option: function(item, escape) {
-                var label = item.name || item.description;
-                var caption = item.name ? item.description : null;
-                return '<div>' +
-                    '<span class="label label-default">' + escape(label) + '</span>' +
-                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
-                '</div>';
-            }
-        },
-        {% if user_moderator %}
-            create: true,
-        {% endif %}
     });
 });
 </script>
