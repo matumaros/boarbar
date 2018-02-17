@@ -12,23 +12,26 @@ class Sentence(models.Model):
     text = models.TextField()
     creation_date = models.DateField(auto_now_add=True)
 
-    def get(self):
-        def repl(match):
-            try:
-                mod = match.group(1)
-                uid = match.group(2)
-                word = Word.objects.get(id=uid).word
-                if mod == 'c':
-                    word = word.title()
-                return word
-            except TypeError:
-                return match.group(0)
-        return re.sub(r"{{([c]*)(\d)}}", repl, self.text)
-
     def __str__(self):
-        text = self.get()
+        text = self.html
         end = 22
         return text[:end] + ('...' if len(text) > end else '')
+
+    @property
+    def html(self):
+        def repl(match):
+            try:
+                mods = (match.group(1) or '').split(' ')
+                uid = match.group(2)
+                word = Word.objects.get(id=uid).word
+                for mod in mods:
+                    if mod == 'capital':
+                        word = word.title()
+                html = f"""<a class=word href="{{% url 'word:word_view' {uid} %}}">{word}</a>"""
+                return html
+            except TypeError:
+                return match.group(0)
+        return re.sub(r"{{(capital )*word:([0-9]+)}}", repl, self.text)
 
 
 class Translation(models.Model):

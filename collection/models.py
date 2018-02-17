@@ -8,6 +8,7 @@ from simple_history.models import HistoricalRecords
 
 from user.models import Profile
 from word.models import Word
+from sentence.models import Sentence
 
 
 class Collection(models.Model):
@@ -54,3 +55,16 @@ class Collection(models.Model):
             return word
         sub = r'\[(\d+):?([\w ]*)\]'
         return re.sub(sub, repl, self.text)
+
+    @property
+    def html(self):
+        def repl(match):
+            try:
+                uid = match.group(1)
+                sentence = Sentence.objects.get(id=uid).html
+                html = f"""<a class=sentence href="{{% url 'sentence:sentence_view' {uid} %}}">{sentence}</a>"""
+                return html
+            except TypeError:
+                return match.group(0)
+        text = Sentence(text=self.text).html  # convert words to links
+        return re.sub(r"{{sentence:([0-9]+)}}", repl, text, flags=re.MULTILINE)
