@@ -62,23 +62,11 @@ class SuggestView(TemplateView):
         ipa = request.POST.get('ipa')
         version_id = request.POST.get('version')
         location = request.POST.get('location')
-        description_long = request.POST.getlist('desc_long')
+        #description_long = request.POST.getlist('desc_long')
         synonyms = request.POST.getlist('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
 
-        descriptions_list = []
-        for key in request.POST.keys():
-            if "desc_short_" in key:
-                # desc_short_spanish
-                desc_short_string = request.POST.get(key)
-                language_string = key.split("_")[-1]
-                language_obj = Language.objects.get(name=language_string)
-                desc, _ = Description.objects.get_or_create(
-                    short=desc_short_string.strip(),
-                    #extended=mmmmmm?
-                    language=language_obj
-                )
-                descriptions_list.append(desc)
+        desc_list = self.create_descriptions(request)
 
         version_object = WordVersion.objects.get(pk=version_id)
 
@@ -91,7 +79,8 @@ class SuggestView(TemplateView):
             submitter=request.user.profile,
             wiktionary_link = wiktionary_link,
         )
-        for desc in descriptions_list:
+
+        for desc in desc_list:
             word.desc.add(desc)
 
         for tag in tags:
@@ -113,6 +102,46 @@ class SuggestView(TemplateView):
 
         url = reverse_lazy('word:word_view', kwargs={'pk': word.id})
         return HttpResponseRedirect(url)
+
+    def create_descriptions(self, request):
+        """Function to generate list of description objects for one word
+
+        each description object is in a different language and contains both
+        short and long description strings
+
+        {
+            'english': {'desc_short': 'short mouse', 'desc_long': 'long mouse'},
+            'spanish': {'desc_short': 'raton corto', 'desc_long': 'raton largo'}
+        }
+        :param request: original django request
+        :return: list of Description objects
+        """
+        descriptions = dict()
+        for key in request.POST.keys():
+            if "desc_long" in key:
+                desc_long_string = request.POST.get(key)
+                language = key.split("_")[-1]
+                if language not in descriptions:
+                    descriptions[language] = dict()
+                descriptions[language]["desc_long"] = desc_long_string
+
+            if "desc_short_" in key:
+                # desc_short_spanish
+                desc_short_string = request.POST.get(key)
+                language = key.split("_")[-1]
+                if language not in descriptions:
+                    descriptions[language] = dict()
+                descriptions[language]["desc_short"] = desc_short_string
+        desc_list = []
+        for language, language_desc in descriptions.items():
+            language_obj = Language.objects.get(name=language)
+            desc, _ = Description.objects.get_or_create(
+                language=language_obj,
+                short=language_desc["desc_short"],
+                extended=language_desc["desc_long"],
+            )
+            desc_list.append(desc)
+        return desc_list
 
 
 class EditView(UpdateView):

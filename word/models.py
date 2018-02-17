@@ -27,7 +27,7 @@ class Description(models.Model):
                                  on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.short
+        return self.short + ": " + self.extended
 
 
 class WordVersion(models.Model):

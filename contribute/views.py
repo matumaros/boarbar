@@ -35,4 +35,5 @@ class ContribView(TemplateView):
         context["synonyms"] = Word.objects.all()
         context["version"] = WordVersion.objects.all()
         context["language"] = UserLanguage.objects.all()
+        
         return context
