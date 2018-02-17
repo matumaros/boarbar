@@ -27,6 +27,7 @@ class ContribView(TemplateView):
                     user_moderator = True
                     break
             context["user_moderator"] = user_moderator
+            context["language"] = user_languages
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -34,6 +35,6 @@ class ContribView(TemplateView):
         context["tags"] = Tag.objects.all()
         context["synonyms"] = Word.objects.all()
         context["version"] = WordVersion.objects.all()
-        context["language"] = UserLanguage.objects.all()
-        
+        # context["language"] = UserLanguage.objects.all()
+
         return context
