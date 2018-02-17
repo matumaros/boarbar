@@ -54,13 +54,17 @@ class SuggestView(TemplateView):
                 uploaded_file_url = fs.url(filename)
 
         word = request.POST.get('word')
+        tags = request.POST.get('tags')
         ipa = request.POST.get('ipa')
         version = request.POST.get('version')
         location = request.POST.get('location')
         description_short = request.POST.get('desc_short')
         description_long = request.POST.get('desc_long')
-
-        version = WordVersion.objects.get(pk=version)
+        print(tags, "#"*20)
+        try:
+            version = WordVersion.objects.get(pk=version)
+        except WordVersion.DoesNotExist:
+            version = WordVersion.objects.all()[0]
 
         desc = Description.objects.create(
             short=description_short,
@@ -74,6 +78,8 @@ class SuggestView(TemplateView):
             version=version,
             submitter=request.user.profile,
         )
+        if tags:
+            word.tags.add(tags)
         word.desc.add(desc)
         if location:
             location = WordLocation.objects.create(
