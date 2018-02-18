@@ -12,12 +12,12 @@
               {% csrf_token %}
               <div class="form-group">
                 <label class="col-sm-2 control-label"
-                      for="add_word_version" >{% trans "Word Version" %}</label>
+                      for="user_languages" >{% trans "Language variant" %}</label>
                 <div class="col-sm-4">
-                  <select id="add_word_version" class="form-control" name="version" required>
+                  <select id="user_languages" class="form-control" name="language" required>
                     <option disabled selected value> --- </option>
-                    {% for ver in version %}
-                      <option value="{{ ver.id }}">{% trans ver.name %}</option>
+                    {% for lan in language %}
+                      <option value="{{ lan.language.default_variant }}">{% trans lan.language.default_variant %}</option>
                     {% endfor %}
                   </select>
                 </div>

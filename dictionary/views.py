@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 
 from language.models import Language
 from user.models import Profile, UserLanguage
-from word.models import Word, Tag, WordVersion
+from word.models import Word, Tag
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +53,6 @@ class DictView(TemplateView):
         })
         context["tags"] = Tag.objects.all()
         context["synonyms"] = Word.objects.all()
-        context["version"] = WordVersion.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):

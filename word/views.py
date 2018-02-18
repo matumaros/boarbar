@@ -32,6 +32,12 @@ class WordView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 class SuggestView(TemplateView):
+    """
+    User story:
+      Word: Kusko
+      WordVersion: Quechua Ayacuchano where the word they use is Kusko
+      Language: Quechua
+    """
     template_name = 'word/suggest.html'
     http_method_names = ['get', 'post']
 
@@ -56,24 +62,30 @@ class SuggestView(TemplateView):
             else:
                 filename = None
                 uploaded_file_url = fs.url(filename)
-
+        print("=======request POST", request.POST)
         word = request.POST.get('word')
         tags = request.POST.getlist('tags')
         ipa = request.POST.get('ipa')
-        version_id = request.POST.get('version')
+        default_variant_str = request.POST.get('language')
         location = request.POST.get('location')
         synonyms = request.POST.getlist('synonyms')
         wiktionary_link = request.POST.get('wiktionary_link')
 
         desc_list = self.create_descriptions(request)
 
-        version_object = WordVersion.objects.get(pk=version_id)
+        language_object = Language.objects.get(default_variant=default_variant_str)
 
+        # TODO: so far all word versions of a language can be associated with
+        # TODO: only one variant (the language's own default variant)
+        word_version = WordVersion.objects.filter(language=language_object)[0]
+
+        print("language object ===============", language_object, language_object.default_variant)
+        print("word_version", word_version)
         word = Word.objects.create(
             word=word,
             ipa=ipa,
             status='SUG',
-            version=version_object,
+            version=word_version,
             audio=uploaded_file_url,
             submitter=request.user.profile,
             wiktionary_link = wiktionary_link,

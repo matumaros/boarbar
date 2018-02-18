@@ -4,7 +4,7 @@ import logging
 from django.views.generic import TemplateView
 
 from user.models import Profile, UserLanguage
-from word.models import Tag, Word, WordVersion
+from word.models import Tag, Word
 
 logger = logging.getLogger(__name__)
 
@@ -34,5 +34,4 @@ class ContribView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all()
         context["synonyms"] = Word.objects.all()
-        context["version"] = WordVersion.objects.all()
         return context
