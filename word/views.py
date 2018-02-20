@@ -62,7 +62,7 @@ class SuggestView(TemplateView):
             else:
                 filename = None
                 uploaded_file_url = fs.url(filename)
-        print("=======request POST", request.POST)
+
         word = request.POST.get('word')
         tags = request.POST.getlist('tags')
         ipa = request.POST.get('ipa')
@@ -79,8 +79,6 @@ class SuggestView(TemplateView):
         # TODO: only one variant (the language's own default variant)
         word_version = WordVersion.objects.filter(language=language_object)[0]
 
-        print("language object ===============", language_object, language_object.default_variant)
-        print("word_version", word_version)
         word = Word.objects.create(
             word=word,
             ipa=ipa,
