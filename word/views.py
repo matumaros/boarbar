@@ -69,7 +69,7 @@ class SuggestView(TemplateView):
         default_variant_str = request.POST.get('language')
         location = request.POST.get('location')
         synonyms = request.POST.getlist('synonyms')
-        wiktionary_link = request.POST.get('wiktionary_link')
+        #wiktionary_link = request.POST.get('wiktionary_link')
 
         desc_list = self.create_descriptions(request)
 
@@ -86,7 +86,7 @@ class SuggestView(TemplateView):
             version=word_version,
             audio=uploaded_file_url,
             submitter=request.user.profile,
-            wiktionary_link = wiktionary_link,
+            #wiktionary_link = wiktionary_link,
         )
 
         for desc in desc_list:
