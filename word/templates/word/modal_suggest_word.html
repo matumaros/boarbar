@@ -15,13 +15,13 @@
                       for="user_languages" >{% trans "Language variant" %}</label>
                 <div class="col-sm-4">
                   <select id="user_languages" class="form-control" name="language" required>
-                    <option disabled selected value> --- </option>
-                    {% for lan in language %}
+                    {% for lan in user_languages %}
                       <option value="{{ lan.language.default_variant }}">{% trans lan.language.default_variant %}</option>
                     {% endfor %}
                   </select>
                 </div>
               </div>
+
               <div class="form-group">
                 <label class="col-sm-2 control-label"
                           for="add_word_word">{% trans "Word" %}*</label>
@@ -42,7 +42,7 @@
                 <label class="col-sm-3 control-label">{% trans "Short Description" %}</label>
               </div>
               <div class="form-group">
-                {% for lan in language %}
+                {% for lan in user_languages %}
                   {% if lan.proficiency == "advanced" or lan.proficiency == "fluent" or lan.proficiency == "native" %}
                     <div>
                       <label class="col-sm-2" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
@@ -113,6 +113,7 @@
                  <!-- Modal -->
 <script>
 $(document).ready(function(){
+    $("option[value='{{ default_variant }}']").attr('selected', 'true');
     $('[id^=description_short_]').on('click', function () {
          var my_id = $(this).attr("id");
          var language = my_id.split("_")[2];

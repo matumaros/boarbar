@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 from language.models import Language
 from user.models import Profile, UserLanguage
 from word.models import Word, Tag
+from contribute.views import get_highest_language_proficiency
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +32,11 @@ class DictView(TemplateView):
                     user_moderator = True
                     break
             context["user_moderator"] = user_moderator
-            context["language"] = user_languages
+            context["user_languages"] = user_languages
+
+            default_variant = get_highest_language_proficiency(user_languages)
+            context["default_variant"] = default_variant
+
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
