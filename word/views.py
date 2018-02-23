@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from .models import Word, Description, WordVersion, WordLocation, Tag
+from .forms import WordForm
 from language.models import Language
 
 
@@ -50,18 +51,18 @@ class SuggestView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        uploaded_file_url = None
-        if request.method == "POST" and "myfile" in request.FILES:
-            myfile = request.FILES["myfile"]
-            fs = FileSystemStorage()
-            filename = fs.save(myfile.name, myfile)
-            r1, r2, r3, r4 = re.compile(r"\.mp3$"), re.compile(r"\.wma$"), \
-                             re.compile(r"\.wav$"), re.compile(r"\.m4a$")
-            if r1.search(filename) or r2.search(filename) or r3.search(filename) or r4.search(filename):
-                uploaded_file_url = fs.url(filename)
+        word_obj = None
+        if request.method == "POST" and "file" in request.FILES:
+            form = WordForm(request.POST, request.FILES)
+            if form.is_valid():
+                print("$"*10, "form is valid")
+                # myfile = request.FILES["myfile"]
+                word_obj = form.save(commit=False)
+                word_obj.submitter = request.user.profile
+                word_obj.audio = request.FILES["file"]
+                word_obj.save()
             else:
-                filename = None
-                uploaded_file_url = fs.url(filename)
+                print("$" * 10, form.errors)
 
         word = request.POST.get('word')
         tags = request.POST.getlist('tags')
@@ -79,37 +80,44 @@ class SuggestView(TemplateView):
         # TODO: only one variant (the language's own default variant)
         word_version = WordVersion.objects.filter(language=language_object)[0]
 
-        word = Word.objects.create(
-            word=word,
-            ipa=ipa,
-            status='SUG',
-            version=word_version,
-            audio=uploaded_file_url,
-            submitter=request.user.profile,
-            #wiktionary_link = wiktionary_link,
-        )
+        if word_obj:
+            word_obj.word=word
+            word_obj.ipa=ipa
+            word_obj.status='SUG'
+            word_obj.version=word_version
+            word_obj.save()
+                #wiktionary_link = wiktionary_link
+        else:
+            word_obj = Word.objects.create(
+                word=word,
+                ipa=ipa,
+                status='SUG',
+                version=word_version,
+                submitter=request.user.profile,
+                #wiktionary_link = wiktionary_link,
+            )
 
         for desc in desc_list:
-            word.desc.add(desc)
+            word_obj.desc.add(desc)
 
         for tag in tags:
             tag_object, _ = Tag.objects.get_or_create(name=tag.lower())
-            word.tags.add(tag_object)
+            word_obj.tags.add(tag_object)
 
         for syn in synonyms:
             syn_object, _ = Word.objects.get_or_create(
                 submitter=request.user.profile,
                 word=syn.lower(),
             )
-            word.synonyms.add(syn_object)
+            word_obj.synonyms.add(syn_object)
         if location:
             location = WordLocation.objects.create(
-                word=word,
+                word=word_obj,
                 place=location,
                 submitter=request.user.profile,
             )
 
-        url = reverse_lazy('word:word_view', kwargs={'pk': word.id})
+        url = reverse_lazy('word:word_view', kwargs={'pk': word_obj.id})
         return HttpResponseRedirect(url)
 
     def create_descriptions(self, request):

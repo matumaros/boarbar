@@ -6,6 +6,7 @@ from simple_history.models import HistoricalRecords
 
 from language.models import Language
 from user.models import Profile
+from word.validators import FileValidator
 
 
 def audio_path(instance, filename):
@@ -45,6 +46,8 @@ class WordVersion(models.Model):
     def __str__(self):
         return self.name
 
+def my_file_validator(value):
+    print("W"*10, value)
 
 class AbstractWord(models.Model):
     WORD_STATUS = (
@@ -61,7 +64,12 @@ class AbstractWord(models.Model):
     desc = models.ManyToManyField(Description, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     creation_date = models.DateField(auto_now_add=True)
-    audio = models.FileField(upload_to=audio_path, blank=True, null=True)
+    # TODO: file upload validator is not running. needs fixing
+    audio = models.FileField(
+        validators=[FileValidator(max_size=24 * 1024 * 1024)],
+        upload_to="audio/%Y/%m/%d",
+        blank=True,
+        null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
     version = models.ForeignKey(WordVersion, related_name='words',
                                 on_delete=models.SET_NULL, null=True)

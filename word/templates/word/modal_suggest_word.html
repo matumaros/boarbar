@@ -71,7 +71,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">{% trans "Audio" %}</label>
                 <div class="col-sm-10">
-                    <input type="file" name="myfile" />
+                    <input type="file" name="file" accept="audio/*"/>
                     {% if uploaded_file_url %}
                       <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
                     {% endif %}
