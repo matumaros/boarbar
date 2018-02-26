@@ -43,22 +43,22 @@
               <div class="form-group">
                 {% for lan in user_languages %}
                   {% if lan.proficiency == "advanced" or lan.proficiency == "fluent" or lan.proficiency == "native" %}
-                    <div class="descriptions">
-                        <div>
-                          <label class="col-sm-2" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
-                          <div class="col-sm-10">
-                            <textarea class="form-control" id="description_short_{{ lan.language.name }}"
-                                    name="desc_short_{{ lan.language.name }}"></textarea>
-                          </div>
-                        </div>
-                        <div class="long-desc long_description_{{ lan.language.name }}">
-                            <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
-                            <div class="col-sm-10">
-                              <textarea class="form-control" id="add_word_description_long"
-                                        name="desc_long_{{ lan.language.name }}"></textarea>
-                            </div>
+
+                    <div>
+                      <label class="col-sm-2" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
+                      <div class="col-sm-10">
+                        <textarea class="form-control" id="description_short_{{ lan.language.name }}"
+                                name="desc_short_{{ lan.language.name }}"></textarea>
+                      </div>
+                    </div>
+                    <div class="long-desc long_description_{{ lan.language.name }}">
+                        <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" id="add_word_description_long"
+                                    name="desc_long_{{ lan.language.name }}"></textarea>
                         </div>
                     </div>
+
                   {% endif %}
                 {% endfor %}
               </div>
@@ -129,7 +129,6 @@ $(document).ready(function(){
         });
     });
     $("option[value='{{ default_variant }}']").attr('selected', 'true');
-
     $('[id^=description_short_]').on('click', function () {
          var my_id = $(this).attr("id");
          var language = my_id.split("_")[2];
@@ -138,13 +137,7 @@ $(document).ready(function(){
          $('.' + long_description_id).focusout(function() {
              $('.' + long_description_id).hide();
          });
-
     });
-
-
-
-
-
     $('#tag').selectize({
         maxItems: 4,
         valueField: 'name',
