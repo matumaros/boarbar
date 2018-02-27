@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 
 from share.views import NotExisting, Logout
+from user.views import signup
 
 
 urlpatterns = [
@@ -31,6 +32,9 @@ urlpatterns = [
     url(r'^home/', include('home.urls', namespace='home')),
     url(r'^user/', include('user.urls', namespace='user')),
     url(r'^admin/', admin.site.urls),
+
+    url(r'^signup/$', signup, name="signup"),
+
     url(r'^login/$',
         auth_views.login,
         {'template_name': 'share/login_failure.html',
