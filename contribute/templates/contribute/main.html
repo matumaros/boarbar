@@ -1,8 +1,10 @@
 {% extends 'share/base_site.html' %}
+
 {% load i18n %}
 
 {% block content %}
-<div class="container">
+
+<div>
     <br>
     <h2>Contribute</h2>
     <p>This is where you can contribute:</p>
@@ -12,15 +14,29 @@
         <div class="row">
           <div class="col-md-5">
              <div class="list-group">
-                  <a href="{% url 'word:suggest_view' %}" class="list-group-item">{% trans "Suggest Word" %}</a>
-                  {# <button type="button" class="btn" data-toggle="modal" data-target="#add_word">{% trans "Suggest Word" %}</button> #}
-                  <a href="" class="list-group-item">Random in progress word</a>
 
+                 <!-- Button trigger modal -->
+                 <a href="" class="list-group-item" data-toggle="modal"
+                         data-target="#suggest_modal">{% trans "Suggest Word" %}</a>
+
+                     <!-- Modal -->
+                     {% include 'word/modal_suggest_word.html' %}
+                     <!-- Modal -->
+
+                 <a href="" class="list-group-item">Random in progress word</a>
               </div>
           </div>
         </div>
       {% endif %}
 
 </div>
+
+<script>
+$(document).ready(function(){
+    $('#suggest_modal').on('click', '.link', function () {
+         $('.advanced-options').slideToggle("fast");
+    });
+});
+</script>
 
 {% endblock %}

@@ -6,6 +6,7 @@ from simple_history.models import HistoricalRecords
 
 from language.models import Language
 from user.models import Profile
+from word.validators import FileValidator
 
 
 def audio_path(instance, filename):
@@ -27,10 +28,15 @@ class Description(models.Model):
                                  on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.short
+        return f"{self.short}: {self.extended}"
 
 
 class WordVersion(models.Model):
+    """A word version is the orthography version that is used for a word and
+    also different writing systems. For example Russian can be written in
+    Cyrillic and it can also be written in Latin script. Cyrillic can be the
+    primary WordVersion of Russian and Latin would be a secondary WordVersion. """
+
     name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=150, default='')
     creation_date = models.DateField(auto_now_add=True)
@@ -40,6 +46,8 @@ class WordVersion(models.Model):
     def __str__(self):
         return self.name
 
+def my_file_validator(value):
+    print("W"*10, value)
 
 class AbstractWord(models.Model):
     WORD_STATUS = (
@@ -56,7 +64,12 @@ class AbstractWord(models.Model):
     desc = models.ManyToManyField(Description, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     creation_date = models.DateField(auto_now_add=True)
-    audio = models.FileField(upload_to=audio_path, blank=True, null=True)
+    # TODO: file upload validator is not running. needs fixing
+    audio = models.FileField(
+        validators=[FileValidator(max_size=24 * 1024 * 1024)],
+        upload_to="audio/%Y/%m/%d",
+        blank=True,
+        null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS)
     version = models.ForeignKey(WordVersion, related_name='words',
                                 on_delete=models.SET_NULL, null=True)
