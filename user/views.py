@@ -10,6 +10,7 @@ from django.utils.encoding import force_bytes, force_text
 
 from user.tokens import account_activation_token
 from user.forms import SignUpForm
+from user.notify_user import notify_user
 
 from user.models import UserLanguage, Profile
 
@@ -24,28 +25,28 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
             user.is_active = False
             user.save()
 
             subject = 'Activate Your Servare Account'
             message = render_to_string(
                 'user/account_activation_email.html',
-                context={
+                {
                     'user': user,
                     'domain': "servare.org",
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     'token': account_activation_token.make_token(user),
                 })
-            user.email_user(subject, message, from_email="malaria@manolo.rocks")
+            notify_user(to_email=user.email, message=message, subject=subject)
 
-            language = form.cleaned_data.get("language")
+            """language = form.cleaned_data.get("language")
             place = form.cleaned_data.get("place")
             proficiency = form.cleaned_data.get("proficiency")
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
+
             django_user = authenticate(username=username, password=raw_password)
-            print(django_user, username, raw_password, "$$$$$$$$$")
             user_profile = Profile.objects.create(
                 user=django_user,
                 place=place,
@@ -54,12 +55,16 @@ def signup(request):
                 user=user_profile,
                 language=language,
                 proficiency=proficiency,
-            )
+            )"""
             return redirect('account_activation_sent')
     else:
         form = SignUpForm()
 
     return render(request, 'user/signup.html', {'form':form})
+
+
+def account_activation_sent(request):
+    return render(request, 'user/account_activation_sent.html')
 
 
 def activate(request, uidb64, token):
@@ -77,7 +82,7 @@ def activate(request, uidb64, token):
         user_profile.email_confirmed = True
         user_profile.save()
         login(request, user)
-        return redirect('home')
+        return redirect('/')
     else:
         return render(request, 'user/account_activation_invalid.html')
 

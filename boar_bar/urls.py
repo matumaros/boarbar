@@ -21,7 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 
 from share.views import NotExisting, Logout
-from user.views import signup, activate
+from user.views import signup, activate, account_activation_sent
 
 
 urlpatterns = [
@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # registration views
+    url(r'^account_activation_sent/$', account_activation_sent, name='account_activation_sent'),
     url(r'^signup/$', signup, name="signup"),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         activate, name='activate'),
