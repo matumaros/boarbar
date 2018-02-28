@@ -192,3 +192,4 @@ EMAIL_HOST_USER = 'server@boar.bar'
 EMAIL_HOST_PASSWORD = '<password>'
 SERVER_EMAIL = 'server@boar.bar'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

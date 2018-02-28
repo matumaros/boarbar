@@ -8,9 +8,11 @@ class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
     last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-    language = forms.ModelChoiceField(queryset=Language.objects.all())
+    language = forms.ModelChoiceField(queryset=Language.objects.all(),
+                                      widget=forms.Select(attrs={'class': 'form-control'}))
     place = forms.CharField(max_length=100)
-    proficiency = forms.ChoiceField(choices=UserLanguage.PROF)
+    proficiency = forms.ChoiceField(choices=UserLanguage.PROF,
+                                    widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
