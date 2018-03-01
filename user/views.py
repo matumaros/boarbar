@@ -12,7 +12,7 @@ from django.utils.encoding import force_bytes, force_text
 from user.tokens import account_activation_token
 from user.forms import SignUpForm
 from user.notify_user import notify_user
-from user.models import UserLanguage, Profile
+from user.models import UserLanguage, Profile, Language
 
 log = logging.getLogger(__name__)
 
@@ -34,6 +34,7 @@ def signup(request):
             user.save()
 
             place = form.cleaned_data.get("place")
+            language = form.cleaned_data.get("language")
             print(place)
 
             subject = 'Activate Your Servare Account'
@@ -43,6 +44,7 @@ def signup(request):
                 {
                     'user': user,
                     'place': place,
+                    'language': language,
                     'domain': "servare.org",
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     'token': account_activation_token.make_token(user),
@@ -78,7 +80,7 @@ def account_activation_sent(request):
     return render(request, 'user/account_activation_sent.html')
 
 
-def activate(request, uidb64, token, place):
+def activate(request, uidb64, token, place, language):
     try:
         user_id = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=user_id)
@@ -89,19 +91,17 @@ def activate(request, uidb64, token, place):
         user.is_active = True
         user.save()
 
-        print(user)
-
-        user_profile, _ = Profile.objects.get_or_create(
+        user_profile = Profile.objects.create(
             user=user,
             place=place,
             email_confirmed=True,
         )
-        print(user_profile)
-        #user_language = UserLanguage.objects.create(
-        #   user=user_profile,
-            # language=language,
+        language_object = Language.objects.get(name=language)
+        user_language = UserLanguage.objects.create(
+            user=user_profile,
+            language=language_object,
             # proficiency=proficiency,
-        #)
+        )
 
         login(request, user)
         return redirect('/')
