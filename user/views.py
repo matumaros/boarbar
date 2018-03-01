@@ -35,6 +35,7 @@ def signup(request):
 
             place = form.cleaned_data.get("place")
             language = form.cleaned_data.get("language")
+            proficiency = form.cleaned_data.get("proficiency")
             print(place)
 
             subject = 'Activate Your Servare Account'
@@ -45,6 +46,7 @@ def signup(request):
                     'user': user,
                     'place': place,
                     'language': language,
+                    'proficiency': proficiency,
                     'domain': "servare.org",
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     'token': account_activation_token.make_token(user),
@@ -80,7 +82,7 @@ def account_activation_sent(request):
     return render(request, 'user/account_activation_sent.html')
 
 
-def activate(request, uidb64, token, place, language):
+def activate(request, uidb64, token, place, language, proficiency):
     try:
         user_id = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=user_id)
@@ -100,7 +102,7 @@ def activate(request, uidb64, token, place, language):
         user_language = UserLanguage.objects.create(
             user=user_profile,
             language=language_object,
-            # proficiency=proficiency,
+            proficiency=proficiency,
         )
 
         login(request, user)
