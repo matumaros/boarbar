@@ -1,3 +1,4 @@
+import logging
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -11,8 +12,9 @@ from django.utils.encoding import force_bytes, force_text
 from user.tokens import account_activation_token
 from user.forms import SignUpForm
 from user.notify_user import notify_user
-
 from user.models import UserLanguage, Profile
+
+log = logging.getLogger(__name__)
 
 
 class ProfileView(DetailView):
@@ -22,18 +24,25 @@ class ProfileView(DetailView):
 
 
 def signup(request):
+    print("Condorito2", request.POST)
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
+            print("form is valid")
             user = form.save(commit=False)
             user.is_active = False
             user.save()
 
+            place = form.cleaned_data.get("place")
+            print(place)
+
             subject = 'Activate Your Servare Account'
+
             message = render_to_string(
                 'user/account_activation_email.html',
                 {
                     'user': user,
+                    'place': place,
                     'domain': "servare.org",
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     'token': account_activation_token.make_token(user),
@@ -57,6 +66,8 @@ def signup(request):
                 proficiency=proficiency,
             )"""
             return redirect('account_activation_sent')
+        print("form is invalid")
+        print(form.errors)
     else:
         form = SignUpForm()
 
@@ -67,7 +78,7 @@ def account_activation_sent(request):
     return render(request, 'user/account_activation_sent.html')
 
 
-def activate(request, uidb64, token):
+def activate(request, uidb64, token, place):
     try:
         user_id = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=user_id)
@@ -78,9 +89,20 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
 
-        user_profile = Profile.objects.get(user=user)
-        user_profile.email_confirmed = True
-        user_profile.save()
+        print(user)
+
+        user_profile, _ = Profile.objects.get_or_create(
+            user=user,
+            place=place,
+            email_confirmed=True,
+        )
+        print(user_profile)
+        #user_language = UserLanguage.objects.create(
+        #   user=user_profile,
+            # language=language,
+            # proficiency=proficiency,
+        #)
+
         login(request, user)
         return redirect('/')
     else:
