@@ -24,28 +24,24 @@ class ProfileView(DetailView):
 
 
 def signup(request):
-    print("Condorito2", request.POST)
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            print("form is valid")
             user = form.save(commit=False)
             user.is_active = False
             user.save()
 
             place = form.cleaned_data.get("place")
             language = form.cleaned_data.get("language")
+            print("LANGUAGE ", language.name, type(language.name))
             proficiency = form.cleaned_data.get("proficiency")
-            print(place)
-
             subject = 'Activate Your Servare Account'
-
             message = render_to_string(
                 'user/account_activation_email.html',
                 {
                     'user': user,
                     'place': place,
-                    'language': language,
+                    'language': language.name,
                     'proficiency': proficiency,
                     'domain': "servare.org",
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
@@ -53,25 +49,7 @@ def signup(request):
                 })
             notify_user(to_email=user.email, message=message, subject=subject)
 
-            """language = form.cleaned_data.get("language")
-            place = form.cleaned_data.get("place")
-            proficiency = form.cleaned_data.get("proficiency")
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-
-            django_user = authenticate(username=username, password=raw_password)
-            user_profile = Profile.objects.create(
-                user=django_user,
-                place=place,
-            )
-            user_language = UserLanguage.objects.create(
-                user=user_profile,
-                language=language,
-                proficiency=proficiency,
-            )"""
             return redirect('account_activation_sent')
-        print("form is invalid")
-        print(form.errors)
     else:
         form = SignUpForm()
 

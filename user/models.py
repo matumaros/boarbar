@@ -29,12 +29,6 @@ class Profile(models.Model):
         ).count()
         return used >= self.max_suggest_words_per_day
 
-#@receiver(post_save, sender=User)
-#def update_user_profile(sender, instance, created, **kwargs):
-    #if created:
-        #Profile.objects.create(user=instance)
-    #instance.profile.save()
-
 
 class UserLanguage(models.Model):
     PROF = (
