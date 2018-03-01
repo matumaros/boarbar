@@ -38,7 +38,7 @@ urlpatterns = [
     url(r'^signup/$', signup, name="signup"),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/'
         '(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/'
-        '(?P<place>[0-9A-Za-z_\-]+)/'
+        '(?P<place>\S+)/'
         '(?P<proficiency>[0-9A-Za-z_\-]+)/'
         '(?P<language>[0-9ñA-Za-z_]+)$',
         activate, name='activate'),

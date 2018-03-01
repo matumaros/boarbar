@@ -33,7 +33,6 @@ def signup(request):
 
             place = form.cleaned_data.get("place")
             language = form.cleaned_data.get("language")
-            print("LANGUAGE ", language.name, type(language.name))
             proficiency = form.cleaned_data.get("proficiency")
             subject = 'Activate Your Servare Account'
             message = render_to_string(
