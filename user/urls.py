@@ -30,5 +30,4 @@ urlpatterns = [
     url(r'^profile/(?P<pk>\d*)/?',
         views.ProfileView.as_view(),
         name='profile_view'),
-
 ]
