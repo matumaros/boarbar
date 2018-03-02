@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from language.models import Language
 
@@ -15,6 +17,7 @@ class Profile(models.Model):
     reputation = models.IntegerField(default=0)
     place = models.CharField(max_length=150)
     max_suggest_words_per_day = models.IntegerField(default=10)
+    email_confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -25,6 +28,7 @@ class Profile(models.Model):
             creation_date__gte=datetime.now()-timedelta(days=1)
         ).count()
         return used >= self.max_suggest_words_per_day
+
 
 class UserLanguage(models.Model):
     PROF = (

@@ -10,5 +10,13 @@
     <input type='password' class='form-control' name='password' placeholder="{% trans 'Password' %}" />
     <input type='hidden' name='previous' value='{{ request.path }}' />
   </div>
-  <input class='btn' type='submit' value="{% trans 'Login' %}" name='login' />
+  <div class="row">
+    <div class="col-xs-6">
+      <input class='btn' type='submit' value="{% trans 'Login' %}" name='login' />
+    </div>
+    <div class="col-xs-6">
+      <button class ='btn signup-button'><a id="signup-link" style="text-decoration:none"
+                                            href="/signup/">Sign up</a></button>
+    </div>
+  </div>
 </form>
