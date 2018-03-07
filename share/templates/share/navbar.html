@@ -48,7 +48,8 @@
       </ul>
       <ul class="nav navbar-nav login-button">
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" style="padding-left: 20px;
+            padding-right: 129px;">
             {% if request.user.is_authenticated %}
               <span class="glyphicon glyphicon-user"></span> {{ request.user.username }}
               {% if request.user.profile.has_used_suggested_words_limit %}
