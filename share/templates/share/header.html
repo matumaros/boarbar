@@ -24,9 +24,20 @@
     })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 <style>
+
+
+/* On big screens, the highlighting of the side buttons is full width without*/
+/* loosing the padding for the phone screen size */
+@media (min-width: 768px) {
   .login-button {
     width:202px;
   }
+  .container-fluid {
+     padding-right:0;
+     padding-left:0;
+  }
+}
+
  #signup-link{
     color:black;
   }
@@ -73,13 +84,8 @@
     margin-bottom: 0;
     border-radius: 0;
   }
-  .navbar-default {
-   padding-left-0px;
-  }
-  .container-fluid {
-     padding-right:0;
-     padding-left:0;
-  }
+
+
   .navbar-default .navbar-nav > .active > a, 
   .navbar-default .navbar-nav > .active > a:hover, 
   .navbar-default .navbar-nav > .active > a:focus {
@@ -175,6 +181,8 @@
   .popover {
     min-width: 150px;
   }
+
+
 
 
 </style>
