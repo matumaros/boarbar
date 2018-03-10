@@ -44,7 +44,7 @@ $(document).ready(function(){
     $("#add_word_word").attr("value",word);
     var translate_word = $.trim($("tbody>tr>td:nth-child(2)>table>tbody>tr>td>a").text());
     $("<div class='item translate_word'></div>")
-        .appendTo(".synonym .selectize-control .selectize-input");
+        .insertBefore(".synonym .selectize-control .selectize-input>input")
     $(".translate_word").attr('data-value', translate_word).text(translate_word);
 
 
