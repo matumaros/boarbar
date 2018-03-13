@@ -3,7 +3,7 @@
 <form role="form" action="{% url 'dictionary:dict_view' %}" method="post">
   {% csrf_token %}
   <div class="form-group row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <select class="form-control" name="sourcelang" id="sel_sourcelang">
         {% for lang in languages %}
           <option value="{{ lang.name }}"{% if lang.name == sourcelang %} selected="selected"{% endif %}>{% trans lang.name %}</option>
@@ -11,11 +11,11 @@
       </select>
     </div>
     <div class="col-sm-2">
-      <a class = "btn btn-link" onclick="swap_languages()">
+      <a class="btn btn-link" onclick="swap_languages()">
         <span class="glyphicon glyphicon-transfer"></span>
       </a>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <select class="form-control" name="targetlang" id="sel_targetlang">
         {% for lang in languages %}
           <option value="{{ lang.name }}"{% if lang.name == targetlang %} selected="selected"{% endif %}>{% trans lang.name %}</option>
@@ -24,13 +24,14 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-6">
-      <input type="text" class="txt" name="word" value="{{ word }}">
+  <div class="form-group row">
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="word" value="{{ word }}">
     </div>
     <div class="col-sm-2">
       <button type="submit" class="btn btn-primary" id="search_submit">{% trans "Search" %}</button>
     </div>
+  </div>
 </form>
 
 <script type="text/javascript">

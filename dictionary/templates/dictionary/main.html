@@ -9,7 +9,7 @@
           <a class="list-group-item" href="{% url 'word:word_list_view' %}">{% trans "to the word list" %}</a>
         </div>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-6">
         <div class="row">
           <div class="col-md-12">
             {% include "dictionary/search.html" %}
@@ -21,15 +21,21 @@
           {% endif %}
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-sm-5">
             {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
               <!-- Button trigger modal -->
-              <a href="" data-toggle="modal"
+              <a href="" class="dictionary-button" data-toggle="modal"
                          data-target="#suggest_modal">{% trans "Suggest Word" %}</a>
                      <!-- Modal -->
                      {% include 'word/modal_suggest_word.html' %}
                      <!-- Modal -->
             {% endif %}
+          </div>
+          <div class="col-sm-5 translation translation-spot">
+            {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
+              <a class="dictionary-button" href="{% url 'word:suggest_view' %}" id="suggest_translation">{% trans "Add Translation" %}</a>
+            {% endif %}
+
           </div>
         </div>
       </div>
@@ -57,6 +63,7 @@ $(document).ready(function(){
         var sel_text = $(this).text();
         $(this).parents('.input-group').find('.txt').val(sel_text);
     });
+
 });
 </script>
 {% endblock %}

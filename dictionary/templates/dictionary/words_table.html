@@ -1,7 +1,7 @@
 {% load i18n %}
 <div class="row">
-  <div class="col-md-12">
-    <table class="table table-striped">
+  <div class="col-sm-10">
+    <table class="table table-bordered">
       {% for word in words %}
         <tr>
           <td>
@@ -10,19 +10,15 @@
             </a>
           </td>
           <td>
-            <table class="table table-striped">
               {% for synonym in word.synonyms.all %}
               {% if synonym.version.language.name == targetlang %}
-                <tr><td>
                   <a class="{% if synonym.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' synonym.id %}">
                     {{ synonym.word }}
                   </a>
-                </td></tr>
               {% endif %}
               {% endfor %}
-            </table>
             {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
-              <a class="button" href="{% url 'word:suggest_view' %}" id="suggest_translation">{% trans "Add Translation" %}</a>
+              <a class="button btn" href="{% url 'word:suggest_view' %}" id="suggest_translation">{% trans "Add Translation" %}</a>
             {% endif %}
           </td>
         </tr>
@@ -30,3 +26,5 @@
     </table>
   </div>
 </div>
+
+
