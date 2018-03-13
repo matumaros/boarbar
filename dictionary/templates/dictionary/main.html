@@ -3,11 +3,13 @@
 
 {% block content %}
   <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <a class="btn" href="{% url 'word:word_list_view' %}">{% trans "to the word list" %}</a>
+    <div class="row dictionary">
+      <div class="col-md-3">
+        <div class="list-group">
+          <a class="list-group-item" href="{% url 'word:word_list_view' %}">{% trans "to the word list" %}</a>
+        </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-9">
         <div class="row">
           <div class="col-md-12">
             {% include "dictionary/search.html" %}
