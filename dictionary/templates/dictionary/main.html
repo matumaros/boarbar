@@ -31,12 +31,6 @@
                      <!-- Modal -->
             {% endif %}
           </div>
-          <div class="col-sm-5 translation translation-spot">
-            {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
-              <a class="dictionary-button" href="{% url 'word:suggest_view' %}" id="suggest_translation">{% trans "Add Translation" %}</a>
-            {% endif %}
-
-          </div>
         </div>
       </div>
     </div>
@@ -50,10 +44,10 @@ $(document).ready(function(){
     // pre-filled word and synonym with words from translation
     var word = $.trim($("tbody>tr>td:first>a").text());
     $("#add_word_word").attr("value",word);
-    var translate_word = $.trim($("tbody>tr>td:nth-child(2)>table>tbody>tr>td>a").text());
-    $("<div class='item translate_word'></div>")
+    var translate_word = $.trim($("tbody>tr>td:nth-child(2)").text());
+    $("<div class='item'></div>")
         .insertBefore(".synonym .selectize-control .selectize-input>input")
-    $(".translate_word").attr('data-value', translate_word).text(translate_word);
+    $(".item").attr('data-value', translate_word).text(translate_word);
 
 
     $('#suggest_modal').on('click', '.link', function () {

@@ -4,12 +4,12 @@
     <table class="table table-bordered">
       {% for word in words %}
         <tr>
-          <td>
+          <td class="col-md-6">
             <a class="{% if word.status == "SUG" %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' word.id %}">
               {{ word.word }}
             </a>
           </td>
-          <td>
+          <td class="col-md-6">
               {% for synonym in word.synonyms.all %}
               {% if synonym.version.language.name == targetlang %}
                   <a class="{% if synonym.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' synonym.id %}">
@@ -17,9 +17,9 @@
                   </a>
               {% endif %}
               {% endfor %}
-            {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
+            <!--{% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
               <a class="button btn" href="{% url 'word:suggest_view' %}" id="suggest_translation">{% trans "Add Translation" %}</a>
-            {% endif %}
+            {% endif %}-->
           </td>
         </tr>
       {% endfor %}
