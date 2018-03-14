@@ -44,11 +44,12 @@ $(document).ready(function(){
     // pre-filled word and synonym with words from translation
     var word = $.trim($("tbody>tr>td:first>a").text());
     $("#add_word_word").attr("value",word);
-    var translate_word = $.trim($("tbody>tr>td:nth-child(2)").text());
-    $("<div class='item'></div>")
-        .insertBefore(".synonym .selectize-control .selectize-input>input")
-    $(".item").attr('data-value', translate_word).text(translate_word);
-
+    if ($("tbody>tr>td:nth-child(2)>a").length > 0) {
+        var translate_word = $.trim($("tbody>tr>td:nth-child(2)>a").text());
+        $("<div class='item'></div>")
+            .insertBefore(".synonym .selectize-control .selectize-input>input")
+        $(".item").attr('data-value', translate_word).text(translate_word);
+    }
 
     $('#suggest_modal').on('click', '.link', function () {
          $('.advanced-options').slideToggle("fast");
