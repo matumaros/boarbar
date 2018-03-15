@@ -3,11 +3,13 @@
 
 {% block content %}
   <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <a class="btn" href="{% url 'word:word_list_view' %}">{% trans "to the word list" %}</a>
+    <div class="row dictionary">
+      <div class="col-md-3">
+        <div class="list-group">
+          <a class="list-group-item" href="{% url 'word:word_list_view' %}">{% trans "to the word list" %}</a>
+        </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="row">
           <div class="col-md-12">
             {% include "dictionary/search.html" %}
@@ -19,10 +21,10 @@
           {% endif %}
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-sm-5">
             {% if request.user.is_authenticated and not request.user.profile.has_used_suggested_words_limit %}
               <!-- Button trigger modal -->
-              <a href="" data-toggle="modal"
+              <a href="" class="dictionary-button" data-toggle="modal"
                          data-target="#suggest_modal">{% trans "Suggest Word" %}</a>
                      <!-- Modal -->
                      {% include 'word/modal_suggest_word.html' %}
@@ -39,6 +41,16 @@
 <script>
 
 $(document).ready(function(){
+    // pre-filled word and synonym with words from translation
+    var word = $.trim($("tbody>tr>td:first>a").text());
+    $("#add_word_word").attr("value",word);
+    if ($("tbody>tr>td:nth-child(2)>a").length > 0) {
+        var translate_word = $.trim($("tbody>tr>td:nth-child(2)>a").text());
+        $("<div class='item'></div>")
+            .insertBefore(".synonym .selectize-control .selectize-input>input")
+        $(".item").attr('data-value', translate_word).text(translate_word);
+    }
+
     $('#suggest_modal').on('click', '.link', function () {
          $('.advanced-options').slideToggle("fast");
     });
@@ -46,6 +58,7 @@ $(document).ready(function(){
         var sel_text = $(this).text();
         $(this).parents('.input-group').find('.txt').val(sel_text);
     });
+
 });
 </script>
 {% endblock %}

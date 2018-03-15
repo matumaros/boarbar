@@ -24,7 +24,30 @@
     })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 <style>
-  #signup-link{
+.dictionary-search-button {
+    background-color: #5DA984;; /* Green */
+    border: none;
+}
+.table-bordered {
+  margin-left:15px;
+}
+.dictionary {
+  padding-top:5%;
+}
+
+/* On big screens, the highlighting of the side buttons is full width without*/
+/* loosing the padding for the phone screen size */
+@media (min-width: 768px) {
+  .login-button {
+    width:202px;
+  }
+  .container-fluid {
+     padding-right:0;
+     padding-left:0;
+  }
+}
+
+ #signup-link{
     color:black;
   }
   .long-desc{
@@ -71,13 +94,16 @@
     border-radius: 0;
   }
 
+
   .navbar-default .navbar-nav > .active > a, 
   .navbar-default .navbar-nav > .active > a:hover, 
   .navbar-default .navbar-nav > .active > a:focus {
     background-color: #5DA984;
+
   }
 
-  .navbar-default .navbar-nav > li >a:hover {
+  .navbar-default .navbar-nav > li >a:hover,
+  .dictionary-search-button:hover {
     background-color: #348960;
   }
 
@@ -139,11 +165,6 @@
     color: white;
   }
 
-  /* Body */
-  .form-group #search_submit {
-    width: 300px;
-  }
-
   /* Set black background color, white text and some padding */
   footer {
     background-color: #555;
@@ -165,6 +186,9 @@
   .popover {
     min-width: 150px;
   }
+
+
+
 
 </style>
 
