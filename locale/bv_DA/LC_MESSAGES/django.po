@@ -243,7 +243,7 @@ msgstr ""
 #: .\share\templates\share\not_existing.html:7
 msgid ""
 "Duad uns laid, de saiddn gibds (no) ned. Vensd glabsd dasas gem sÃ³iddad, "
-"Å¡raib ma: mat@boar.bar"
+"Å¡raib ma: matthias.schreiber@servare.org"
 msgstr ""
 
 #: .\share\templates\share\tiny_user.html:8

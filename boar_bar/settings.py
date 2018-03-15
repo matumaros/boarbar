@@ -186,11 +186,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'share', 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-ADMINS = (('Mat', 'mat@boar.bar'),)
-EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_HOST_USER = 'server@boar.bar'
+ADMINS = (('Mat', 'matthias.schreiber@servare.org'),)
+EMAIL_HOST = 'smtp.migadu.com'
+EMAIL_HOST_USER = 'noreply@servare.org'
 EMAIL_HOST_PASSWORD = '<password>'
-SERVER_EMAIL = 'server@boar.bar'
+SERVER_EMAIL = 'noreply@servare.org'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
