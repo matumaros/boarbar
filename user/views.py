@@ -61,7 +61,7 @@ def signup(request):
                 'user/account_activation_email.html',
                 {
                     'user': user,
-                    'domain': "servare.org",
+                    'domain': request.META['HTTP_HOST'],
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     'token': account_activation_token.make_token(user),
                 })
