@@ -56,7 +56,6 @@ class SuggestView(TemplateView):
             form = WordForm(request.POST, request.FILES)
             if form.is_valid():
                 print("$"*10, "form is valid")
-                # myfile = request.FILES["myfile"]
                 word_obj = form.save(commit=False)
                 word_obj.submitter = request.user.profile
                 word_obj.audio = request.FILES["file"]
@@ -70,7 +69,7 @@ class SuggestView(TemplateView):
         default_variant_str = request.POST.get('language')
         location = request.POST.get('location')
         synonyms = request.POST.getlist('synonyms')
-        #wiktionary_link = request.POST.get('wiktionary_link')
+        wiktionary_link = request.POST.get('wiktionary_link')
 
         desc_list = self.create_descriptions(request)
 
@@ -81,12 +80,12 @@ class SuggestView(TemplateView):
         word_version = WordVersion.objects.filter(language=language_object)[0]
 
         if word_obj:
-            word_obj.word=word
-            word_obj.ipa=ipa
-            word_obj.status='SUG'
-            word_obj.version=word_version
+            word_obj.word = word
+            word_obj.ipa = ipa
+            word_obj.status = 'SUG'
+            word_obj.version = word_version
+            word_obj.wiktionary_link = wiktionary_link
             word_obj.save()
-                #wiktionary_link = wiktionary_link
         else:
             word_obj = Word.objects.create(
                 word=word,
@@ -94,7 +93,7 @@ class SuggestView(TemplateView):
                 status='SUG',
                 version=word_version,
                 submitter=request.user.profile,
-                #wiktionary_link = wiktionary_link,
+                wiktionary_link=wiktionary_link,
             )
 
         for desc in desc_list:
