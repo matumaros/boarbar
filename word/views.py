@@ -13,6 +13,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Word, Description, WordVersion, WordLocation, Tag
 from .forms import WordForm
 from language.models import Language
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+
 
 
 class WordView(DetailView):
@@ -115,6 +118,13 @@ class SuggestView(TemplateView):
                 place=location,
                 submitter=request.user.profile,
             )
+
+        query = word
+        choices = list(Word.objects.all().values_list("word", flat=True))
+        # Get a list of matches ordered by score, the top 3
+        results = process.extract(query, choices)[0:3]
+        results = [x[0] for x in results]
+        print("################results", results)
 
         url = reverse_lazy('word:word_view', kwargs={'pk': word_obj.id})
         return HttpResponseRedirect(url)
