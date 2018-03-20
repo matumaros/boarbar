@@ -138,7 +138,7 @@ $(document).ready(function(){
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
                   console.log(word_dict);
-                  $( ".similar_words" ).append('<a href="/word/view/' + word_dict.id + '">' + word_dict.word + ' </a>');
+                  $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ' </a>');
             }
 
         });
