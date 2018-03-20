@@ -17,8 +17,15 @@ def similar_words(request):
         list_of_words = list(Word.objects.all().values_list("word", flat=True))
         # fuzzywuzzy: Get a list of matches ordered by score, the top 3
         results = process.extract(base_word, list_of_words)[0:3]
-        similar_words_found = [x[0] for x in results]
-        response = {"similar_words_found": similar_words_found}
+        list_of_similar_words = [x[0] for x in results]
+        ids=[]
+        for word in list_of_similar_words:
+            ids.append(Word.objects.filter(word=word).values_list('id', flat=True))
+
+
+        print("####ids", ids)
+
+        response = {"similar_words_found": list_of_similar_words}
         return JsonResponse(response)
     else:
         response = {"error": "do GET request"}
