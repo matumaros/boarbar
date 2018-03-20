@@ -28,6 +28,9 @@
                     <input type="text" class="form-control"
                     id="add_word_word" name="word" required />
                 </div>
+                <div class="col-sm-offset-2 col-sm-10 similar_words">
+
+                </div>
 
 
               </div>
@@ -126,6 +129,17 @@
                  <!-- Modal -->
 <script>
 $(document).ready(function(){
+    $( "#add_word_word" ).focusout(function() {
+        var word = $( "#add_word_word" ).val()
+
+        $.getJSON('http://127.0.0.1:8000/api/similar_words/?word='+ word, function (result) {
+            $.each(result, function(i, field){
+                $( ".similar_words" ).append('<a href="">' + field + ' </a>');
+            });
+        });
+    })
+
+
      $('.wiktionary_link').on('click', function () {
          var word = $('#add_word_word').val();
          $('a[href^="https://en.wiktionary.org/wiki/example"]').each(function(){
