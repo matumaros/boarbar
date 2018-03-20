@@ -133,9 +133,12 @@ $(document).ready(function(){
         var word = $( "#add_word_word" ).val()
 
         $.getJSON('http://127.0.0.1:8000/api/similar_words/?word='+ word, function (result) {
-            $.each(result, function(i, field){
-                $( ".similar_words" ).append('<a href="">' + field + ' </a>');
-            });
+            var words = result.similar_words_found;
+            for (index = 0; index < words.length; ++index) {
+                  console.log(words[index]);
+                  $( ".similar_words" ).append('<a href="">' + words[index] + ' </a>');
+            }
+
         });
     })
 
