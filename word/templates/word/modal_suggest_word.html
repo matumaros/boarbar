@@ -132,8 +132,9 @@ $(document).ready(function(){
     $( "#add_word_word" ).focusout(function() {
         var word = $( "#add_word_word" ).val()
 
-        $.getJSON('http://127.0.0.1:8000/api/similar_words/?word='+ word, function (result) {
+        $.getJSON('/api/similar_words/?word='+ word, function (result) {
             var words = result.similar_words_found;
+            $( ".similar_words" ).empty();
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
                   console.log(word_dict);
