@@ -15,8 +15,6 @@ from .forms import WordForm
 from language.models import Language
 
 
-
-
 class WordView(DetailView):
     template_name = 'word/display.html'
     http_method_names = ['get']
