@@ -1,19 +1,19 @@
 
 
+from difflib import SequenceMatcher
+
 from django.contrib.auth.models import User, Group
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import viewsets
-from . import serializers
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
-from rest_framework import status
-from fuzzywuzzy import process
 
 from language.models import Language
 from word.models import Word, WordVersion
 from .permissions import IsModeratorPermission
+from . import serializers
 
 
 # auth
@@ -77,24 +77,27 @@ def similar_words(request):
     if request.GET:
         base_word = request.GET.get("word")
         default_variant = request.GET.get("language")
+        limit = request.GET.get("limit", 3)
         if base_word:
             list_of_words = list(Word.objects.all().filter(
-                version__language__default_variant=default_variant).values_list("word", flat=True))
-            # fuzzywuzzy: Get a list of matches ordered by score, the top 3
-            results = process.extract(base_word, list_of_words)[0:3]
-            list_of_similar_words = [x[0] for x in results]
+                version__language__default_variant=default_variant))
+            most_similar_words = sorted(
+                list_of_words,
+                key=lambda word: SequenceMatcher(a=base_word, b=word.word).ratio(),
+                reverse=True
+            )[:limit]
+
             words_desc_ids = []
 
-            for word in list_of_similar_words:
-                word_obj = Word.objects.filter(word=word).first()
-                descriptions = word_obj.desc.all().filter(language__default_variant=default_variant)
+            for word in most_similar_words:
+                descriptions = word.desc.all().filter(language__default_variant=default_variant)
                 if descriptions:
                     desc_obj = descriptions.first()
                     desc_short = desc_obj.short
                 else:
                     desc_short = ""
 
-                word_dict = {"word": word, "id": word_obj.id, "desc": desc_short}
+                word_dict = {"word": word.word, "id": word.id, "desc": desc_short}
                 words_desc_ids.append(word_dict)
 
             response = {"similar_words_found": words_desc_ids}
