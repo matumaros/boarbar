@@ -28,6 +28,11 @@
                     <input type="text" class="form-control"
                     id="add_word_word" name="word" required />
                 </div>
+                <div class="col-sm-offset-2 col-sm-10 similar_words">
+
+                </div>
+
+
               </div>
               <div class="form-group advanced-options">
                 <label class="col-sm-2 control-label"
@@ -124,6 +129,36 @@
                  <!-- Modal -->
 <script>
 $(document).ready(function(){
+    $( "#user_languages" ).on('change', function() {
+        var word = $( "#add_word_word" ).val()
+        var language = $('#user_languages').val()
+
+        $.getJSON('/api/similar_words/?word='+ word + '&language=' + language, function (result) {
+            var words = result.similar_words_found;
+            $( ".similar_words" ).empty();
+            for (index = 0; index < words.length; ++index) {
+                  var word_dict = words[index];
+                  console.log(word_dict);
+                  $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
+            }
+        });
+    })
+
+    $( "#add_word_word" ).focusout(function() {
+        var word = $( "#add_word_word" ).val()
+        var language = $('#user_languages').val()
+
+        $.getJSON('/api/similar_words/?word='+ word + '&language=' + language, function (result) {
+            var words = result.similar_words_found;
+            $( ".similar_words" ).empty();
+            for (index = 0; index < words.length; ++index) {
+                  var word_dict = words[index];
+                  console.log(word_dict);
+                  $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
+            }
+        });
+    })
+
      $('.wiktionary_link').on('click', function () {
          var word = $('#add_word_word').val();
          $('a[href^="https://en.wiktionary.org/wiki/example"]').each(function(){

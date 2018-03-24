@@ -1,15 +1,19 @@
 
 
+from difflib import SequenceMatcher
+
 from django.contrib.auth.models import User, Group
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework import viewsets
-from . import serializers
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
-from rest_framework import status
 
 from language.models import Language
 from word.models import Word, WordVersion
 from .permissions import IsModeratorPermission
+from . import serializers
 
 
 # auth
@@ -63,3 +67,43 @@ class WordVersionViewSet(viewsets.ModelViewSet):
 def user_by_token(request):
     user = request.us
     return Response({'email': user.email})
+
+
+@csrf_exempt
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def similar_words(request):
+    if request.GET:
+        base_word = request.GET.get("word")
+        default_variant = request.GET.get("language")
+        limit = request.GET.get("limit", 3)
+        if base_word:
+            list_of_words = list(Word.objects.all().filter(
+                version__language__default_variant=default_variant))
+            most_similar_words = sorted(
+                list_of_words,
+                key=lambda word: SequenceMatcher(a=base_word, b=word.word).ratio(),
+                reverse=True
+            )[:limit]
+
+            words_desc_ids = []
+
+            for word in most_similar_words:
+                descriptions = word.desc.all().filter(language__default_variant=default_variant)
+                if descriptions:
+                    desc_obj = descriptions.first()
+                    desc_short = desc_obj.short
+                else:
+                    desc_short = ""
+
+                word_dict = {"word": word.word, "id": word.id, "desc": desc_short}
+                words_desc_ids.append(word_dict)
+
+            response = {"similar_words_found": words_desc_ids}
+            return JsonResponse(response)
+        else:
+            return JsonResponse({})
+    else:
+        response = {"error": "do GET request"}
+        return JsonResponse(response)
