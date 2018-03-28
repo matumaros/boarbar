@@ -4,6 +4,8 @@ import re
 
 from django.db import models
 
+from simple_history.models import HistoricalRecords
+
 from share.validators import FileValidator
 from word.models import Word
 from language.models import Language
@@ -27,6 +29,7 @@ class Sentence(models.Model):
     )
     place = models.CharField(max_length=150)
     creation_date = models.DateField(auto_now_add=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         text = self.html
@@ -57,6 +60,7 @@ class Translation(models.Model):
     language = models.ForeignKey(Language, related_name='foreign_sentences',
                                  on_delete=models.SET_NULL, null=True)
     creation_date = models.DateField(auto_now_add=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.text[:20]

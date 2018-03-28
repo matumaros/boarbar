@@ -2,6 +2,8 @@
 
 from django.contrib import admin
 
+from simple_history.admin import SimpleHistoryAdmin
+
 from .models import (
     Tag, WordVersion, Word, Description, WordLocation
 )
@@ -16,7 +18,7 @@ class WordVersionAdmin(admin.ModelAdmin):
     list_filter = ('language',)
 
 
-class WordAdmin(admin.ModelAdmin):
+class WordAdmin(SimpleHistoryAdmin):
     list_display = ('word', 'status', 'submitter', 'creation_date', 'version')
     list_filter = ('status', 'version')
 
