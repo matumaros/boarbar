@@ -4,12 +4,28 @@ import re
 
 from django.db import models
 
+from share.validators import FileValidator
 from word.models import Word
 from language.models import Language
 
 
 class Sentence(models.Model):
+    WORD_STATUS = (
+        ('SUG', 'Suggested'),  # Suggested by a user
+        ('EVL', 'Evaluated'),  # Evaluated by the community
+        ('CFR', 'Confirmed'),  # Confirmed by moderators
+        ('RMV', 'Removed'),   # Removed
+    )
+
     text = models.TextField()
+    status = models.CharField(max_length=50, choices=WORD_STATUS, default='SUG')
+    audio = models.FileField(
+        validators=[FileValidator(max_size=24 * 1024 * 1024)],
+        upload_to="audio/%Y/%m/%d",
+        blank=True,
+        null=True
+    )
+    place = models.CharField(max_length=150)
     creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

@@ -4,9 +4,9 @@ from django.db import models
 
 from simple_history.models import HistoricalRecords
 
+from share.validators import FileValidator
 from language.models import Language
 from user.models import Profile
-from word.validators import FileValidator
 
 
 def audio_path(instance, filename):
