@@ -20,6 +20,8 @@ class Sentence(models.Model):
     )
 
     text = models.TextField()
+    language = models.ForeignKey(Language, related_name='sentences',
+                                 on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=50, choices=WORD_STATUS, default='SUG')
     audio = models.FileField(
         validators=[FileValidator(max_size=24 * 1024 * 1024)],
