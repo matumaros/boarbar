@@ -1,17 +1,11 @@
 
 
-import logging
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView
 
 from language.models import Language
-from user.models import Profile, UserLanguage
 from word.models import Word, Tag
-from word.views import get_highest_language_proficiency
 from word.views import SuggestView
-
-logger = logging.getLogger(__name__)
 
 
 class DictView(SuggestView):
