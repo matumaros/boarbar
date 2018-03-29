@@ -140,8 +140,12 @@ class SuggestView(TemplateView):
                 place=location,
                 submitter=request.user.profile,
             )
-
-        url = reverse_lazy('word:word_view', kwargs={'pk': word_obj.id})
+        if "suggest_another" in request.POST:
+            url = reverse_lazy('contribute:contrib_view')
+        elif "suggest_another_word_suggest" in request.POST:
+            url = reverse_lazy('word:suggest_view')
+        else:
+            url = reverse_lazy('word:word_view', kwargs={'pk': word_obj.id})
         return HttpResponseRedirect(url)
 
     def create_descriptions(self, request):
