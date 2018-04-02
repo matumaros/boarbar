@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="col-xs-offset-2 col-xs-3 col-sm-offset-4 col-sm-3">
-                  <button name="suggest_another" type="submit" class="btn">{% trans "Suggest another" %}</button>
+                  <a class="btn btn-primary suggest-another-button">{% trans "Suggest another" %}</a>
                 </div>
 
               </div>
@@ -132,7 +132,32 @@
  </div>
                  <!-- Modal -->
 <script>
+
+
 $(document).ready(function(){
+    $('.suggest-another-button').on('click', function() {
+       var word = document.getElementById("add_word_word").value.match("^\\S[0-9a-zA-Z.-]*$");
+       if (word == null) {
+            alert("word Required.....!");
+            return;
+       }
+       $.ajax({
+            url:'/contribute/',
+            type:'post',
+            data:$('#add_word_form').serialize(),
+            success: function(){
+                $('#add_word_form')[0].reset();
+                $(".similar_words" ).empty();
+                var $select = $('#tag').selectize();
+                var control = $select[0].selectize;
+                control.clear();
+                var $select = $('#synonym').selectize();
+                var control = $select[0].selectize;
+                control.clear();
+            }
+        });
+    });
+
     $( "#user_languages" ).on('change', function() {
         var word = $( "#add_word_word" ).val()
         var language = $('#user_languages').val()
@@ -142,7 +167,6 @@ $(document).ready(function(){
             $( ".similar_words" ).empty();
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
-                  console.log(word_dict);
                   $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
             }
         });
@@ -157,7 +181,6 @@ $(document).ready(function(){
             $( ".similar_words" ).empty();
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
-                  console.log(word_dict);
                   $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
             }
         });
