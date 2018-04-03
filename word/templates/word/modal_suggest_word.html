@@ -137,8 +137,9 @@
 
 $(document).ready(function(){
     $('.suggest-another-button').on('click', function() {
-       var word = document.getElementById("add_word_word").value.match("[^\x00-\x7F]+");
-       if (word == null) {
+       var word = $("#add_word_word").val();
+       word = word.trim();
+       if (word == "")  {
             $(".error-messages").text("Please fill out this field").fadeIn("fast");
             $(".error-messages").fadeOut(3000);
             return;
