@@ -27,6 +27,7 @@
                 <div class="col-sm-10">
                     <input type="text" class="form-control"
                     id="add_word_word" name="word" required />
+                    <div class="text-danger error-messages" style="display:none;"></div>
                 </div>
                 <div class="col-sm-offset-2 col-sm-10 similar_words">
                 </div>
@@ -136,9 +137,10 @@
 
 $(document).ready(function(){
     $('.suggest-another-button').on('click', function() {
-       var word = document.getElementById("add_word_word").value.match("^\\S[0-9a-zA-Z.-]*$");
+       var word = document.getElementById("add_word_word").value.match("[^\x00-\x7F]+");
        if (word == null) {
-            alert("word Required.....!");
+            $(".error-messages").text("Please fill out this field").fadeIn("fast");
+            $(".error-messages").fadeOut(3000);
             return;
        }
        $.ajax({
@@ -155,7 +157,7 @@ $(document).ready(function(){
                 var control = $select[0].selectize;
                 control.clear();
             }
-        });
+       });
     });
 
     $( "#user_languages" ).on('change', function() {
