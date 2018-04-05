@@ -1,8 +1,8 @@
 
 
 import logging
-from django.views.generic import TemplateView
 
+from django.views.generic import TemplateView
 from user.models import Profile, UserLanguage
 from word.models import Tag, Word
 
@@ -44,9 +44,9 @@ class ContribView(TemplateView):
 def get_highest_language_proficiency(user_languages):
     variants = dict()
     # variants = {
-    #             "native": ["es_es"],
-    #             "fluent": ["eng_eng", "port_port"],
-    #               }
+    # "native": ["es_es"],
+    # "fluent": ["eng_eng", "port_port"],
+    # }
 
     for user_language in user_languages:
         proficiency = user_language.proficiency
