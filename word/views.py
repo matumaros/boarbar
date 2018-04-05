@@ -15,7 +15,7 @@ from .models import Word, Description, WordVersion, WordLocation, Tag
 from .forms import WordForm
 from language.models import Language
 from user.models import Profile, UserLanguage
-
+from contribute.views import get_highest_language_proficiency
 
 logger = logging.getLogger(__name__)
 
@@ -172,38 +172,6 @@ class SuggestView(TemplateView):
         descriptions = list(descriptions.values())
         Description.objects.bulk_create(descriptions)
         return descriptions
-
-
-def get_highest_language_proficiency(user_languages):
-    variants = dict()
-    # variants = {
-    #             "native": ["es_es"],
-    #             "fluent": ["eng_eng", "port_port"],
-    #               }
-
-    for user_language in user_languages:
-        proficiency = user_language.proficiency
-        if proficiency not in variants:
-            variants[proficiency] = list()
-        default_variant = user_language.language.default_variant
-        variants[proficiency].append(default_variant)
-
-    levels = [
-        'native',
-        'fluent',
-        'advanced',
-        'intermediate',
-        'novice',
-        'beginner',
-    ]
-
-    for level in levels:
-        try:
-            default_variant = variants[level][0]
-        except (KeyError, IndexError):
-            # there is no level in variants or variant[level] is empty
-            continue
-        return default_variant
 
 
 class EditView(UpdateView):

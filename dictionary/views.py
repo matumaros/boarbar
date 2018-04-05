@@ -1,16 +1,44 @@
 
 
-from django.urls import reverse_lazy
+import logging
+
 from django.http import HttpResponseRedirect
+from django.views.generic import TemplateView
 
 from language.models import Language
+from user.models import Profile, UserLanguage
 from word.models import Word, Tag
-from word.views import SuggestView
+from contribute.views import get_highest_language_proficiency
+
+logger = logging.getLogger(__name__)
 
 
-class DictView(SuggestView):
+class DictView(TemplateView):
     template_name = 'dictionary/main.html'
     http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        try:
+            user_profile = Profile.objects.get(user=request.user)
+        except TypeError:
+            logger.info("user does not have profile")
+
+        else:
+            user_languages = UserLanguage.objects.filter(user=user_profile)
+            user_moderator = False
+
+            for user_language in user_languages:
+                if user_language.is_moderator:
+                    user_moderator = True
+                    break
+            context["user_moderator"] = user_moderator
+            context["user_languages"] = user_languages
+
+            default_variant = get_highest_language_proficiency(user_languages)
+            context["default_variant"] = default_variant
+
+        return self.render_to_response(context)
 
 
     def get_context_data(self, **kwargs):
