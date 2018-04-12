@@ -2,21 +2,56 @@
 {% load i18n %}
 
 {% block content %}
-  <div class="page-header">
-    <h1>{{ profile.user.username }}</h1>
-  </div>
-  <p>
-      {{ profile.description }}
-  </p>
-  <p>
-    {% trans "Reputation:" %} {{ profile.reputation }}
-  </p>
-  {% for lang in profile.languages.all %}
-  <p>
-      {% trans lang.language.name %} {% trans lang.proficiency %}
-  </p>
-  {% endfor %}
-  <p>
-    {% trans "Joined" %}: {{ profile.join_date }}
-  </p>
+<div class="container profile">
+    <div class="row">
+      <div class="col-sm-4">
+        <p><img src="http://placehold.it/180x180" class="img-responsive" alt="placeholder" /> </p>
+        {% if profile.user.username.is_staff == true %}
+          <p>Admin</p>
+        {% endif %}
+      </div>
+      <div class="col-sm-6">
+        <div class="big_name">
+          <h1>{{ profile.user.username|title  }}, {{ profile.place }} </h1>
+          <p>
+            {% trans "Reputation:" %} {{ profile.reputation }}
+          </p>
+        </div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="profile_tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="about_tab" data-toggle="tab" href="#about" role="tab" aria-controls="home" aria-selected="true">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="other_tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false">Other tabs</a>
+          </li>
+
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content" id="tab-content-about-tab">
+          <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
+            <br>
+            <p>{{ profile.user.first_name|title }} {{ profile.user.last_name|title  }}</p>
+            <p>{{ profile.description }}</p>
+            {% for lang in profile.languages.all %}
+              <p>{% trans lang.language.name %} {% trans lang.proficiency %}
+                  {% if lang.language.is_moderator == true %}
+                      <span class="small">Moderator</span>
+                  {% endif %}
+              </p>
+            {% endfor %}
+            <p>{% trans "Joined" %}: {{ profile.join_date }}</p>
+            <p>{% trans "Last active" %}: {{ profile.user.last_login }}</p>
+          </div>
+          <div class="tab-pane" id="other" role="tabpanel" aria-labelledby="profile-tab">...</div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+</div>
+
 {% endblock %}
