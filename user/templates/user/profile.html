@@ -26,16 +26,15 @@
           <li class="nav-item">
             <a class="nav-link" id="other_tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false"></a>
           </li>
-
         </ul>
+
         <!-- Tab panes -->
         <div class="tab-content" id="tab-content-about-tab">
           <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
             <br>
-            <p></p>
             <p>{{ profile.description }}</p>
+            <p>Languages:</p>
             <table class="profile_table">
-              <p>Languages:</p>
               {% for lang in profile.languages.all %}
                 <tr>
                   <td>
@@ -46,25 +45,20 @@
                   </td>
                   <td>
                     {% if lang.is_moderator %}
-                            <span class="small">Moderator</span>
+                      <span class="small">Moderator</span>
                     {% endif %}
                    </td>
                 </tr>
               {% endfor %}
             </table>
             <br>
-
             <p>{% trans "Joined" %}: {{ profile.join_date }}</p>
             <p>{% trans "Last active" %}: {{ profile.user.last_login }}</p>
           </div>
           <div class="tab-pane" id="other" role="tabpanel" aria-labelledby="profile-tab">...</div>
-
         </div>
-
       </div>
     </div>
-
-
 </div>
 
 {% endblock %}
