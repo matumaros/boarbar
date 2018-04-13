@@ -6,13 +6,13 @@
     <div class="row">
       <div class="col-sm-4">
         <p><img src="http://placehold.it/180x180" class="img-responsive" alt="placeholder" /> </p>
-        {% if profile.user.username.is_staff == true %}
+        {% if profile.user.is_staff %}
           <p>Admin</p>
         {% endif %}
       </div>
       <div class="col-sm-6">
         <div class="big_name">
-          <h1>{{ profile.user.username|title  }}, {{ profile.place }} </h1>
+          <h1>{{ profile.user.first_name|title }} {{ profile.user.last_name|title  }}&nbsp<small><i class="glyphicon glyphicon-map-marker"></i>{{ profile.place }}</small></h1>
           <p>
             {% trans "Reputation:" %} {{ profile.reputation }}
           </p>
@@ -24,7 +24,7 @@
             <a class="nav-link active" id="about_tab" data-toggle="tab" href="#about" role="tab" aria-controls="home" aria-selected="true">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="other_tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false">Other tabs</a>
+            <a class="nav-link" id="other_tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false"></a>
           </li>
 
         </ul>
@@ -32,15 +32,28 @@
         <div class="tab-content" id="tab-content-about-tab">
           <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
             <br>
-            <p>{{ profile.user.first_name|title }} {{ profile.user.last_name|title  }}</p>
+            <p></p>
             <p>{{ profile.description }}</p>
-            {% for lang in profile.languages.all %}
-              <p>{% trans lang.language.name %} {% trans lang.proficiency %}
-                  {% if lang.language.is_moderator == true %}
-                      <span class="small">Moderator</span>
-                  {% endif %}
-              </p>
-            {% endfor %}
+            <table class="profile_table">
+              <p>Languages:</p>
+              {% for lang in profile.languages.all %}
+                <tr>
+                  <td>
+                    {% trans lang.language.name %}
+                  </td>
+                  <td class="table-vertical-border">
+                    {% trans lang.proficiency %}
+                  </td>
+                  <td>
+                    {% if lang.is_moderator %}
+                            <span class="small">Moderator</span>
+                    {% endif %}
+                   </td>
+                </tr>
+              {% endfor %}
+            </table>
+            <br>
+
             <p>{% trans "Joined" %}: {{ profile.join_date }}</p>
             <p>{% trans "Last active" %}: {{ profile.user.last_login }}</p>
           </div>

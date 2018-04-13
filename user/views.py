@@ -1,6 +1,6 @@
 import logging
 
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import DetailView
@@ -22,6 +22,15 @@ class ProfileView(DetailView):
     template_name = 'user/profile.html'
     http_method_name = ['get']
     model = Profile
+
+    def get(self, request, *args, **kwargs):
+        profile_id = int(kwargs["pk"])
+        if request.user.profile.id != profile_id:
+            return HttpResponseNotFound("You cannot view other user's profile")
+
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
 
 
 def signup(request):
