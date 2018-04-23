@@ -23,15 +23,6 @@ class ProfileView(DetailView):
     http_method_name = ['get']
     model = Profile
 
-    def get(self, request, *args, **kwargs):
-        profile_id = int(kwargs["pk"])
-        if request.user.profile.id != profile_id:
-            return HttpResponseNotFound("You cannot view other user's profile")
-
-        self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
-
 
 def signup(request):
     if request.method == 'POST':
