@@ -25,3 +25,12 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+
+
+class UpdateProfileForm(forms.ModelForm):
+    description = forms.CharField(
+        max_length=500, required=False, help_text="Tell us a bit about yourself", widget=forms.Textarea
+    )
+    class Meta:
+        model = User
+        fields = ("description",)
