@@ -1,4 +1,5 @@
 {% extends 'share/base_site.html' %}
+{% load i18n %}
 
 {% block content %}
 
@@ -8,6 +9,22 @@
 
   {{ form.description.label }}
   {{ form.description }}
+
+  {{ form.place.label }}
+  {{ form.place }}
+
+  {{ form.language.label }}
+
+    {% for lan in form.language %}
+      {{ lan  }}
+      {{ form.proficiency }}
+    {% endfor %}
+
+
+
+
+
+
 
     {{ form.errors }}
 

@@ -31,6 +31,11 @@ class UpdateProfileForm(forms.ModelForm):
     description = forms.CharField(
         max_length=500, required=False, help_text="Tell us a bit about yourself", widget=forms.Textarea
     )
+    place = forms.CharField(max_length=100)
+    language = forms.ModelChoiceField(queryset=Language.objects.all(),
+                                      widget=forms.CheckboxSelectMultiple)
+    proficiency = forms.ChoiceField(choices=UserLanguage.PROF)
+
     class Meta:
         model = User
-        fields = ("description",)
+        fields = ("description", "place", "language", "proficiency")

@@ -26,7 +26,7 @@ class ProfileView(DetailView):
 
 
 class EditUserProfileView(View):
-    model = Profile
+    model = Profile, UserLanguage
     form_class = UpdateProfileForm
     template_name = "user/profile_edit.html"
     id = None
@@ -34,12 +34,16 @@ class EditUserProfileView(View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, pk=self.kwargs['pk'])
         profile = Profile.objects.get(user=user)
-        initial = {"description": profile.description}
-        # We can also get user object using self.request.user  but that doesnt work
-        # for other models.
+        user_language = UserLanguage.objects.filter(user=profile)
+        initial = {"description": profile.description, "place":profile.place,
+                   "language": list(user_language.values_list("language", flat=True))}
+        print("#######profile", user_language.values_list("proficiency"))
+
         form = self.form_class(initial=initial)
-        print(args, kwargs)
-        return render(request, self.template_name, {'form': form, 'pk': kwargs["pk"]})
+        return render(
+            request,
+            self.template_name,
+            {'form': form, 'pk': kwargs["pk"], "proficiency": user_language.values("proficiency")})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -47,14 +51,17 @@ class EditUserProfileView(View):
             user = get_object_or_404(User, pk=self.kwargs['pk'])
             profile = Profile.objects.get(user=user)
             profile.description = form.cleaned_data["description"]
+            profile.place = form.cleaned_data["place"]
+            profile.languages = form.cleaned_data["language"]
             profile.save()
+
+
             print("FORM IS VALId")
 
             return HttpResponseRedirect(reverse('user:profile_view', args=(kwargs["pk"])))
         else:
             print("FORM IS NOT VALID")
             return render(request, self.template_name, {'form': form, 'pk': kwargs["pk"]})
-
 
 
 def signup(request):
