@@ -1,6 +1,6 @@
 import logging
 
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import DetailView
