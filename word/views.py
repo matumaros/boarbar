@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from .models import Word, Description, WordVersion, WordLocation, Tag
-from .forms import WordForm
+from .forms import WordForm, EditForm
 from language.models import Language
 from user.models import Profile, UserLanguage
 from contribute.views import get_highest_language_proficiency
@@ -175,10 +175,8 @@ class SuggestView(TemplateView):
 
 
 class EditView(UpdateView):
+    form_class = EditForm
     model = Word
-    fields = [
-        'word', 'ipa', 'desc', 'tags', 'audio', 'wiktionary_link', 'synonyms'
-    ]
     template_name_suffix = '_update_form'
 
 
