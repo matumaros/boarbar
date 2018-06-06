@@ -7,7 +7,6 @@
   <div id="suggest_word" class="container-fluid">
     <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
       {% csrf_token %}
-      {{ form }}
        <div class="form-group">
           <label class="col-sm-2 control-label" for="{{ form.word.id_for_label }}">Word </label>
           <div class="col-sm-10">
@@ -15,15 +14,45 @@
           </div>
       </div>
       <div class="form-group">
-          <label class="col-sm-2 control-label" for="{{ form.word.id_for_label }}">IPA </label>
+          <label class="col-sm-2 control-label">IPA </label>
           <div class="col-sm-10">
                {{ form.ipa }}
           </div>
       </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Description</label>
+          <div class="col-sm-10">
+               {{ form.desc }}
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Tag</label>
+          <div class="col-sm-10">
+               {{ form.tags }}
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Audio</label>
+          <div class="col-sm-10">
+               {{ form.audio }}
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Wiktionary link</label>
+          <div class="col-sm-10">
+               {{ form.wiktionary_link }}
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Synonyms</label>
+          <div class="col-sm-10">
+               {{ form.synonyms }}
+          </div>
+      </div>
 
       <div class="form-group">
-        <div class="col-sm-10">
-          <button type="submit" class="btn">{% trans "Change" %}</button>
+        <div class="col-xs-offset-1 col-xs-3">
+          <button type="submit" class="btn btn-primary">{% trans "Change" %}</button>
         </div>
       </div>
     </form>
