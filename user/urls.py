@@ -27,7 +27,11 @@ urlpatterns = [
         auth_views.login,
         {'template_name': 'user/login.html'}
     ),
+    url(r'^profile/(?P<pk>\d+)/edit/',
+        views.EditUserProfileView.as_view(),
+        name='profile_edit_view'),
     url(r'^profile/(?P<pk>\d*)/?',
         views.ProfileView.as_view(),
         name='profile_view'),
+
 ]

@@ -1,0 +1,36 @@
+{% extends 'share/base_site.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<form method="post" action="/user/profile/{{ pk }}/edit/">
+  {% csrf_token %}
+
+
+  {{ form.description.label }}
+  {{ form.description }}
+
+  {{ form.place.label }}
+  {{ form.place }}
+
+  {{ form.language.label }}
+
+    {% for lan in form.language %}
+      {{ lan  }}
+      {{ form.proficiency }}
+    {% endfor %}
+
+
+
+
+
+
+
+    {{ form.errors }}
+
+
+
+  <input type=submit value="submit" />
+</form>
+
+{% endblock %}

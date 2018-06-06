@@ -58,6 +58,11 @@
           <div class="tab-pane" id="other" role="tabpanel" aria-labelledby="profile-tab">...</div>
         </div>
       </div>
+      <div class="col-sm-2 btn-group">
+            <a href="{% url 'user:profile_edit_view' profile.user.id %}" class="btn btn-default gray-text">
+                <i class="glyphicon glyphicon-edit" aria-hidden="true"></i> Edit profile
+            </a>
+      </div>
     </div>
 </div>
 
