@@ -77,6 +77,7 @@ class SuggestView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         word_obj = None
+        print(request.POST)
         if request.method == "POST" and "file" in request.FILES:
             form = WordForm(request.POST, request.FILES)
             if form.is_valid():
@@ -178,6 +179,20 @@ class EditView(UpdateView):
     form_class = EditForm
     model = Word
     template_name_suffix = '_update_form'
+
+    def user_profile(self, *args, **kwargs):
+        print("args", args)
+        print("kwargs", kwargs)
+        return Profile.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user_profile = Profile.objects.get(user=request.user)
+        default_variants = UserLanguage.objects.filter(user=user_profile)\
+            .values_list("language__default_variant", flat=True)
+        self.object = self.get_object()
+        context = self.get_context_data()
+        context["default_variants"] = default_variants
+        return self.render_to_response(context)
 
 
 class WordListView(ListView):

@@ -7,7 +7,20 @@
   <div id="suggest_word" class="container-fluid">
     <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
       {% csrf_token %}
-       <div class="form-group">
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Language variant </label>
+          <div class="col-sm-10">
+            <select id="user_languages" class="form-control" name="language" required>
+
+            {% for lan in default_variants %}
+
+              <option value="{{ lan }}">{% trans lan %}</option>
+            {% endfor %}
+          </select>
+          </div>
+      </div>
+      <div class="form-group">
           <label class="col-sm-2 control-label" for="{{ form.word.id_for_label }}">Word </label>
           <div class="col-sm-10">
                {{ form.word }}
