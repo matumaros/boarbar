@@ -5,43 +5,62 @@
 {% block content %}
 <div class="container suggest_form">
   <div id="suggest_word" class="container-fluid">
-    <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
+    <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:edit_view' word_id %}" method="post">
       {% csrf_token %}
 
       <div class="form-group">
           <label class="col-sm-2 control-label">Language variant </label>
           <div class="col-sm-10">
-            <select id="user_languages" class="form-control" name="language" required>
-
+            <select id="user_languages" class="form-control" name="user_languages" required>
             {% for lan in default_variants %}
-
-              <option value="{{ lan }}">{% trans lan %}</option>
+              <option value="{{ lan.language_id }}">{% trans lan.language__default_variant %}</option>
             {% endfor %}
-          </select>
+            </select>
           </div>
       </div>
       <div class="form-group">
-          <label class="col-sm-2 control-label" for="{{ form.word.id_for_label }}">Word </label>
+          <label class="col-sm-2 control-label" for="word">Word </label>
           <div class="col-sm-10">
-               {{ form.word }}
+               <input class="form-control" id="word" type="text" name="word" value="{{ word }}">
           </div>
       </div>
       <div class="form-group">
           <label class="col-sm-2 control-label">IPA </label>
           <div class="col-sm-10">
-               {{ form.ipa }}
+              <input class="form-control" id="ipa" type="text" name="ipa" value="{{ ipa }}">
           </div>
       </div>
       <div class="form-group">
-          <label class="col-sm-2 control-label">Description</label>
+          <label class="col-sm-2 control-label">Description short</label>
           <div class="col-sm-10">
-               {{ form.desc }}
+            <select id="desc-short" class="form-control" name="desc-short">
+                <option disabled selected value> -- select -- </option>
+                {% for desc in descriptions %}
+                  <option value="{{ desc.id }}">{% trans desc.short %}</option>
+                {% endfor %}
+            </select>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Description long</label>
+          <div class="col-sm-10">
+            <select id="desc-long" class="form-control" name="desc-long">
+                <option disabled selected value> -- select -- </option>
+                {% for desc in descriptions %}
+                  <option value="{{ desc.id }}">{% trans desc.extended %}</option>
+                {% endfor %}
+            </select>
           </div>
       </div>
       <div class="form-group">
           <label class="col-sm-2 control-label">Tag</label>
           <div class="col-sm-10">
-               {{ form.tags }}
+            <select id="tags" class="form-control" name="tags">
+                <option disabled selected value> -- select -- </option>
+                {% for tag in tags %}
+                  <option value="{{ tag.id }}">{% trans tag.name %}</option>
+                {% endfor %}
+            </select>
           </div>
       </div>
       <div class="form-group">
@@ -53,13 +72,18 @@
       <div class="form-group">
           <label class="col-sm-2 control-label">Wiktionary link</label>
           <div class="col-sm-10">
-               {{ form.wiktionary_link }}
+              <input class="form-control" id="wiktionary_link" type="text" name="wiktionary_link" value="{{ wiktionary_link }}">
           </div>
       </div>
       <div class="form-group">
           <label class="col-sm-2 control-label">Synonyms</label>
           <div class="col-sm-10">
-               {{ form.synonyms }}
+            <select id="synonyms" class="form-control" name="synonyms">
+                <option disabled selected value> -- select -- </option>
+                {% for synonym in synonyms %}
+                  <option value="{{ synonym.id }}">{% trans synonym.word %}</option>
+                {% endfor %}
+            </select>
           </div>
       </div>
 

@@ -4,8 +4,9 @@ import re
 import logging
 
 from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
@@ -175,15 +176,48 @@ class SuggestView(TemplateView):
         return descriptions
 
 
+def edit_word(request, pk):
+    word = Word.objects.get(id=pk)
+    user_profile = Profile.objects.get(user=request.user)
+    default_variants = UserLanguage.objects.filter(user=user_profile) \
+        .values("language__default_variant", "language_id")
+
+    form = EditForm(request.POST or None)
+    if form.is_valid():
+
+        word.tags.clear()
+        for tag in form.cleaned_data["tags"]:
+            if tag is not "empty":
+                word.tags.add(tag)
+
+        for desc in form.cleaned_data["desc"]:
+            word.desc.add(desc)
+
+        word.word = form.cleaned_data["word"]
+        word.ipa = form.cleaned_data["ipa"]
+        word.wiktionary_link = form.cleaned_data["wiktionary_link"]
+        word.save()
+
+        return redirect('/word/edit/' + str(pk) + '/')
+
+    context = {
+        'synonyms': Word.objects.all(),
+        'tags': Tag.objects.all(),
+        'ipa': word.ipa,
+        'wiktionary_link': word.wiktionary_link,
+        'descriptions': Description.objects.all(),
+        'word': word,
+        'form': form,
+        'word_id': pk,
+        'default_variants': default_variants,
+    }
+    return render(request, "word/word_update_form.html", context)
+
+
 class EditView(UpdateView):
     form_class = EditForm
     model = Word
     template_name_suffix = '_update_form'
-
-    def user_profile(self, *args, **kwargs):
-        print("args", args)
-        print("kwargs", kwargs)
-        return Profile.objects.all()
 
     def get(self, request, *args, **kwargs):
         user_profile = Profile.objects.get(user=request.user)
@@ -192,7 +226,24 @@ class EditView(UpdateView):
         self.object = self.get_object()
         context = self.get_context_data()
         context["default_variants"] = default_variants
+        context["word_id"] = kwargs["pk"]
         return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
+        context = {}
+        if self.object:
+            context['object'] = self.object
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+        context.update(kwargs)
+        context["word_id"] = context["word"].id
+        return super().get_context_data(**context)
 
 
 class WordListView(ListView):
