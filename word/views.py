@@ -183,12 +183,12 @@ def edit_word(request, pk):
         .values("language__default_variant", "language_id")
 
     form = EditForm(request.POST or None)
+    print("FILES=====", request.FILES)
     if form.is_valid():
-
-        word.tags.clear()
+        print("CLEanEDED DATA", form.cleaned_data)
+        #word.tags.clear()
         for tag in form.cleaned_data["tags"]:
-            if tag is not "empty":
-                word.tags.add(tag)
+            word.tags.add(tag)
 
         for desc in form.cleaned_data["desc"]:
             word.desc.add(desc)
@@ -196,6 +196,8 @@ def edit_word(request, pk):
         word.word = form.cleaned_data["word"]
         word.ipa = form.cleaned_data["ipa"]
         word.wiktionary_link = form.cleaned_data["wiktionary_link"]
+        if request.FILES and "audio" in request.FILES:
+            word.audio = request.FILES["audio"]
         word.save()
 
         return redirect('/word/edit/' + str(pk) + '/')
@@ -210,40 +212,9 @@ def edit_word(request, pk):
         'form': form,
         'word_id': pk,
         'default_variants': default_variants,
+        'audio_file': word.audio,
     }
     return render(request, "word/word_update_form.html", context)
-
-
-class EditView(UpdateView):
-    form_class = EditForm
-    model = Word
-    template_name_suffix = '_update_form'
-
-    def get(self, request, *args, **kwargs):
-        user_profile = Profile.objects.get(user=request.user)
-        default_variants = UserLanguage.objects.filter(user=user_profile)\
-            .values_list("language__default_variant", flat=True)
-        self.object = self.get_object()
-        context = self.get_context_data()
-        context["default_variants"] = default_variants
-        context["word_id"] = kwargs["pk"]
-        return self.render_to_response(context)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {}
-        if self.object:
-            context['object'] = self.object
-            context_object_name = self.get_context_object_name(self.object)
-            if context_object_name:
-                context[context_object_name] = self.object
-        context.update(kwargs)
-        context["word_id"] = context["word"].id
-        return super().get_context_data(**context)
 
 
 class WordListView(ListView):
