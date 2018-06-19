@@ -33,47 +33,47 @@
               <input class="form-control" id="ipa" type="text" name="ipa" value="{{ ipa }}">
           </div>
       </div>
+
       <div class="form-group">
-          <label class="col-sm-2 control-label">Description short</label>
-          <div class="col-sm-10">
-            <select id="desc-short" class="form-control" name="desc-short">
-                <option disabled selected value> -- select -- </option>
-                {% for desc in descriptions %}
-                  <option value="{{ desc.id }}">{% trans desc.short %}</option>
-                {% endfor %}
-            </select>
-          </div>
+        <label class="col-sm-3 control-label">{% trans "Short Description" %}</label>
       </div>
+
       <div class="form-group">
-          <label class="col-sm-2 control-label">Description long</label>
-          <div class="col-sm-10">
-            <select id="desc-long" class="form-control" name="desc-long">
-                <option disabled selected value> -- select -- </option>
-                {% for desc in descriptions %}
-                  <option value="{{ desc.id }}">{% trans desc.extended %}</option>
-                {% endfor %}
-            </select>
-          </div>
+        {% for lan in user_languages %}
+          {% if lan.proficiency == "advanced" or lan.proficiency == "fluent" or lan.proficiency == "native" %}
+
+            <div>
+              <label class="col-sm-2 control-label" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" id="description_short_{{ lan.language.name }}"
+                        name="desc_short_{{ lan.language.name }}"></textarea>
+              </div>
+            </div>
+            <div class="long-desc long_description_{{ lan.language.name }}">
+                <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="add_word_description_long"
+                            name="desc_long_{{ lan.language.name }}"></textarea>
+                </div>
+            </div>
+
+          {% endif %}
+        {% endfor %}
       </div>
+
       <div class="form-group">
           <label class="col-sm-2 control-label">Tag</label>
           <div class="col-sm-10">
             <select id="tags" name="tags">
-
                 <option disabled selected value></option>
-
             </select>
           </div>
       </div>
       <div class="form-group">
           <label class="col-sm-2 control-label">Audio</label>
           <div class="col-sm-10">
-               {{ form.audio }}
+              {{ form.audio }}
               {{ audio_file }}
-
-            {% if uploaded_file_url %}
-              <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-            {% endif %}
           </div>
       </div>
       <div class="form-group">
@@ -99,10 +99,6 @@
   </div>
 </div>
 
-        {% for synonym in synonyms %}
-             {{ synonym.id }} {{ synonym.word }} {{ synonym.word.id }}
-
-         {% endfor %}
 <script>
 $(document).ready(function(){
     $('#tags').selectize({
@@ -152,6 +148,15 @@ $(document).ready(function(){
          {% if user_moderator %}
             create: true,
         {% endif %}
+    });
+    $('[id^=description_short_]').on('click', function () {
+         var my_id = $(this).attr("id");
+         var language = my_id.split("_")[2];
+         var long_description_id = "long_description_" + language;
+         $('.' + long_description_id).slideToggle("fast");
+         $('.' + long_description_id).focusout(function() {
+             $('.' + long_description_id).hide();
+         });
     });
 });
 
