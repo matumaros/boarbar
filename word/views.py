@@ -182,13 +182,21 @@ def edit_word(request, pk):
     default_variants = UserLanguage.objects.filter(user=user_profile) \
         .values("language__default_variant", "language_id")
     user_languages = UserLanguage.objects.filter(user=user_profile)
+    user_moderator = False
+    for user_language in user_languages:
+        if user_language.is_moderator:
+            user_moderator = True
+            break
 
     form = EditForm(request.POST or None)
-    print("POST=====", request.POST)
     if form.is_valid():
-        print("CLEanEDED DATA", form.cleaned_data)
-        for tag in form.cleaned_data["tags"]:
+        tags = request.POST.getlist("tags")
+        for tag_str in tags:
+            tag, _ = Tag.objects.get_or_create(name=tag_str)
             word.tags.add(tag)
+
+        for synonym in form.cleaned_data["synonyms"]:
+            word.synonyms.add(synonym)
 
         create_descriptions(request, word)
 
@@ -213,6 +221,7 @@ def edit_word(request, pk):
         'default_variants': default_variants,
         'audio_file': word.audio,
         'user_languages': user_languages,
+        'user_moderator': user_moderator,
     }
     return render(request, "word/word_update_form.html", context)
 

@@ -25,6 +25,6 @@ class EditForm(forms.ModelForm):
     )
     class Meta:
         model = Word
-        fields = ('user_languages', 'word', 'ipa', 'desc', 'tags', 'audio', 'wiktionary_link', 'synonyms')
+        fields = ('user_languages', 'word', 'ipa', 'desc', 'audio', 'wiktionary_link', 'synonyms')
 
 
