@@ -78,7 +78,6 @@ class SuggestView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         word_obj = None
-        print(request.POST)
         if request.method == "POST" and "file" in request.FILES:
             form = WordForm(request.POST, request.FILES)
             if form.is_valid():
