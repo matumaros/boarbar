@@ -4,15 +4,16 @@ import re
 import logging
 
 from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from .models import Word, Description, WordVersion, WordLocation, Tag
-from .forms import WordForm
+from .forms import WordForm, EditForm
 from language.models import Language
 from user.models import Profile, UserLanguage
 from contribute.views import get_highest_language_proficiency
@@ -174,12 +175,74 @@ class SuggestView(TemplateView):
         return descriptions
 
 
-class EditView(UpdateView):
-    model = Word
-    fields = [
-        'word', 'ipa', 'desc', 'tags', 'audio', 'wiktionary_link', 'synonyms'
-    ]
-    template_name_suffix = '_update_form'
+def edit_word(request, pk):
+    word = Word.objects.get(id=pk)
+    user_profile = Profile.objects.get(user=request.user)
+    default_variants = UserLanguage.objects.filter(user=user_profile) \
+        .values("language__default_variant", "language_id")
+    user_languages = UserLanguage.objects.filter(user=user_profile)
+    user_moderator = False
+    word_language = word.version.language.name
+
+    for user_language in user_languages:
+        if user_language.language.name == word_language:
+            if user_language.is_moderator:
+                user_moderator = True
+                break
+
+    form = EditForm(request.POST or None)
+    if form.is_valid():
+        tags = request.POST.getlist("tags")
+        for tag_str in tags:
+            tag, _ = Tag.objects.get_or_create(name=tag_str)
+            word.tags.add(tag)
+
+        for synonym in form.cleaned_data["synonyms"]:
+            word.synonyms.add(synonym)
+
+        create_descriptions(request, word)
+
+        word.word = form.cleaned_data["word"]
+        word.ipa = form.cleaned_data["ipa"]
+        word.wiktionary_link = form.cleaned_data["wiktionary_link"]
+        if request.FILES and "audio" in request.FILES:
+            word.audio = request.FILES["audio"]
+        word.save()
+
+        return redirect('/word/edit/' + str(pk) + '/')
+
+    context = {
+        'synonyms': Word.objects.all(),
+        'tags': Tag.objects.all(),
+        'ipa': word.ipa,
+        'wiktionary_link': word.wiktionary_link,
+        'descriptions': Description.objects.filter(id=pk),
+        'word': word,
+        'form': form,
+        'word_id': pk,
+        'default_variants': default_variants,
+        'audio_file': word.audio,
+        'user_languages': user_languages,
+        'user_moderator': user_moderator,
+    }
+    return render(request, "word/word_update_form.html", context)
+
+
+def create_descriptions(request, word):
+    for key in request.POST.keys():
+        if "desc_short_" in key:
+            language_name = key.replace("desc_short_", "")
+            desc_short_value = request.POST.get(key, "")
+            desc_long_value = request.POST.get("desc_long_" + language_name)
+
+            if desc_long_value or desc_short_value:
+                language_obj = Language.objects.get(name=language_name)
+                desc = Description.objects.create(
+                    short=desc_short_value,
+                    extended=desc_long_value,
+                    language=language_obj,
+                )
+                word.desc.add(desc)
 
 
 class WordListView(ListView):

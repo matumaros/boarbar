@@ -3,15 +3,164 @@
 {% load i18n %}
 
 {% block content %}
+<div class="container suggest_form">
+
+
   <div id="suggest_word" class="container-fluid">
-    <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:suggest_view' %}" method="post">
+    <form id="add_word_form" class="form-horizontal" role="form" action="{% url 'word:edit_view' word_id %}"
+          enctype="multipart/form-data" method="post">
       {% csrf_token %}
-      {{ form|crispy }}
+
+      {% if form.errors %}
+        {{ form.errors }}
+      {% endif %}
+
       <div class="form-group">
-        <div class="col-sm-10">
-          <button type="submit" class="btn">{% trans "Change" %}</button>
+          <label class="col-sm-2 control-label">Language variant </label>
+          <div class="col-sm-10">
+            <select id="user_languages" class="form-control" name="user_languages" required>
+            {% for lan in default_variants %}
+              <option value="{{ lan.language_id }}">{% trans lan.language__default_variant %}</option>
+            {% endfor %}
+            </select>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label" for="word">Word </label>
+          <div class="col-sm-10">
+               <input class="form-control" id="word" type="text" name="word" value="{{ word }}">
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">IPA </label>
+          <div class="col-sm-10">
+              <input class="form-control" id="ipa" type="text" name="ipa" value="{{ ipa }}">
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label">{% trans "Short Description" %}</label>
+      </div>
+
+      <div class="form-group">
+        {% for lan in user_languages %}
+          {% if lan.proficiency == "advanced" or lan.proficiency == "fluent" or lan.proficiency == "native" %}
+
+            <div>
+              <label class="col-sm-2 control-label" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" id="description_short_{{ lan.language.name }}"
+                        name="desc_short_{{ lan.language.name }}"></textarea>
+              </div>
+            </div>
+            <div class="long-desc long_description_{{ lan.language.name }}">
+                <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="add_word_description_long"
+                            name="desc_long_{{ lan.language.name }}"></textarea>
+                </div>
+            </div>
+
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Tag</label>
+          <div class="col-sm-10">
+            <select id="tags" name="tags">
+                <option disabled selected value></option>
+            </select>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Audio</label>
+          <div class="col-sm-10">
+              {{ form.audio }}
+              {{ audio_file }}
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Wiktionary link</label>
+          <div class="col-sm-10">
+              <input class="form-control" id="wiktionary_link" type="text" name="wiktionary_link" value="{{ wiktionary_link }}">
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">Synonyms</label>
+          <div class="col-sm-10">
+            <select id="synonyms" name="synonyms">
+            </select>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-offset-1 col-xs-3">
+          <button type="submit" class="btn btn-primary">{% trans "Change" %}</button>
         </div>
       </div>
     </form>
   </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('#tags').selectize({
+        maxItems: 4,
+        valueField: 'name',
+        labelField: 'name',
+        searchField: ['name', 'description'],
+        options: [
+        {% for tag in tags %}
+             {name: '{%trans tag.name %}', description: '{{ tag.description }}', id:'{{ tag.id }}' },
+         {% endfor %}
+        ],
+        render: {
+            option: function(item, escape) {
+                var label = item.name || item.description;
+                var caption = item.name ? item.description : null;
+                return '<div>' +
+                    '<span class="label label-default">' + escape(label) + '</span>' +
+                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
+                '</div>';
+            }
+        },
+         {% if user_moderator %}
+            create: true,
+        {% endif %}
+    });
+    $('#synonyms').selectize({
+        maxItems: 4,
+        valueField: 'id',
+        labelField: 'name',
+        searchField: ['name', 'description'],
+        options: [
+        {% for synonym in synonyms %}
+             {name: '{%trans synonym.word %}', description: '{{ synonym.desc.all.0.short  }}', id:'{{ synonym.id }}' },
+         {% endfor %}
+        ],
+        render: {
+            option: function(item, escape) {
+                var label = item.name || item.description;
+                var caption = item.name ? item.description : null;
+                return '<div>' +
+                    '<span class="label label-default">' + escape(label) + '</span>' +
+                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
+                '</div>';
+            }
+        }
+    });
+    $('[id^=description_short_]').on('click', function () {
+         var my_id = $(this).attr("id");
+         var language = my_id.split("_")[2];
+         var long_description_id = "long_description_" + language;
+         $('.' + long_description_id).slideToggle("fast");
+         $('.' + long_description_id).focusout(function() {
+             $('.' + long_description_id).hide();
+         });
+    });
+});
+
+</script>
+
 {% endblock %}

@@ -16,7 +16,7 @@ urlpatterns = [
             lambda u: u.is_authenticated and u.profile.reputation >= 100,
             login_url=''
         )(
-            views.EditView.as_view()
+            views.edit_word
         ),
         name='edit_view'),
     url(r'^view/(?P<pk>\d+)$', views.WordView.as_view(), name='word_view'),
