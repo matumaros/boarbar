@@ -182,10 +182,13 @@ def edit_word(request, pk):
         .values("language__default_variant", "language_id")
     user_languages = UserLanguage.objects.filter(user=user_profile)
     user_moderator = False
+    word_language = word.version.language.name
+
     for user_language in user_languages:
-        if user_language.is_moderator:
-            user_moderator = True
-            break
+        if user_language.language.name == word_language:
+            if user_language.is_moderator:
+                user_moderator = True
+                break
 
     form = EditForm(request.POST or None)
     if form.is_valid():
