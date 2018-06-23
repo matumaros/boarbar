@@ -45,22 +45,22 @@
       <div class="form-group">
         {% for lan in user_languages %}
           {% if lan.proficiency == "advanced" or lan.proficiency == "fluent" or lan.proficiency == "native" %}
-
             <div>
               <label class="col-sm-2 control-label" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
-              <div class="col-sm-10">
+                <div class="col-sm-10">
+
                 <textarea class="form-control" id="description_short_{{ lan.language.name }}"
-                        name="desc_short_{{ lan.language.name }}"></textarea>
+                        name="desc_short_{{ lan.language.name }}">{% for des in descriptions %}{% if des.language.name == lan.language.name %}{{ des.short }}{% endif %}{% endfor %}</textarea>
+
               </div>
             </div>
             <div class="long-desc long_description_{{ lan.language.name }}">
                 <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
                 <div class="col-sm-10">
                   <textarea class="form-control" id="add_word_description_long"
-                            name="desc_long_{{ lan.language.name }}"></textarea>
+                            name="desc_long_{{ lan.language.name }}">{% for des in descriptions %}{% if des.language.name == lan.language.name %}{{ des.extended }}{% endif %}{% endfor %}</textarea>
                 </div>
             </div>
-
           {% endif %}
         {% endfor %}
       </div>

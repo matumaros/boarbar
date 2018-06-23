@@ -183,6 +183,7 @@ def edit_word(request, pk):
     user_languages = UserLanguage.objects.filter(user=user_profile)
     user_moderator = False
     word_language = word.version.language.name
+    descriptions = word.desc.all()
 
     for user_language in user_languages:
         if user_language.language.name == word_language:
@@ -216,7 +217,7 @@ def edit_word(request, pk):
         'tags': Tag.objects.all(),
         'ipa': word.ipa,
         'wiktionary_link': word.wiktionary_link,
-        'descriptions': Description.objects.filter(id=pk),
+        'descriptions': descriptions,
         'word': word,
         'form': form,
         'word_id': pk,
@@ -234,6 +235,11 @@ def create_descriptions(request, word):
             language_name = key.replace("desc_short_", "")
             desc_short_value = request.POST.get(key, "")
             desc_long_value = request.POST.get("desc_long_" + language_name)
+
+            if desc_short_value.strip() == "":
+                desc_short_value = None
+            if desc_long_value.strip() == "":
+                desc_long_value = None
 
             if desc_long_value or desc_short_value:
                 language_obj = Language.objects.get(name=language_name)
