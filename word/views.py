@@ -184,7 +184,7 @@ def edit_word(request, pk):
     user_moderator = False
     word_language = word.version.language.name
 
-    descriptions = select_descriptions(word, user_languages)
+    descriptions = word.desc.all()
 
     for user_language in user_languages:
         if user_language.language.name == word_language:
@@ -214,7 +214,7 @@ def edit_word(request, pk):
             word.audio = request.FILES["audio"]
         word.save()
 
-        return redirect('/word/edit/' + str(pk) + '/')
+        return redirect('/word/view/' + str(pk))
 
     context = {
         'synonyms': Word.objects.all(),
@@ -247,20 +247,15 @@ def create_descriptions(request, word):
 
             if desc_long_value or desc_short_value:
                 language_obj = Language.objects.get(name=language_name)
-                desc = Description.objects.create(
+                desc, created = Description.objects.get_or_create(
                     short=desc_short_value.strip(),
                     extended=desc_long_value.strip(),
                     language=language_obj,
                 )
+                if created:
+                    old_desc_language = word.desc.filter(language=language_obj)
+                    word.desc.remove(*old_desc_language)
                 word.desc.add(desc)
-
-def select_descriptions(word, user_languages):
-    descriptions = word.desc.all()
-    last_descriptions = []
-    for lan in user_languages:
-        last_descriptions.append(descriptions.filter(
-                                  language__name =lan.language.name).last())
-    return last_descriptions
 
 
 class WordListView(ListView):
