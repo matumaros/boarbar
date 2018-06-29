@@ -48,11 +48,9 @@
             <div>
               <label class="col-sm-2 control-label" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
                 <div class="col-sm-10">
-
                 <textarea class="form-control" id="description_short_{{ lan.language.name }}"
                         name="desc_short_{{ lan.language.name }}">{% for des in descriptions %}{% if des.language.name == lan.language.name %}{{ des.short }}{% endif %}{% endfor %}</textarea>
-
-              </div>
+                </div>
             </div>
             <div class="long-desc long_description_{{ lan.language.name }}">
                 <label class="col-sm-2 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
@@ -69,7 +67,7 @@
           <label class="col-sm-2 control-label">Tag</label>
           <div class="col-sm-10">
             <select id="tags" name="tags">
-                <option disabled selected value></option>
+
             </select>
           </div>
       </div>
@@ -112,7 +110,7 @@ $(document).ready(function(){
         searchField: ['name', 'description'],
         options: [
         {% for tag in tags %}
-             {name: '{%trans tag.name %}', description: '{{ tag.description }}', id:'{{ tag.id }}' },
+             {name: '{%trans tag.name %}', description: '{{ tag.description }}', id:'{{ tag.id }}'},
          {% endfor %}
         ],
         render: {
@@ -125,6 +123,7 @@ $(document).ready(function(){
                 '</div>';
             }
         },
+
          {% if user_moderator %}
             create: true,
         {% endif %}

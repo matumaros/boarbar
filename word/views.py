@@ -183,7 +183,10 @@ def edit_word(request, pk):
     user_languages = UserLanguage.objects.filter(user=user_profile)
     user_moderator = False
     word_language = word.version.language.name
-    descriptions = word.desc.all()
+
+    descriptions = select_descriptions(word, user_languages)
+
+    tags = Tag.objects.all()
 
     for user_language in user_languages:
         if user_language.language.name == word_language:
@@ -193,6 +196,7 @@ def edit_word(request, pk):
 
     form = EditForm(request.POST or None)
     if form.is_valid():
+        print("POST", request.POST)
         tags = request.POST.getlist("tags")
         for tag_str in tags:
             tag, _ = Tag.objects.get_or_create(name=tag_str)
@@ -214,7 +218,7 @@ def edit_word(request, pk):
 
     context = {
         'synonyms': Word.objects.all(),
-        'tags': Tag.objects.all(),
+        'tags': tags,
         'ipa': word.ipa,
         'wiktionary_link': word.wiktionary_link,
         'descriptions': descriptions,
@@ -244,11 +248,19 @@ def create_descriptions(request, word):
             if desc_long_value or desc_short_value:
                 language_obj = Language.objects.get(name=language_name)
                 desc = Description.objects.create(
-                    short=desc_short_value,
-                    extended=desc_long_value,
+                    short=desc_short_value.strip(),
+                    extended=desc_long_value.strip(),
                     language=language_obj,
                 )
                 word.desc.add(desc)
+
+def select_descriptions(word, user_languages):
+    descriptions = word.desc.all()
+    last_descriptions = []
+    for lan in user_languages:
+        last_descriptions.append(descriptions.filter(
+                                  language__name =lan.language.name).last())
+    return last_descriptions
 
 
 class WordListView(ListView):
