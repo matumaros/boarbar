@@ -186,8 +186,6 @@ def edit_word(request, pk):
 
     descriptions = select_descriptions(word, user_languages)
 
-    tags = Tag.objects.all()
-
     for user_language in user_languages:
         if user_language.language.name == word_language:
             if user_language.is_moderator:
@@ -198,6 +196,7 @@ def edit_word(request, pk):
     if form.is_valid():
         print("POST", request.POST)
         tags = request.POST.getlist("tags")
+        word.tags.clear()
         for tag_str in tags:
             tag, _ = Tag.objects.get_or_create(name=tag_str)
             word.tags.add(tag)
@@ -218,7 +217,7 @@ def edit_word(request, pk):
 
     context = {
         'synonyms': Word.objects.all(),
-        'tags': tags,
+        'tags': Tag.objects.all(),
         'ipa': word.ipa,
         'wiktionary_link': word.wiktionary_link,
         'descriptions': descriptions,
