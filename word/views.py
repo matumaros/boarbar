@@ -201,6 +201,7 @@ def edit_word(request, pk):
             tag, _ = Tag.objects.get_or_create(name=tag_str)
             word.tags.add(tag)
 
+        word.synonyms.clear()
         for synonym in form.cleaned_data["synonyms"]:
             word.synonyms.add(synonym)
 

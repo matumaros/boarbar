@@ -90,7 +90,11 @@
       <div class="form-group">
           <label class="col-sm-2 control-label">Synonyms</label>
           <div class="col-sm-10">
-            <select id="synonyms" name="synonyms">
+            <select id="synonyms" name="synonyms" multiple>
+                <option value="">Select a synonym...</option>
+                {% for syn in synonyms %}
+                    <option value="{{ syn.id }}" {% if syn in word.synonyms.all %}selected{% endif %}>{{ syn }}</option>
+                {% endfor %}
             </select>
           </div>
       </div>
@@ -115,24 +119,7 @@ $(document).ready(function(){
     });
     $('#synonyms').selectize({
         maxItems: 4,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: ['name', 'description'],
-        options: [
-        {% for synonym in synonyms %}
-             {name: '{%trans synonym.word %}', description: '{{ synonym.desc.all.0.short  }}', id:'{{ synonym.id }}' },
-         {% endfor %}
-        ],
-        render: {
-            option: function(item, escape) {
-                var label = item.name || item.description;
-                var caption = item.name ? item.description : null;
-                return '<div>' +
-                    '<span class="label label-default">' + escape(label) + '</span>' +
-                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
-                '</div>';
-            }
-        }
+
     });
     $('[id^=description_short_]').on('click', function () {
          var my_id = $(this).attr("id");
