@@ -184,6 +184,8 @@ def edit_word(request, pk):
     user_moderator = False
     word_language = word.version.language.name
 
+    descriptions = word.desc.all()
+
     for user_language in user_languages:
         if user_language.language.name == word_language:
             if user_language.is_moderator:
@@ -192,11 +194,14 @@ def edit_word(request, pk):
 
     form = EditForm(request.POST or None)
     if form.is_valid():
+        print("POST", request.POST)
         tags = request.POST.getlist("tags")
+        word.tags.clear()
         for tag_str in tags:
             tag, _ = Tag.objects.get_or_create(name=tag_str)
             word.tags.add(tag)
 
+        word.synonyms.clear()
         for synonym in form.cleaned_data["synonyms"]:
             word.synonyms.add(synonym)
 
@@ -209,14 +214,14 @@ def edit_word(request, pk):
             word.audio = request.FILES["audio"]
         word.save()
 
-        return redirect('/word/edit/' + str(pk) + '/')
+        return redirect('/word/view/' + str(pk))
 
     context = {
         'synonyms': Word.objects.all(),
         'tags': Tag.objects.all(),
         'ipa': word.ipa,
         'wiktionary_link': word.wiktionary_link,
-        'descriptions': Description.objects.filter(id=pk),
+        'descriptions': descriptions,
         'word': word,
         'form': form,
         'word_id': pk,
@@ -235,13 +240,21 @@ def create_descriptions(request, word):
             desc_short_value = request.POST.get(key, "")
             desc_long_value = request.POST.get("desc_long_" + language_name)
 
+            if desc_short_value.strip() == "":
+                desc_short_value = None
+            if desc_long_value.strip() == "":
+                desc_long_value = None
+
             if desc_long_value or desc_short_value:
                 language_obj = Language.objects.get(name=language_name)
-                desc = Description.objects.create(
-                    short=desc_short_value,
-                    extended=desc_long_value,
+                desc, created = Description.objects.get_or_create(
+                    short=desc_short_value.strip(),
+                    extended=desc_long_value.strip(),
                     language=language_obj,
                 )
+                if created:
+                    old_desc_language = word.desc.filter(language=language_obj)
+                    word.desc.remove(*old_desc_language)
                 word.desc.add(desc)
 
 
