@@ -105,7 +105,7 @@
         </div>
 
         <div class="col-xs-offset-4 col-xs-3 col-sm-offset-5 col-sm-3">
-          <a class="btn btn-primary cancel-button">{% trans "Cancel" %}</a>
+          <a href="{% url 'word:word_view' word.id %}" class="btn btn-primary">{% trans "Cancel" %}</a>
         </div>
       </div>
     </form>
