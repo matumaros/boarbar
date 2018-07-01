@@ -81,7 +81,6 @@ class SuggestView(TemplateView):
         if request.method == "POST" and "file" in request.FILES:
             form = WordForm(request.POST, request.FILES)
             if form.is_valid():
-                print("$"*10, "form is valid")
                 word_obj = form.save(commit=False)
                 word_obj.submitter = request.user.profile
                 word_obj.audio = request.FILES["file"]
