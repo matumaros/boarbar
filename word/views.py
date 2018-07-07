@@ -157,21 +157,31 @@ class SuggestView(TemplateView):
         :return: list of Description objects
         """
         descriptions = {}
+
         for key, value in request.POST.items():
             if not value:
                 continue
             if key.startswith("desc_long") or key.startswith("desc_short"):
-                key, language = key.rsplit("_", 1)
+                key, language_string = key.rsplit("_", 1)
                 try:
-                    desc = descriptions[language]
+                    desc = descriptions[language_string]
                 except KeyError:
-                    language_obj = Language.objects.get(name=language)
+                    language_obj = Language.objects.get(name=language_string)
                     desc = Description(language=language_obj)
-                    descriptions[language] = desc
-                setattr(desc, key, value)
-        descriptions = list(descriptions.values())
-        Description.objects.bulk_create(descriptions)
-        return descriptions
+                    descriptions[language_string] = desc
+
+                # assign Description.short = value
+                if key == "desc_short":
+                    setattr(desc, "short", value)
+                # assign Description.extended = value
+                if key == "desc_long":
+                    setattr(desc, "extended", value)
+
+        # select the Description objects that are stored as values in the dict
+        # descriptions
+        descriptions_to_create = list(descriptions.values())
+
+        return Description.objects.bulk_create(descriptions_to_create)
 
 
 def edit_word(request, pk):
