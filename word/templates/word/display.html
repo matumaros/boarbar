@@ -1,24 +1,32 @@
 {% extends 'share/base_site.html' %}
 {% load i18n %}
 
+
 {% block content %}
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-4">
-        <h1>
-          {{ object.word }}
-        </h1>
-      </div>
       <div class="col-md-8">
+        <h1>
+            {{ object.word }}&nbsp<small>({{ object.ipa }})&nbsp<i class="glyphicon glyphicon-volume-up"></i><a
+                href="">&nbsp{{ object.audio }}</a></small>
+        </h1>
+        <p>{{ object.status }}</p>
+        <p>{% for tag in tags %}
+          {{ tag }}
+        {% endfor %}
+        </p>
+        <p>{{ object.wiktionary_link }}</p>
+
+      </div>
+      <div class="col-md-4">
         <a class="button" href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "Edit" %}</a>
+        <p>{{ object.version }}</p>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <h3>
-          {% trans "Description" %}
-        </h3>
-        {% for desc in descriptions %}
+      <div class="col-md-3">
+        <h4><strong>{% trans "Description" %}</h4></strong>
+          {% for desc in descriptions %}
           <h5>
             {{ desc.language.name }}
           </h5>
@@ -30,6 +38,50 @@
           </p>
         {% endfor %}
       </div>
+    <!--using bootstrap-->
+      <div class="col-md-3">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Select language
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              {% for desc in descriptions %}
+            <li><a id="{{ desc.language.name }}">{{ desc.language.name }}</a></li>
+              {% endfor %}
+           </ul>
+        </div>
+      </div>
+      <!---->
+    <!--using selectize-->
+    <div class="col-md-3">
+      <select id="language">
+          <option value="">Select language</option>
+          {% for desc in descriptions %}
+          <option value="{{ desc.language.name }}">{{ desc.language.name }}</option>
+          {% endfor %}
+      </select>
+    </div>
+    <!--using select-options-->
+    <div class="col-md-3">
+      <select id="language_desc">
+          <option value="">Select language</option>
+          {% for desc in descriptions %}
+          <option value="{{ desc.language.name }}" class="language_option">{{ desc.language.name }}</option>
+          {% endfor %}
+      </select>
+    </div>
+    <div id="desc">
+        {% for desc in descriptions %}
+            {% if desc.language.name == variable %}
+                <p id="desc_short" >{{ desc.short }}</p>
+                <p id="desc_long">{{ desc.extended }}</p>
+            {%  endif %}
+        {% endfor %}
+    </div>
+
+
+
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -96,6 +148,19 @@ function myMap() {
   });
   {% endfor %}
 }
+
+$(document).ready(function() {
+    $('#language').selectize({
+    create: true,
+    sortField: 'text'
+    });
+
+    $('#language_desc').click(function(){
+            var option1 = $('#language_desc').val();
+            console.log(option1);
+    });
+
+});
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhu-iZmNwpCjsuQyqH5p1ea69HU0xbDgo&callback=myMap&libraries=visualization">

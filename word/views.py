@@ -32,6 +32,7 @@ class WordView(DetailView):
             'descriptions': self.object.desc.all(),
             'synonyms': self.object.synonyms.all(),
             'locations': self.object.locations.all(),
+            'tags': self.object.tags.all(),
         })
         return context
 
