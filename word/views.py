@@ -81,7 +81,6 @@ class SuggestView(TemplateView):
         if request.method == "POST" and "file" in request.FILES:
             form = WordForm(request.POST, request.FILES)
             if form.is_valid():
-                print("$"*10, "form is valid")
                 word_obj = form.save(commit=False)
                 word_obj.submitter = request.user.profile
                 word_obj.audio = request.FILES["file"]
@@ -158,21 +157,31 @@ class SuggestView(TemplateView):
         :return: list of Description objects
         """
         descriptions = {}
+
         for key, value in request.POST.items():
             if not value:
                 continue
             if key.startswith("desc_long") or key.startswith("desc_short"):
-                key, language = key.rsplit("_", 1)
+                key, language_string = key.rsplit("_", 1)
                 try:
-                    desc = descriptions[language]
+                    desc = descriptions[language_string]
                 except KeyError:
-                    language_obj = Language.objects.get(name=language)
+                    language_obj = Language.objects.get(name=language_string)
                     desc = Description(language=language_obj)
-                    descriptions[language] = desc
-                setattr(desc, key, value)
-        descriptions = list(descriptions.values())
-        Description.objects.bulk_create(descriptions)
-        return descriptions
+                    descriptions[language_string] = desc
+
+                # assign Description.short = value
+                if key == "desc_short":
+                    setattr(desc, "short", value)
+                # assign Description.extended = value
+                if key == "desc_long":
+                    setattr(desc, "extended", value)
+
+        # select the Description objects that are stored as values in the dict
+        # descriptions
+        descriptions_to_create = list(descriptions.values())
+
+        return Description.objects.bulk_create(descriptions_to_create)
 
 
 def edit_word(request, pk):
@@ -205,7 +214,7 @@ def edit_word(request, pk):
         for synonym in form.cleaned_data["synonyms"]:
             word.synonyms.add(synonym)
 
-        create_descriptions(request, word)
+        update_descriptions(request, word)
 
         word.word = form.cleaned_data["word"]
         word.ipa = form.cleaned_data["ipa"]
@@ -233,23 +242,22 @@ def edit_word(request, pk):
     return render(request, "word/word_update_form.html", context)
 
 
-def create_descriptions(request, word):
+def update_descriptions(request, word):
     for key in request.POST.keys():
         if "desc_short_" in key:
             language_name = key.replace("desc_short_", "")
-            desc_short_value = request.POST.get(key, "")
-            desc_long_value = request.POST.get("desc_long_" + language_name)
+            desc_short_value = request.POST.get(key, "").strip()
+            desc_long_value = request.POST.get("desc_long_" + language_name).strip()
+            language_obj = Language.objects.get(name=language_name)
 
-            if desc_short_value.strip() == "":
-                desc_short_value = None
-            if desc_long_value.strip() == "":
-                desc_long_value = None
+            if not desc_long_value and not desc_short_value:
+                old_desc_language = word.desc.filter(language=language_obj)
+                word.desc.remove(*old_desc_language)
 
             if desc_long_value or desc_short_value:
-                language_obj = Language.objects.get(name=language_name)
                 desc, created = Description.objects.get_or_create(
-                    short=desc_short_value.strip(),
-                    extended=desc_long_value.strip(),
+                    short=desc_short_value,
+                    extended=desc_long_value,
                     language=language_obj,
                 )
                 if created:
