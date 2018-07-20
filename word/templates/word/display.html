@@ -26,65 +26,36 @@
     <div class="row">
       <div class="col-md-3">
         <h4><strong>{% trans "Description" %}</h4></strong>
-          {% for desc in descriptions %}
-          <h5>
-            {{ desc.language.name }}
-          </h5>
-          <p>
-            {{ desc.short }}
-          </p>
-          <p>
-            {{ desc.extended }}
-          </p>
-        {% endfor %}
-      </div>
-    <!--using bootstrap-->
-      <div class="col-md-3">
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Select language
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              {% for desc in descriptions %}
-            <li><a id="{{ desc.language.name }}">{{ desc.language.name }}</a></li>
-              {% endfor %}
-           </ul>
+        <div id="desc">
         </div>
       </div>
-      <!---->
-    <!--using selectize-->
-    <div class="col-md-3">
-      <select id="language">
-          <option value="">Select language</option>
-          {% for desc in descriptions %}
-          <option value="{{ desc.language.name }}">{{ desc.language.name }}</option>
-          {% endfor %}
-      </select>
-    </div>
+
     <!--using select-options-->
-    <div class="col-md-3">
-      <select id="language_desc">
-          <option value="">Select language</option>
-          {% for desc in descriptions %}
-          <option value="{{ desc.language.name }}" class="language_option">{{ desc.language.name }}</option>
-          {% endfor %}
-      </select>
-    </div>
-    <div id="desc">
-        {% for desc in descriptions %}
-            {% if desc.language.name == variable %}
-                <p id="desc_short" >{{ desc.short }}</p>
-                <p id="desc_long">{{ desc.extended }}</p>
-            {%  endif %}
-        {% endfor %}
-    </div>
+      <div class="col-md-3">
+          <select id="language_desc" class="btn btn-default dropdown-toggle"">
+              <option  class="dropdown-menu" value="">Select language</option>
+              {% for desc in descriptions %}
+              <option value="{{ desc.language.id }}">{{ desc.language.name }}</option>
+              {% endfor %}
+          </select>
+      </div>
+
+      <div class="col-md-3">
+        <h4><strong>{% trans "Synonyms" %}</h4></strong>
+        <div id="synonyms">
+        </div>
+      </div>
+
+      <div class="col-md-3">
+          <select id="synonyms_language" class="btn btn-default dropdown-toggle"">
+              <option  class="dropdown-menu" value="">Select language</option>
+              {% for synonym in synonyms %}
+              <option value="{{ synonym.version.language.id }}">{{ synonym.version.language.name }}</option>
+              {% endfor %}
+          </select>
+      </div>
 
 
-
-    </div>
-    <div class="row">
-      <div class="col-md-12">
         <table class="table">
           <thead>
             <tr>
@@ -111,8 +82,13 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
+
+
+
+
+
     </div>
+
     <div id="map" style="width:100%;height:500px"></div>
   </div>
 {% endblock %}
@@ -156,8 +132,28 @@ $(document).ready(function() {
     });
 
     $('#language_desc').click(function(){
-            var option1 = $('#language_desc').val();
-            console.log(option1);
+        var language_option = $('#language_desc').val();
+        var word_id = "{{ object.id }}"
+
+        $.getJSON('/api/word/descriptions/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
+            var desc_short = result[0].short;
+            var desc_long = result[0].extended;
+            $( "#desc" ).empty();
+            $( "#desc" ).append('<p> ' + desc_short + '</p>' + '<p> ' + desc_long + '</p>');
+        });
+    });
+
+    $('#synonyms_language').click(function(){
+        var language_option = $('#synonyms_language').val();
+        var word_id = "{{ object.id }}";
+        console.log(language_option);
+
+        $.getJSON('/api/word/synonyms/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
+            var synonym = result[0].word;
+            console.log(synonym)
+            $( "#synonyms" ).empty();
+            $( "#synonyms" ).append('<p> ' + synonym + '</p>');
+        });
     });
 
 });

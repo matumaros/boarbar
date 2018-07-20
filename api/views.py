@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.response import Response
 
 from language.models import Language
-from word.models import Word, WordVersion
+from word.models import Word, WordVersion, Description
 from .permissions import IsModeratorPermission
 from . import serializers
 
@@ -107,3 +107,29 @@ def similar_words(request):
     else:
         response = {"error": "do GET request"}
         return JsonResponse(response)
+
+
+@csrf_exempt
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def word_descriptions(request):
+    word_id = request.GET.get("word_id")
+    language_str = request.GET.get("language_str")
+    word = Word.objects.get(id=word_id)
+    descs = word.desc.all().filter(language__id=language_str).values()
+    return JsonResponse(list(descs), safe=False)
+
+@csrf_exempt
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def word_synonyms(request):
+    word_id = request.GET.get("word_id")
+    language_str = request.GET.get("language_str")
+    version = WordVersion.objects.all().filter(language__id=language_str)
+    version_values_list = list(version.values())
+    version_id = version_values_list[0]["id"]
+    word = Word.objects.get(id=word_id)
+    syn = word.synonyms.all().filter(version__id=version_id).values()
+    return JsonResponse(list(syn), safe=False)
