@@ -52,7 +52,9 @@
           <select id="synonyms_language" class="btn btn-default dropdown-toggle"">
               <option  class="dropdown-menu" value="">Select language</option>
               {% for synonym in synonyms %}
-              <option value="{{ synonym.version.language.id }}">{{ synonym.version.language.name }}</option>
+                  {% ifchanged %}
+                    <option value="{{ synonym.version.language.id }}">{{ synonym.version.language.name }}</option>
+                  {% endifchanged %}
               {% endfor %}
           </select>
       </div>
@@ -120,16 +122,18 @@ $(document).ready(function() {
         console.log(language_option);
 
         $.getJSON('/api/word/synonyms/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
-            var synonym = result[0].word;
-            var synonym_id = result[0].id;
             $( "#synonyms" ).empty();
-            
-            if (result[0].status == 'SUG') {
-                $( "#synonyms" ).append('<a class="lightgrey-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a>')
-            }
-            else {
-                $( "#synonyms" ).append('<a class="black-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a>')
-            }
+
+            $.each(result, function(index, value) {
+                var synonym = value.word;
+                var synonym_id = value.id;
+                if (value.status == 'SUG') {
+                   $( "#synonyms" ).append('<a class="lightgrey-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a> ')
+                }
+                else {
+                    $( "#synonyms" ).append('<a class="black-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a> ')
+                }
+            });
         });
     });
 
