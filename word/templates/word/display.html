@@ -5,20 +5,20 @@
 {% block content %}
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-10">
         <h1>
             {{ object.word }}&nbsp<small>({{ object.ipa }})&nbsp<i class="glyphicon glyphicon-volume-up"></i><a
                 href="">&nbsp{{ object.audio }}</a></small>
         </h1>
-        <p>{{ object.status }}</p>
-        <p>{% for tag in tags %}
+        <p><strong>Status: </strong>{{ object.status }}</p>
+        <p><strong>Tags: </strong>{% for tag in tags %}
           {{ tag }}
         {% endfor %}
         </p>
-        <p>{{ object.wiktionary_link }}</p>
+        <p><strong>Wiktionary link: </strong>{{ object.wiktionary_link }}</p>
 
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2">
         <a class="button" href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "Edit" %}</a>
         <p>{{ object.version }}</p>
       </div>
@@ -26,11 +26,11 @@
     <div class="row">
       <div class="col-md-3">
         <h4><strong>{% trans "Description" %}</h4></strong>
-        <div id="desc">
+        <div id="desc"><br><br>
         </div>
       </div>
 
-    <!--using select-options-->
+      <!--Select language options-->
       <div class="col-md-3">
           <select id="language_desc" class="btn btn-default dropdown-toggle"">
               <option  class="dropdown-menu" value="">Select language</option>
@@ -39,13 +39,15 @@
               {% endfor %}
           </select>
       </div>
+      <!--->
 
       <div class="col-md-3">
         <h4><strong>{% trans "Synonyms" %}</h4></strong>
-        <div id="synonyms">
+        <div id="synonyms"><br><br>
         </div>
       </div>
 
+      <!--Select language options-->
       <div class="col-md-3">
           <select id="synonyms_language" class="btn btn-default dropdown-toggle"">
               <option  class="dropdown-menu" value="">Select language</option>
@@ -54,39 +56,7 @@
               {% endfor %}
           </select>
       </div>
-
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th>
-                {% trans "Language" %}
-              </th>
-              <th>
-                {% trans "Word" %}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for synonym in synonyms %}
-              <tr>
-                <td>
-                  {{ synonym.version.language.name }}
-                </td>
-                <td>
-                  <a class="{% if synonym.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' synonym.id %}">
-                    {{ synonym.word }}
-                  </a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-
-
-
-
+      <!--->
     </div>
 
     <div id="map" style="width:100%;height:500px"></div>
@@ -134,6 +104,7 @@ $(document).ready(function() {
     $('#language_desc').click(function(){
         var language_option = $('#language_desc').val();
         var word_id = "{{ object.id }}"
+        console.log(language_option)
 
         $.getJSON('/api/word/descriptions/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
             var desc_short = result[0].short;
@@ -150,9 +121,15 @@ $(document).ready(function() {
 
         $.getJSON('/api/word/synonyms/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
             var synonym = result[0].word;
-            console.log(synonym)
+            var synonym_id = result[0].id;
             $( "#synonyms" ).empty();
-            $( "#synonyms" ).append('<p> ' + synonym + '</p>');
+            
+            if (result[0].status == 'SUG') {
+                $( "#synonyms" ).append('<a class="lightgrey-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a>')
+            }
+            else {
+                $( "#synonyms" ).append('<a class="black-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a>')
+            }
         });
     });
 
