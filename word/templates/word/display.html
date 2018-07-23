@@ -33,9 +33,9 @@
               <div class="col-md-6">
                   <select id="language_desc" class="btn btn-default dropdown-toggle"">
                       <option  class="dropdown-menu" value="">Select language</option>
-                      {% for desc in descriptions %}
+                      {% for desc in descriptions|dictsort:'language.id' %}
                           {% ifchanged %}
-                              <option value="{{ desc.language.id }}">{{ desc.language.name }}</option>
+                            <option value="{{ desc.language.id }}">{{ desc.language.name }}</option>
                           {% endifchanged %}
                       {% endfor %}
                   </select>
@@ -52,7 +52,7 @@
               <div class="col-md-6">
                   <select id="synonyms_language" class="btn btn-default dropdown-toggle"">
                       <option  class="dropdown-menu" value="">Select language</option>
-                      {% for synonym in synonyms %}
+                      {% for synonym in synonyms|dictsort:'version.language.id' %}
                           {% ifchanged %}
                             <option value="{{ synonym.version.language.id }}">{{ synonym.version.language.name }}</option>
                           {% endifchanged %}
@@ -112,7 +112,6 @@ $(document).ready(function() {
     $('#language_desc').click(function(){
         var language_option = $('#language_desc').val();
         var word_id = "{{ object.id }}"
-        console.log(language_option)
 
         $.getJSON('/api/word/descriptions/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
             var desc_short = result[0].short;
@@ -125,7 +124,6 @@ $(document).ready(function() {
     $('#synonyms_language').click(function(){
         var language_option = $('#synonyms_language').val();
         var word_id = "{{ object.id }}";
-        console.log(language_option);
 
         $.getJSON('/api/word/synonyms/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
             $( "#synonyms" ).empty();
