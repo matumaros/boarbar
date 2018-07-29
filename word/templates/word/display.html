@@ -1,5 +1,6 @@
 {% extends 'share/base_site.html' %}
 {% load i18n %}
+{% load static %}
 
 
 {% block content %}
@@ -7,9 +8,21 @@
     <div class="row">
       <div class="col-md-10">
         <h1>
-            {{ object.word }}&nbsp<small>({{ object.ipa }})&nbsp<i class="glyphicon glyphicon-volume-up"></i><a
-                href="">&nbsp{{ object.audio }}</a></small>
+            {{ object.word }}
         </h1>
+        <h2>
+          {% if object.ipa %}
+              ({{ object.ipa }})
+          {% endif %}
+
+          {% if object.audio %}
+              <audio id="sound2" preload="auto">
+                <source src="{% static '' %}{{ object.audio }}">
+              </audio>
+              <a href="#" id="audio"><i class="glyphicon glyphicon-volume-up"></i></a>
+          {% endif %}
+        </h2>
+
         <p><strong>Status: </strong>{{ object.status }}</p>
         <p><strong>Tags: </strong>{% for tag in tags %}
           {{ tag }}
@@ -139,6 +152,11 @@ $(document).ready(function() {
                 }
             });
         });
+    });
+
+    $("#audio").click(function() {
+        var audio = document.getElementById("sound2");
+        audio.play();
     });
 
 });
