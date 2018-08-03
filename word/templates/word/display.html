@@ -9,8 +9,9 @@
       <div class="col-md-10">
         <h1>
             {{ object.word|title }}
+            <small><sup><a href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "[Edit]" %}</a></sup></small>
         </h1>
-        <h2>
+        <h2 class="ipa-format">
           {% if object.ipa %}
               ({{ object.ipa }})
           {% endif %}
@@ -32,8 +33,7 @@
 
       </div>
       <div class="col-md-2">
-        <a class="button" href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "Edit" %}</a>
-        <p>{{ object.version }}</p>
+        <p>{{ object.version.language }}</p>
       </div>
     </div>
 
@@ -45,7 +45,7 @@
               </div>
               <div class="col-md-6">
                   <select id="language_desc" class="btn btn-default dropdown-toggle"">
-                      <option  class="dropdown-menu" value="">Select language</option>
+                      <option  class="dropdown-menu" value="{{ description_default.0.language.id }}">{{ description_default.0.language }}</option>
                       {% for desc in descriptions|dictsort:'language.id' %}
                           {% ifchanged %}
                             <option value="{{ desc.language.id }}">{{ desc.language.name }}</option>
@@ -54,7 +54,13 @@
                   </select>
               </div>
           </div>
-          <div id="desc"><br><br>
+          <div id="desc">
+              <!--Show default description-->
+              {% with desc=description_default|first %}
+                <p>{{ desc.short }}</p>
+                <p>{{ desc.extended }}</p>
+              {% endwith %}
+              <!--if there is not show another-->
           </div>
       </div>
       <div class="col-sm-12 col-md-6">
@@ -64,7 +70,7 @@
               </div>
               <div class="col-md-6">
                   <select id="synonyms_language" class="btn btn-default dropdown-toggle"">
-                      <option  class="dropdown-menu" value="">Select language</option>
+                      <option class="dropdown-menu" value="{{ synonym_default.0.version.language.id }}">{{ synonym_default.0.version.language  }}</option>
                       {% for synonym in synonyms|dictsort:'version.language.id' %}
                           {% ifchanged %}
                             <option value="{{ synonym.version.language.id }}">{{ synonym.version.language.name }}</option>
@@ -74,8 +80,17 @@
               </div>
 
           </div>
-          <div id="synonyms"><br><br>
+          <div id="synonyms">
+              <!--Show the synonym that matches the word language-->
+          {%  for syn in synonym_default %}
+              {% if syn %}
+                  <a class="{% if syn.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' syn.id %}">
+                        {{ syn.word }}
+                  </a>
+              {% endif %}
+          {% endfor %}
           </div>
+
       </div>
     </div>
 
