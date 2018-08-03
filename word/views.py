@@ -39,7 +39,6 @@ class WordView(DetailView):
             # there is no syn of the same language as the word
             default_syn = [self.object.synonyms.first()]
 
-
         context.update({
             'descriptions': self.object.desc.all(),
             'description_default': default_desc,
@@ -49,10 +48,6 @@ class WordView(DetailView):
             'tags': self.object.tags.all(),
         })
         return context
-
-    def get_default_description(self,**kwargs ):
-
-        return
 
 
 @method_decorator(login_required, name='dispatch')

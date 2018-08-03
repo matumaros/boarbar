@@ -6,7 +6,7 @@
 {% block content %}
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-xs-10">
         <h1>
             {{ object.word|title }}
             <small><sup><a href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "[Edit]" %}</a></sup></small>
@@ -32,7 +32,7 @@
         <p><strong>Wiktionary link: </strong>{{ object.wiktionary_link }}</p>
 
       </div>
-      <div class="col-md-2">
+      <div class="col-xs-2">
         <p>{{ object.version.language }}</p>
       </div>
     </div>
@@ -44,7 +44,7 @@
                   <h4><strong>{% trans "Description" %}</h4></strong>
               </div>
               <div class="col-md-6">
-                  <select id="language_desc" class="btn btn-default dropdown-toggle"">
+                  <select id="language_desc" class="btn btn-default dropdown-toggle">
                       <option  class="dropdown-menu" value="{{ description_default.0.language.id }}">{{ description_default.0.language }}</option>
                       {% for desc in descriptions|dictsort:'language.id' %}
                           {% ifchanged %}
@@ -93,8 +93,6 @@
 
       </div>
     </div>
-
-
     <div id="map" style="width:100%;height:500px"></div>
   </div>
 {% endblock %}
