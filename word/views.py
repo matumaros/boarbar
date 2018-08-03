@@ -29,8 +29,20 @@ class WordView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        default_desc = self.object.desc.filter(language__name=self.object.version.language)
+        if not default_desc:
+            # there is no desc of the same language as the word
+            default_desc = [self.object.desc.first()]
+
+        default_syn =self.object.synonyms.filter(version__language=self.object.version.language)
+        if not default_syn:
+            # there is no syn of the same language as the word
+            default_syn = [self.object.synonyms.first()]
+
         context.update({
             'descriptions': self.object.desc.all(),
+            'description_default': default_desc,
+            'synonym_default': default_syn,
             'synonyms': self.object.synonyms.all(),
             'locations': self.object.locations.all(),
             'tags': self.object.tags.all(),
