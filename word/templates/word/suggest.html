@@ -1,7 +1,9 @@
 {% extends 'share/base_site.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block content %}
+
 <div class="container suggest_form">
     <form id="add_word_form" class="form-horizontal" role="form"
          action="{% url 'word:suggest_view' %}"
@@ -82,7 +84,10 @@
             {% if uploaded_file_url %}
               <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
             {% endif %}
+
         </div>
+        <div class="col-sm-10 audio"></div>
+
       </div>
       <div class="form-group advanced-options">
         <label class="col-sm-2 control-label" for="synonym">{% trans "Synonyms" %}</label>
@@ -254,5 +259,112 @@ $(document).ready(function(){
         },
     });
 });
+</script>
+<script>
+    'use strict';
+
+    function getUserAudioStream() {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            return navigator.mediaDevices.getUserMedia({ audio: true });
+        }
+
+        var getUserMedia = navigator.getUserMedia
+                        || navigator.webkitGetUserMedia
+                        || navigator.mozGetUserMedia
+                        || navigator.msGetUserMedia;
+
+        return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, { audio: true }, resolve, reject);
+        });
+    }
+
+    function main() {
+        getUserAudioStream().then((mediaStream) => {
+            stuff(mediaStream);
+        });
+    }
+
+    window.addEventListener('load', main);
+
+    function showAudio(url) {
+        var div = document.createElement('div');
+        div.style.width = '50px';
+
+        var audio = document.createElement('audio');
+        audio.controls = true;
+        audio.src = url;
+        div.appendChild(audio);
+
+        var link = document.createElement('a');
+        link.download = 'recording.ogg';
+        link.href = url;
+        link.innerHTML = 'download';
+        div.appendChild(link);
+        console.log(url);
+
+        document.querySelector(".audio").appendChild(div);
+    }
+
+    function downloadBlob(url) {
+        var promise = new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'blob';
+
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+
+            xhr.send();
+            console.log("xhr");
+            console.log(xhr);
+        });
+        console.log("ppppromise");
+        console.log(promise);
+        return promise;
+    }
+
+    function stuff(mediaStream) {
+        console.log(mediaStream);
+
+        var recorder = new VorbisMediaRecorder(mediaStream, { audioBitsPerSecond: 32000 });
+
+        console.log(recorder);
+
+        var chunks = [];
+
+        recorder.ondataavailable = (ev) => {
+            console.log(ev.data);
+            chunks.push(ev.data);
+        };
+
+        recorder.onstart = () => {
+            console.log('start');
+        };
+
+        recorder.onstop = () => {
+            console.log('stop');
+            var blob = new Blob(chunks, { type: chunks[0].type });
+            chunks = [];
+            var url = URL.createObjectURL(blob);
+
+            downloadBlob(url).then(blob => {
+                showAudio(URL.createObjectURL(blob));
+            });
+        };
+
+        var button = document.createElement('button');
+        button.innerHTML = 'Record File';
+        button.onclick = () => {
+            if (recorder.state === 'recording') {
+                recorder.stop();
+                button.innerHTML = 'Record File';
+            } else {
+                recorder.start();
+                button.innerHTML = 'stop';
+            }
+        };
+        document.querySelector(".audio").appendChild(button);
+    }
 </script>
 {% endblock %}
