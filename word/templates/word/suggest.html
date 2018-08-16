@@ -78,11 +78,18 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-2 control-label" style="border:solid yellow 1px;">{% trans "Audio" %}</label>
-        <div class="col-sm-10 audio"></div>
-        <div class="col-sm-offset-2"  style="padding-left:15px;">
+        <label class="col-sm-2 control-label">{% trans "Audio" %}</label>
+        <div class="col-sm-2 audio"></div>
+        <div class="col-sm-8">
+            <div class="row player-area">
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-12">
+            <small class="form-text text-muted"><i class="glyphicon glyphicon-info-sign"></i>After recording you need to 'download' and then 'Choose file' to upload to Servare</small>
+        </div>
+        <div class="col-sm-offset-2" style="padding-left:15px;">
              <div class="row">
-                <div class="col-sm-3" style="border:solid 1px;">
+                <div class="col-sm-3">
                 <label for="files" class="btn btn-default">Choose file</label>
 
                 <input id="files" style="visibility:hidden" type="file" name="file" accept="audio/*"/>
@@ -90,7 +97,7 @@
                   <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
                 {% endif %}
                 </div>
-                <div class="col-sm-9 filename" style="border:solid yellow 1px;">
+                <div class="col-sm-9 filename">
                 </div>
              </div>
         </div>
@@ -270,6 +277,7 @@ $(document).ready(function(){
         console.log(filename);
         $(".filename").html(filename);
     })
+
 });
 </script>
 <script>
@@ -299,31 +307,27 @@ $(document).ready(function(){
     window.addEventListener('load', main);
 
     function showAudio(url) {
-        var div = document.createElement('div');
-        div.style.width = '300px';
+        var div1 = document.createElement('div');
+        div1.className = 'col-sm-10';
 
         var audio = document.createElement('audio');
         audio.controls = true;
         audio.src = url;
-        div.appendChild(audio);
+        div1.appendChild(audio);
+        document.querySelector(".player-area").appendChild(div1);
+
+        var div2 = document.createElement('div');
+        div2.className = 'col-sm-2';
 
         var link = document.createElement('a');
         link.download = 'recording.ogg';
         link.href = url;
-        link.innerHTML = 'download';
-        div.appendChild(link);
+        link.title = "Download";
+        link.innerHTML = '<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button>';
+
+        div2.appendChild(link);
         console.log(url);
-
-        var info = document.createElement('p');
-        info.className = "form-text text-muted";
-        info.innerHTML = "After recording you need to 'download' and then 'Choose file' to upload to Servare";
-        div.style.border = 'solid gray 1px';
-        div.style.borderRadius = '5px';
-
-
-        div.appendChild(info);
-
-        document.querySelector(".audio").appendChild(div);
+        document.querySelector(".player-area").appendChild(div2)
     }
 
     function downloadBlob(url) {
