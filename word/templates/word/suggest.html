@@ -78,16 +78,22 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-2 control-label">{% trans "Audio" %}</label>
-        <div class="col-sm-10">
-            <input type="file" name="file" accept="audio/*"/>
-            {% if uploaded_file_url %}
-              <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-            {% endif %}
-
-        </div>
+        <label class="col-sm-2 control-label" style="border:solid yellow 1px;">{% trans "Audio" %}</label>
         <div class="col-sm-10 audio"></div>
+        <div class="col-sm-offset-2"  style="padding-left:15px;">
+             <div class="row">
+                <div class="col-sm-3" style="border:solid 1px;">
+                <label for="files" class="btn btn-default">Choose file</label>
 
+                <input id="files" style="visibility:hidden" type="file" name="file" accept="audio/*"/>
+                {% if uploaded_file_url %}
+                  <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+                {% endif %}
+                </div>
+                <div class="col-sm-9 filename" style="border:solid yellow 1px;">
+                </div>
+             </div>
+        </div>
       </div>
       <div class="form-group advanced-options">
         <label class="col-sm-2 control-label" for="synonym">{% trans "Synonyms" %}</label>
@@ -97,6 +103,7 @@
             </select>
         </div>
       </div>
+
       <div class="form-group advanced-options">
         <label class="col-sm-2 control-label">{% trans "Wiktionary link" %}</label>
         <div class="col-sm-5">
@@ -258,6 +265,11 @@ $(document).ready(function(){
             }
         },
     });
+    $("#files").change(function() {
+        filename = this.files[0].name
+        console.log(filename);
+        $(".filename").html(filename);
+    })
 });
 </script>
 <script>
@@ -288,7 +300,7 @@ $(document).ready(function(){
 
     function showAudio(url) {
         var div = document.createElement('div');
-        div.style.width = '50px';
+        div.style.width = '300px';
 
         var audio = document.createElement('audio');
         audio.controls = true;
@@ -301,6 +313,15 @@ $(document).ready(function(){
         link.innerHTML = 'download';
         div.appendChild(link);
         console.log(url);
+
+        var info = document.createElement('p');
+        info.className = "form-text text-muted";
+        info.innerHTML = "After recording you need to 'download' and then 'Choose file' to upload to Servare";
+        div.style.border = 'solid gray 1px';
+        div.style.borderRadius = '5px';
+
+
+        div.appendChild(info);
 
         document.querySelector(".audio").appendChild(div);
     }
@@ -355,6 +376,7 @@ $(document).ready(function(){
 
         var button = document.createElement('button');
         button.innerHTML = 'Record File';
+        button.className = 'btn btn-default';
         button.onclick = () => {
             if (recorder.state === 'recording') {
                 recorder.stop();
