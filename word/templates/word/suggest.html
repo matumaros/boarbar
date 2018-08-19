@@ -189,7 +189,6 @@ $(document).ready(function(){
             $( ".similar_words" ).empty();
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
-                  console.log(word_dict);
                   $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
             }
         });
@@ -204,7 +203,6 @@ $(document).ready(function(){
             $( ".similar_words" ).empty();
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
-                  console.log(word_dict);
                   $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
             }
         });
@@ -275,7 +273,6 @@ $(document).ready(function(){
     });
     $("#files").change(function() {
         filename = this.files[0].name
-        console.log(filename);
         $(".filename").html(filename);
     })
 
@@ -382,6 +379,7 @@ $(document).ready(function(){
         var button = document.createElement('button');
         button.innerHTML = 'Record File';
         button.className = 'btn btn-default';
+        button.type = "button";
         button.onclick = () => {
             if (recorder.state === 'recording') {
                 recorder.stop();
