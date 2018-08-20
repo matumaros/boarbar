@@ -1,7 +1,7 @@
 
 
 from django.views.generic import TemplateView, ListView, DetailView
-
+from django.shortcuts import render
 from .models import Collection
 
 
@@ -27,10 +27,18 @@ class CollectionListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        collections = Collection.objects.all()
+        print(kwargs)
+        collection_types = Collection.objects.all().distinct("type")
 
         context.update({
-            'collections': collections,
+            'collection_types': collection_types,
         })
         return context
+
+def collection_view(request, collection_type):
+    collections = Collection.objects.filter(type=collection_type)
+    print(collections)
+    context = {"collections": collections}
+    collection_types = Collection.objects.all().distinct("type")
+    context["collection_types"] = collection_types
+    return render(request, "collection/main.html", context)

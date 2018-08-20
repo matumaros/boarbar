@@ -3,5 +3,47 @@
 
 {% block content %}
   <div class="container-fluid">
+
+      <div class="col-md-2">
+          {% for col_type in collection_types %}
+                <a class="type_search" href="/collection/{{ col_type.type }}">{{ col_type.type }}</a></li>
+          {% endfor %}
+      </div>
+      <div class="col-md-10">
+          <form action="/collection/" method="get" class="form-inline form-group" role="search">
+              <input type="text" id="query" name="keywords"
+                     class="form-control col-md-8" placeholder="Search"/>
+              <button type="submit" class="btn btn-primary" id="search_button">GO
+              </button>
+          </form>
+          <table>
+              <tr>
+                  <th>
+                    {% for col in collections %}
+                        <li><a class="type_search" href="/collection/{{ col.type }}">{{ col.type }}: {{ col.title }}</a></li>
+                    {% endfor %}
+                  </th>
+
+              </tr>
+              <tr>
+                  <th>...</th>
+                  <th>...</th>
+              </tr>
+
+          </table>
+
+      </div>
+
   </div>
+<script>
+$(document).ready(function() {
+    $('.type_search').click(function() {
+        var collection_type = $(".type_search").val();
+        $.getJSON('/api/collection/?collection_type=' + collection_type, function (result) {
+
+        });
+    });
+
+});
+</script>
 {% endblock %}
