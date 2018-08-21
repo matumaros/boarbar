@@ -21,10 +21,11 @@ class CollectionView(DetailView):
         })
         return context
 
+
 class CollectionListView(TemplateView):
     template_name = 'collection/main.html'
     http_method_names = ['get']
-
+    print(request.GET)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print(kwargs)
@@ -33,12 +34,16 @@ class CollectionListView(TemplateView):
         context.update({
             'collection_types': collection_types,
         })
+
+
         return context
+
 
 def collection_view(request, collection_type):
     collections = Collection.objects.filter(type=collection_type)
-    print(collections)
     context = {"collections": collections}
     collection_types = Collection.objects.all().distinct("type")
     context["collection_types"] = collection_types
+
+
     return render(request, "collection/main.html", context)
