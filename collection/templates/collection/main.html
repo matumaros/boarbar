@@ -5,13 +5,13 @@
   <div class="container-fluid">
       <br>
       <br>
-      <div class="col-md-2 left-col">
-          {% for col_type in collection_types %}
-                <p><a class="type_search" href="/collection/{{ col_type.type }}">{{ col_type.type }}</a></p>
+      <div class="col-md-2">
+          {% for key, value in collection_types.items %}
+                <p><a class="type_search" href="/collection/{{ key }}">{{ value }}</a></p>
           {% endfor %}
       </div>
 
-      <div class="col-md-10">
+      <div class="col-md-10 right_content">
           <form action="/collection/" method="get" class="form-inline form-group" role="search">
               <input type="text" id="query" name="keywords"
                      class="form-control col-md-8" placeholder="Search"/>
@@ -19,11 +19,14 @@
               </button>
           </form>
           <table class="collection-table">
+               <!--Filter by type of collection (poem, saying, song lyric, etc)-->
+               {% if collections.all %}
                <tr>
                   <th class="col-md-2">Title</th>
                   <th class="col-md-9">Snippet</th>
                   <th class="col-md-1"></th>
                </tr>
+               {% endif %}
               {% for col in collections %}
                <tr>
                   <td class="col-md-2">{{ col.title }}</td>
@@ -34,6 +37,15 @@
                   </td>
                </tr>
               {% endfor %}
+              <!---->
+              <!--Filter by keywords-->
+              {% if collection_words.all %}
+               <tr>
+                  <th class="col-md-2">Title</th>
+                  <th class="col-md-9">Snippet</th>
+                  <th class="col-md-1"></th>
+               </tr>
+               {% endif %}
 
               {% for col in collection_words %}
                <tr>
@@ -45,18 +57,14 @@
                   </td>
                </tr>
               {% endfor %}
+              <!---->
           </table>
       </div>
 
   </div>
 <script>
 $(document).ready(function() {
-    $('.type_search').click(function() {
-        var collection_type = $(".type_search").val();
-        $.getJSON('/api/collection/?collection_type=' + collection_type, function (result) {
 
-        });
-    });
 
 });
 </script>

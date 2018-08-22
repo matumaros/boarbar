@@ -30,12 +30,12 @@ def keyword_filtered(request):
         keywords = request.GET.get("keywords", '')
         if keywords:
             keywords = keywords.split()
-        collection_words = Collection.objects.filter(
-            Q(reduce(operator.or_, (Q(title__contains=x) for x in keywords))) |
-            Q(reduce(operator.or_, (Q(text__contains=x) for x in keywords)))
-        )
+            collection_words = Collection.objects.filter(
+                Q(reduce(operator.or_, (Q(title__contains=x) for x in keywords))) |
+                Q(reduce(operator.or_, (Q(text__contains=x) for x in keywords)))
+            )
     context = dict()
-    context["collection_types"] = Collection.objects.all().distinct("type")
+    context["collection_types"] = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     context["collection_words"] = collection_words
     return render(request, "collection/main.html", context)
 
@@ -43,7 +43,7 @@ def keyword_filtered(request):
 def type_filtered(request, collection_type):
     collections = Collection.objects.filter(type=collection_type)
     context = {"collections": collections}
-    collection_types = Collection.objects.all().distinct("type")
+    collection_types = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     context["collection_types"] = collection_types
 
     return render(request, "collection/main.html", context)
