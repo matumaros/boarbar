@@ -1,6 +1,8 @@
-
+import operator
+from functools import reduce
 
 from django.views.generic import TemplateView, ListView, DetailView
+from django.db.models import Q
 from django.shortcuts import render
 from .models import Collection
 
@@ -22,28 +24,26 @@ class CollectionView(DetailView):
         return context
 
 
-class CollectionListView(TemplateView):
-    template_name = 'collection/main.html'
-    http_method_names = ['get']
-    print(request.GET)
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(kwargs)
-        collection_types = Collection.objects.all().distinct("type")
+def keyword_filtered(request):
+    collection_words = []
+    if request.GET:
+        keywords = request.GET.get("keywords", '')
+        if keywords:
+            keywords = keywords.split()
+        collection_words = Collection.objects.filter(
+            Q(reduce(operator.or_, (Q(title__contains=x) for x in keywords))) |
+            Q(reduce(operator.or_, (Q(text__contains=x) for x in keywords)))
+        )
+    context = dict()
+    context["collection_types"] = Collection.objects.all().distinct("type")
+    context["collection_words"] = collection_words
+    return render(request, "collection/main.html", context)
 
-        context.update({
-            'collection_types': collection_types,
-        })
 
-
-        return context
-
-
-def collection_view(request, collection_type):
+def type_filtered(request, collection_type):
     collections = Collection.objects.filter(type=collection_type)
     context = {"collections": collections}
     collection_types = Collection.objects.all().distinct("type")
     context["collection_types"] = collection_types
-
 
     return render(request, "collection/main.html", context)

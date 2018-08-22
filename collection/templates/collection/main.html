@@ -34,6 +34,17 @@
                   </td>
                </tr>
               {% endfor %}
+
+              {% for col in collection_words %}
+               <tr>
+                  <td class="col-md-2">{{ col.title }}</td>
+                  <td class="col-md-9">{{ col.text|truncatechars:100 }}</td>
+                  <td class="col-md-1">
+                      <p><a href="/collection/{{ col.id }}/">View</a></p>
+                      <p><a href="">Edit</a></p>
+                  </td>
+               </tr>
+              {% endfor %}
           </table>
       </div>
 
