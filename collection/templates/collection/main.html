@@ -18,7 +18,7 @@
               <button type="submit" class="btn btn-primary" id="search_button">GO
               </button>
           </form>
-          <table class="collection-table">
+          <table class="table collection-table">
                <!--Filter by type of collection (poem, saying, song lyric, etc)-->
                {% if collections.all %}
                <tr>
@@ -29,11 +29,12 @@
                {% endif %}
               {% for col in collections %}
                <tr>
-                  <td class="col-md-2">{{ col.title }}</td>
-                  <td class="col-md-9">{{ col.text|truncatechars:100 }}</td>
-                  <td class="col-md-1">
-                      <p><a href="/collection/{{ col.id }}/">View</a></p>
-                      <p><a href="">Edit</a></p>
+                  <td >{{ col.title }}</td>
+                  <td >{{ col.text|truncatechars:100 }}</td>
+                  <td >
+                      <small><a href="/collection/{{ col.id }}/">View</a></small>
+                      <br>
+                      <small><a href="">Edit</a></small>
                   </td>
                </tr>
               {% endfor %}
@@ -52,8 +53,9 @@
                   <td class="col-md-2">{{ col.title }}</td>
                   <td class="col-md-9">{{ col.text|truncatechars:100 }}</td>
                   <td class="col-md-1">
-                      <p><a href="/collection/{{ col.id }}/">View</a></p>
-                      <p><a href="">Edit</a></p>
+                      <small><a href="/collection/{{ col.id }}/">View</a></small>
+                      <br>
+                      <small><a href="">Edit</a></small>
                   </td>
                </tr>
               {% endfor %}
