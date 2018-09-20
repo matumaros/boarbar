@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from simple_history.admin import SimpleHistoryAdmin
 
-from .models import Collection
+from .models import Collection, CollectionType
 
 
 class CollectionAdmin(SimpleHistoryAdmin):
@@ -13,3 +13,4 @@ class CollectionAdmin(SimpleHistoryAdmin):
 
 
 admin.site.register(Collection, CollectionAdmin)
+admin.site.register(CollectionType)

@@ -35,15 +35,15 @@ def keyword_filtered(request):
                 Q(reduce(operator.or_, (Q(text__contains=x) for x in keywords)))
             )
     context = dict()
-    context["collection_types"] = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
+    context["collection_types"] = {i.type: i.type.name.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     context["collection_words"] = collection_words
     return render(request, "collection/main.html", context)
 
 
 def type_filtered(request, collection_type):
-    collections = Collection.objects.filter(type=collection_type)
+    collections = Collection.objects.filter(type__name=collection_type)
     context = {"collections": collections}
-    collection_types = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
+    collection_types = {i.type: i.type.name.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     context["collection_types"] = collection_types
 
     return render(request, "collection/main.html", context)
