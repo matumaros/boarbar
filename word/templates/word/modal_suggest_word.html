@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load static %}
 
 <!-- Modal -->
  <div class="modal fade" id="suggest_modal" tabindex="-1" role="dialog" aria-labelledby="suggest_modal_label">
@@ -77,25 +76,11 @@
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">{% trans "Audio" %}</label>
-                <div class="col-md-2 audio"></div>
-                <div class="col-md-8">
-                    <div class="row player-area"></div>
-                </div>
-                 <div class="col-sm-offset-2 col-sm-12">
-                    <small class="form-text text-muted"><i class="glyphicon glyphicon-info-sign"></i>After recording you need to 'download' and then 'Choose file' to upload to Servare</small>
-                </div>
-                <div class="col-sm-offset-2" style="padding-left:15px;">
-                     <div class="row">
-                        <div class="col-md-3">
-                        <label for="files" class="btn btn-default">Choose file</label>
-                         <input id="files" style="visibility:hidden" type="file" name="file" accept="audio/*"/>
-                        {% if uploaded_file_url %}
-                          <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-                        {% endif %}
-                        </div>
-                        <div class="col-md-9 filename">
-                        </div>
-                     </div>
+                <div class="col-sm-10">
+                    <input type="file" name="file" accept="audio/*"/>
+                    {% if uploaded_file_url %}
+                      <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+                    {% endif %}
                 </div>
               </div>
               <div class="form-group advanced-options">
@@ -267,101 +252,5 @@ $(document).ready(function(){
             }
         },
     });
-    $("#files").change(function() {
-        filename = this.files[0].name
-        $(".filename").html(filename);
-    })
 });
-</script>
-<script>
-    'use strict';
-     function getUserAudioStream() {
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            return navigator.mediaDevices.getUserMedia({ audio: true });
-        }
-         var getUserMedia = navigator.getUserMedia
-                        || navigator.webkitGetUserMedia
-                        || navigator.mozGetUserMedia
-                        || navigator.msGetUserMedia;
-         return new Promise(function (resolve, reject) {
-            getUserMedia.call(navigator, { audio: true }, resolve, reject);
-        });
-    }
-     function main() {
-        getUserAudioStream().then((mediaStream) => {
-            stuff(mediaStream);
-        });
-    }
-     window.addEventListener('load', main);
-     function showAudio(url) {
-        var div1 = document.createElement('div');
-        div1.className = 'col-sm-10';
-         var audio = document.createElement('audio');
-        audio.controls = true;
-        audio.src = url;
-        div1.appendChild(audio);
-        document.querySelector(".player-area").appendChild(div1);
-         var div2 = document.createElement('div');
-        div2.className = 'col-sm-2';
-         var link = document.createElement('a');
-        link.download = 'recording.ogg';
-        link.href = url;
-        link.title = "Download";
-        link.innerHTML = '<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button>';
-         div2.appendChild(link);
-        console.log(url);
-        document.querySelector(".player-area").appendChild(div2)
-    }
-     function downloadBlob(url) {
-        var promise = new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'blob';
-             xhr.onload = function () {
-                resolve(xhr.response);
-            };
-             xhr.send();
-            console.log("xhr");
-            console.log(xhr);
-        });
-        console.log("ppppromise");
-        console.log(promise);
-        return promise;
-    }
-     function stuff(mediaStream) {
-        console.log(mediaStream);
-         var recorder = new VorbisMediaRecorder(mediaStream, { audioBitsPerSecond: 32000 });
-         console.log(recorder);
-         var chunks = [];
-         recorder.ondataavailable = (ev) => {
-            console.log(ev.data);
-            chunks.push(ev.data);
-        };
-         recorder.onstart = () => {
-            console.log('start');
-        };
-         recorder.onstop = () => {
-            console.log('stop');
-            var blob = new Blob(chunks, { type: chunks[0].type });
-            chunks = [];
-            var url = URL.createObjectURL(blob);
-             downloadBlob(url).then(blob => {
-                showAudio(URL.createObjectURL(blob));
-            });
-        };
-         var button = document.createElement('button');
-        button.innerHTML = 'Record File';
-        button.className = 'btn btn-default';
-        button.type = "button";
-        button.onclick = () => {
-            if (recorder.state === 'recording') {
-                recorder.stop();
-                button.innerHTML = 'Record File';
-            } else {
-                recorder.start();
-                button.innerHTML = 'stop';
-            }
-        };
-        document.querySelector(".audio").appendChild(button);
-    }
 </script>
