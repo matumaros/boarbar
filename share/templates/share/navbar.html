@@ -30,7 +30,7 @@
           </a>
         </li>
         <li{% if "collection" in request.path %} class="active"{% endif %}>
-          <a href="{% url 'collection:collection_list_view' %}">
+          <a href="{% url 'collection:keyword_filtered' %}">
             {% trans "Collection" %}
           </a>
         </li>
