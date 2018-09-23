@@ -7,7 +7,15 @@
       <br>
       <div class="col-md-2">
           {% for key, value in collection_types.items %}
-                <p><a class="type_search" href="/collection/{{ key }}">{{ value }}</a></p>
+                <p>
+                    <a class="type_search" href="/collection/{{ key }}">
+                        {% if active_collection == key %}
+                            <b>{{ value }}</b>
+                        {% else %}
+                            {{ value }}
+                        {%  endif %}
+                    </a>
+                </p>
           {% endfor %}
       </div>
 

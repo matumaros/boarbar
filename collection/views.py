@@ -37,6 +37,19 @@ def keyword_filtered(request):
     context = dict()
     context["collection_types"] = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     context["collection_words"] = collection_words
+
+    first_collection_obj = Collection.objects.all().first()
+    if first_collection_obj:
+        # eg. poem
+        collection_type = first_collection_obj.type
+        # eg. all poems
+        collections = Collection.objects.filter(type=collection_type)
+        context["collections"] = collections
+        context["active_collection"] = collection_type
+    else:
+        context["collections"] = []
+        context["active_collection"] = None
+
     return render(request, "collection/main.html", context)
 
 
@@ -45,5 +58,6 @@ def type_filtered(request, collection_type):
     context = {"collections": collections}
     collection_types = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     context["collection_types"] = collection_types
+    context["active_collection"] = collection_type
 
     return render(request, "collection/main.html", context)
