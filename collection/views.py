@@ -26,6 +26,7 @@ class CollectionView(DetailView):
 
 def keyword_filtered(request):
     collection_words = []
+    keywords = ""
     if request.GET:
         keywords = request.GET.get("keywords", '')
         if keywords:
@@ -39,7 +40,7 @@ def keyword_filtered(request):
     context["collection_words"] = collection_words
 
     first_collection_obj = Collection.objects.all().first()
-    if first_collection_obj:
+    if first_collection_obj and keywords == "":
         # eg. poem
         collection_type = first_collection_obj.type
         # eg. all poems
@@ -49,7 +50,6 @@ def keyword_filtered(request):
     else:
         context["collections"] = []
         context["active_collection"] = None
-
     return render(request, "collection/main.html", context)
 
 
@@ -59,5 +59,4 @@ def type_filtered(request, collection_type):
     collection_types = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     context["collection_types"] = collection_types
     context["active_collection"] = collection_type
-
     return render(request, "collection/main.html", context)
