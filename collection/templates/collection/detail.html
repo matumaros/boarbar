@@ -13,29 +13,28 @@
       <div class="col-md-2"></div>
       <div class="col-md-6">
         <h2>
-          {{ collection.title }}
+          {{ collection.title|capfirst }}
         </h2>
-        <dl>
-          <dt>
-            {% trans "Author" %}
-          </dt>
-          <dd>
-            {{ collection.author }}
-          </dd>
-          <dt>
-            {% trans "Creator" %}
-          </dt>
-          <dd>
-            {{ collection.reporter }}
-          </dd>
-        </dl>
+
+        <p>By: {{ collection.author|title }}</p>
+        {%  if collection.reporter.user.username|lower != collection.author|lower %}
+         <p>Submitted by: {{ collection.reporter|title }}</p>
+        {% endif %}
+
         <p class="text-center">
           {{ text|safe|linebreaks }}
         </p>
       </div>
-      <div id="word_detail" class="col-md-4">
-        <h2 id="word_click_hint">{% trans "Click on a word to show its details" %}</h2>
+    {% if user.is_authenticated %}
+      <div class="col-md-4">
+          <br><br>
+          <p><button class="btn btn-default collection-buttons white-text">edit
+          </button></p>
+          <p>
+          <button class="btn btn-default collection-buttons white-text">validate
+          </button></p>
       </div>
+    {% endif %}
     </div>
   </div>
 {% endblock %}
