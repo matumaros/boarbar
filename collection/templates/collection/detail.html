@@ -16,11 +16,10 @@
           {{ collection.title|capfirst }}
         </h2>
         <p>{{ col_type }}</p>
-        <p><spam class="text-muted">By </spam>{{ collection.author|title }}</p>
+        <p><span class="text-muted">By </span>{{ collection.author|title }}</p>
         {%  if collection.reporter.user.username|lower != collection.author|lower %}
-         <p><spam class="text-muted">Submitted by </spam> {{ collection.reporter|title }}</p>
+         <p><span class="text-muted">Submitted by </span> {{ collection.reporter|title }}</p>
         {% endif %}
-
 
         <p class="text-center">
           {{ text|safe|linebreaks }}
