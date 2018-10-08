@@ -4,6 +4,14 @@
 {% block content %}
   <div class="container suggest_form">
   <h3>Add new collection</h3><br>
+  {% if messages %}
+      <ul class="messages alert alert-info">
+         {% for message in messages %}
+             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+         {% endfor %}
+      </ul>
+  {% endif %}
+
     <form class="form-horizontal" action="{% url 'collection:new_collection' %}" method="post">
       {% csrf_token %}
       <div class="form-group ">

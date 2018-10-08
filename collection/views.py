@@ -1,7 +1,9 @@
 import operator
 from functools import reduce
 
+from django.db import IntegrityError
 from django.views.generic import TemplateView, ListView, DetailView
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from .models import Collection
@@ -91,13 +93,18 @@ def new_collection(request):
 
             reporter = Profile.objects.get(user=request.user)
 
-            Collection.objects.create(
-                title=title,
-                author=author,
-                text=text,
-                type=type,
-                reporter=reporter
-            )
+            try:
+                Collection.objects.create(
+                    title=title,
+                    author=author,
+                    text=text,
+                    type=type,
+                    reporter=reporter
+                )
+            except IntegrityError:
+                messages.add_message(request, messages.ERROR, "A collection \
+                with the same title, text and type already exist")
+                return redirect('/collection/new_collection/')
 
             return redirect('/collection/')
 
