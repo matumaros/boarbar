@@ -9,7 +9,6 @@ from user.models import Profile
 from .forms import CollectionForm
 
 
-
 class CollectionView(DetailView):
     template_name = 'collection/detail.html'
     http_method_names = ['get']

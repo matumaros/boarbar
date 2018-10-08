@@ -27,15 +27,14 @@
           </div>
       </div>
 
-      <div class="form-group ">
+      <div class="form-group">
           <label for="type" class="col-sm-2 control-label">Type</label>
-          <div class="col-sm-5">
-              <select id="type" class="form-control" name="type" required>
+          <div class="col-sm-10">
                 {% for key, value in collection_types.items %}
-                  <option value="{{ key }}">{% trans value %}</option>
+                    <input type="radio" name="type" value="{{ key }}" checked required> {% trans value %}
                 {% endfor %}
-              </select>
           </div>
+
       </div>
 
       <div class="form-group">
