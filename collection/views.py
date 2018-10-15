@@ -52,7 +52,6 @@ def keyword_filtered(request):
         collections = Collection.objects.filter(type=collection_type)
         context["collections"] = collections
         context["active_collection"] = collection_type
-        print("context", context)
     else:
         context["collections"] = []
         context["active_collection"] = None
@@ -85,9 +84,7 @@ def new_collection(request):
     if request.POST:
         form = CollectionForm(request.POST)
         if form.is_valid():
-            print("####POST", request.POST)
             title = request.POST.get("title").lower()
-            print(title)
             author = request.POST.get("author")
             text = request.POST.get("text").lower()
             type = request.POST.get("type")
