@@ -19,13 +19,21 @@
           {% endfor %}
       </div>
 
-      <div class="col-md-10 right_content">
+      <div class="col-sm-10 right_content">
+        <div class="row">
+          <div class="col-md-8">
           <form action="/collection/" method="get" class="form-inline form-group" role="search">
-              <input type="text" id="query" name="keywords"
-                     class="form-control col-md-8" placeholder="Search"/>
-              <button type="submit" class="btn btn-primary" id="search_button">GO
-              </button>
+                  <input type="text" id="query" name="keywords"
+                         class="form-control col-md-8" placeholder="Search"/>
+                  <button type="submit" class="btn btn-primary" id="search_button">GO
+                  </button>
           </form>
+          </div>
+          <div class="col-sm-4">
+              <a href="/collection/new_collection/" class="btn collection-buttons white-text pull-right"><span class="glyphicon glyphicon-pencil"></span> add</a>
+          </div>
+        </div>
+
           <table class="table collection-table">
                <!--Filter by type of collection (poem, saying, song lyric, etc)-->
                {% if collections.all %}

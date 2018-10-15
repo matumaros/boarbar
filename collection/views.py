@@ -3,8 +3,11 @@ from functools import reduce
 
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Collection
+from user.models import Profile
+from .forms import CollectionForm
+
 
 
 class CollectionView(DetailView):
@@ -75,3 +78,36 @@ def get_collection_types():
         for collection_type in collection_types
     ]
     return collection_types
+
+
+def new_collection(request):
+    if request.POST:
+        form = CollectionForm(request.POST)
+        if form.is_valid():
+            print("####POST", request.POST)
+            title = request.POST.get("title")
+            author = request.POST.get("author")
+            text = request.POST.get("text")
+            type = request.POST.get("type")
+
+            reporter = Profile.objects.get(user=request.user)
+
+            Collection.objects.create(
+                title=title,
+                author=author,
+                text=text,
+                type=type,
+                reporter=reporter
+            )
+
+            return redirect('/collection/')
+
+    collection_types = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
+    form = CollectionForm(request.POST or None)
+
+    context = {
+        'form': form,
+        'collection_types': collection_types,
+    }
+    return render(request, "collection/collection_form.html", context)
+
