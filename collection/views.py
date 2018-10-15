@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from .models import Collection
+from .models import Collection, CollectionType
 from user.models import Profile
 from .forms import CollectionForm
 
@@ -86,11 +86,13 @@ def new_collection(request):
         form = CollectionForm(request.POST)
         if form.is_valid():
             print("####POST", request.POST)
-            title = request.POST.get("title")
+            title = request.POST.get("title").lower()
+            print(title)
             author = request.POST.get("author")
-            text = request.POST.get("text")
+            text = request.POST.get("text").lower()
             type = request.POST.get("type")
 
+            type = CollectionType.objects.get(name=type)
             reporter = Profile.objects.get(user=request.user)
 
             try:
@@ -108,12 +110,11 @@ def new_collection(request):
 
             return redirect('/collection/')
 
-    collection_types = {i.type: i.type.replace("_", " ") for i in Collection.objects.all().distinct("type")}
     form = CollectionForm(request.POST or None)
 
     context = {
         'form': form,
-        'collection_types': collection_types,
+        'collection_types': get_collection_types(),
     }
     return render(request, "collection/collection_form.html", context)
 

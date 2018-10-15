@@ -45,7 +45,7 @@
                {% endif %}
               {% for col in collections %}
                <tr>
-                  <td >{{ col.title }}</td>
+                  <td >{{ col.title|capfirst }}</td>
                   <td >{{ col.text|truncatechars:100 }}</td>
                   <td >
                       <small><a href="/collection/{{ col.id }}/">View</a></small>

@@ -38,8 +38,8 @@
       <div class="form-group">
           <label for="type" class="col-sm-2 control-label">Type</label>
           <div class="col-sm-10">
-                {% for key, value in collection_types.items %}
-                    <input type="radio" name="type" value="{{ key }}" checked required> {% trans value %}
+                {% for type in collection_types %}
+                    <input type="radio" name="type" value="{{ type.name }}" checked required> {% trans type.name %}
                 {% endfor %}
           </div>
 
