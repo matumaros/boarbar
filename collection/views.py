@@ -20,7 +20,7 @@ class CollectionView(DetailView):
             'text': self.object.processed_text(
                 '<a class={type} onclick="show_word_detail({id})">{word}</a>'
             ),
-            'col_type': self.object.type.replace("_", " ")
+            'col_type': self.object.type
         })
         return context
 
@@ -37,7 +37,7 @@ def keyword_filtered(request):
                 Q(reduce(operator.or_, (Q(text__contains=x) for x in keywords)))
             )
     context = dict()
-    context["collection_types"] = {i.type: i.type.name.replace("_", " ") for i in Collection.objects.all().distinct("type")}
+    context["collection_types"] = get_collection_types()
     context["collection_words"] = collection_words
 
     first_collection_obj = Collection.objects.all().first()
@@ -48,6 +48,7 @@ def keyword_filtered(request):
         collections = Collection.objects.filter(type=collection_type)
         context["collections"] = collections
         context["active_collection"] = collection_type
+        print("context", context)
     else:
         context["collections"] = []
         context["active_collection"] = None
@@ -55,9 +56,22 @@ def keyword_filtered(request):
 
 
 def type_filtered(request, collection_type):
+    collection_type = collection_type.replace("_", " ")
     collections = Collection.objects.filter(type__name=collection_type)
     context = {"collections": collections}
-    collection_types = {i.type: i.type.name.replace("_", " ") for i in Collection.objects.all().distinct("type")}
-    context["collection_types"] = collection_types
+    context["collection_types"] = get_collection_types()
     context["active_collection"] = collection_type
     return render(request, "collection/main.html", context)
+
+
+def get_collection_types():
+    collection_types = Collection.objects.all().distinct(
+        "type").values_list("type__name", flat=True)
+    collection_types = [
+        {
+            "path": collection_type.replace(" ", "_"),
+            "name": collection_type,
+        }
+        for collection_type in collection_types
+    ]
+    return collection_types

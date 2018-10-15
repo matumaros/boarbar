@@ -6,13 +6,13 @@
       <br>
       <br>
       <div class="col-md-2">
-          {% for key, value in collection_types.items %}
+          {% for type in collection_types %}
                 <p>
-                    <a class="type_search" href="/collection/{{ key }}">
-                        {% if active_collection == key %}
-                            <b>{{ value }}</b>
+                    <a class="type_search" href="/collection/{{ type.path  }}">
+                        {% if active_collection == type.name %}
+                            <b>{{ type.name }}</b>
                         {% else %}
-                            {{ value }}
+                            {{ type.name }}
                         {%  endif %}
                     </a>
                 </p>
