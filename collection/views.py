@@ -19,7 +19,8 @@ class CollectionView(DetailView):
             'collection': self.object,
             'text': self.object.processed_text(
                 '<a class={type} onclick="show_word_detail({id})">{word}</a>'
-            )
+            ),
+            'col_type': self.object.type.replace("_", " ")
         })
         return context
 
