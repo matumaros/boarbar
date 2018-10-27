@@ -6,26 +6,34 @@
       <br>
       <br>
       <div class="col-md-2">
-          {% for key, value in collection_types.items %}
+          {% for type in collection_types %}
                 <p>
-                    <a class="type_search" href="/collection/{{ key }}">
-                        {% if active_collection == key %}
-                            <b>{{ value }}</b>
+                    <a class="type_search" href="/collection/{{ type.path  }}">
+                        {% if active_collection == type.name %}
+                            <b>{{ type.name }}</b>
                         {% else %}
-                            {{ value }}
+                            {{ type.name }}
                         {%  endif %}
                     </a>
                 </p>
           {% endfor %}
       </div>
 
-      <div class="col-md-10 right_content">
+      <div class="col-sm-10 right_content">
+        <div class="row">
+          <div class="col-md-8">
           <form action="/collection/" method="get" class="form-inline form-group" role="search">
-              <input type="text" id="query" name="keywords"
-                     class="form-control col-md-8" placeholder="Search"/>
-              <button type="submit" class="btn btn-primary" id="search_button">GO
-              </button>
+                  <input type="text" id="query" name="keywords"
+                         class="form-control col-md-8" placeholder="Search"/>
+                  <button type="submit" class="btn btn-primary" id="search_button">GO
+                  </button>
           </form>
+          </div>
+          <div class="col-sm-4">
+              <a href="/collection/new_collection/" class="btn collection-buttons white-text pull-right"><span class="glyphicon glyphicon-plus"></span> add</a>
+          </div>
+        </div>
+
           <table class="table collection-table">
                <!--Filter by type of collection (poem, saying, song lyric, etc)-->
                {% if collections.all %}
@@ -37,7 +45,7 @@
                {% endif %}
               {% for col in collections %}
                <tr>
-                  <td >{{ col.title }}</td>
+                  <td >{{ col.title|capfirst }}</td>
                   <td >{{ col.text|truncatechars:100 }}</td>
                   <td >
                       <small><a href="/collection/{{ col.id }}/">View</a></small>
