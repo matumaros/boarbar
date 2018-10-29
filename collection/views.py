@@ -81,6 +81,9 @@ def get_collection_types():
 
 
 def new_collection(request):
+    if not request.user.is_authenticated:
+        return render(request, 'share/need_login.html')
+
     if request.POST:
         form = CollectionForm(request.POST)
         if form.is_valid():
