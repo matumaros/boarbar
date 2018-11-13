@@ -78,20 +78,15 @@
 <script>
 $(document).ready(function(){
     $( "#words_pane" ).on('click', function() {
-        console.log("yaaa")
         var collection_text = $( "#collection_text" ).val();
         var collection_title = $( "#title" ).val();
         var type = null;
         var author = $( "#author" ).val();
         for ( element of $("#types").find("input") ) {
             if ( element.checked ) {
-                console.log(element);
                 type = element.value;
             }
         }
-        console.log("type", type);
-        console.log(collection_text);
-        console.log(author)
         $.ajax({
             url:'/collection/new_collection/',
             type:'post',
@@ -109,9 +104,18 @@ $(document).ready(function(){
                 if ( response.indexOf("<li class=\"error\">A collection with the same title, text and type already exist")>-1) {
                     $('#error_message').html("A collection with the same title, text and type already exist").addClass("messages alert alert-info")
                 }
+                fetchWordsStatus(collection_text);
             }
         });
+
     })
+
+    function fetchWordsStatus(collection_text) {
+        console.log("fetch word status called", collection_text);
+        $.getJSON('/api/collection/collection_get_words/?words=' + collection_text, function (result) {
+            console.log("get request result", result);
+        });
+    }
 });
 </script>
 

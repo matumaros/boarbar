@@ -133,3 +133,18 @@ def word_synonyms(request):
     word = Word.objects.get(id=word_id)
     syn = word.synonyms.all().filter(version__id=version_id).values()
     return JsonResponse(list(syn), safe=False)
+
+
+@csrf_exempt
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def collection_get_words(request):
+    words = request.GET.get("words")
+    print(request.GET)
+    print("Collection of words")
+    output = [
+        {"word": "hola", "status": "translated"},
+        {"word": "churrumino", "status": "not-translated"},
+    ]
+    return JsonResponse(output, safe=False)
