@@ -4,6 +4,8 @@
 {% block content %}
 <div class="container suggest_form">
   <h3>Add new collections</h3><br>
+    <div id="error_message1"></div>
+    <div id="error_message2"></div>
   {% if messages %}
       <ul class="messages alert alert-info">
          {% for message in messages %}
@@ -14,8 +16,8 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs">
       <li class="active"><a href="#text_form" data-toggle="tab">Text</a></li>
-      <li><a href="#words" data-toggle="tab">Words</a></li>
-      <li><a href="#sentences" data-toggle="tab">Sentences</a></li>
+      <li id="words_pane"><a href="#words_form" data-toggle="tab">Words</a></li>
+      <li id="sentence_pane"><a href="#sentences_pane" data-toggle="tab">Sentences</a></li>
   </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="text_form">
@@ -45,7 +47,7 @@
 
               <div class="form-group">
                   <label for="type" class="col-sm-2 control-label">Type</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-10" id="types">
                         {% for type in collection_types %}
                             <input type="radio" name="type" value="{{ type.name }}" checked required> {% trans type.name %}
                         {% endfor %}
@@ -65,13 +67,50 @@
               </div>
             </form>
         </div>
-        <div class="tab-pane" id="words" aria-labelledby="words-tab">
+        <div class="tab-pane" id="words_form" aria-labelledby="words-tab">
             <h4>Add words</h4>
         </div>
-        <div class="tab-pane" id="sentences" aria-labelledby="sentence-tab">
+        <div class="tab-pane" id="sentences_form" aria-labelledby="sentence-tab">
             <h4>Add sentences</h4>
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function(){
+    $( "#words_pane" ).on('click', function() {
+        console.log("yaaa")
+        var collection_text = $( "#collection_text" ).val();
+        var collection_title = $( "#title" ).val();
+        var type = null;
+        for ( element of $("#types").find("input") ) {
+            if ( element.checked ) {
+                console.log(element);
+                type = element.value;
+            }
+        }
+        console.log("type", type);
+        console.log(collection_text);
+        $.ajax({
+            url:'/collection/new_collection/',
+            type:'post',
+            data:{
+                csrfmiddlewaretoken : "{{  csrf_token  }}",
+                text : collection_text,
+                title: collection_title,
+                type: type,
+            },
+            success: function (response) {
+                if ( response.indexOf("<li class=\"error\">You need to enter a title or text for the collection")>-1) {
+                    $('#error_message1').html("You need to enter a title or text for the collection")
+                }
+                if ( response.indexOf("<li class=\"error\">A collection with the same title, text and type already exist")>-1) {
+                    $('#error_message2').html("A collection with the same title, text and type already exist")
+                }
+            }
+        });
+    })
+});
+</script>
 
 {% endblock %}

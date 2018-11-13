@@ -87,25 +87,39 @@ def new_collection(request):
     if request.POST:
         form = CollectionForm(request.POST)
         if form.is_valid():
-            title = request.POST.get("title").lower()
-            author = request.POST.get("author")
-            text = request.POST.get("text").lower()
+            print("request ajax request", request.POST)
+            title = request.POST.get("title")
+            author = request.POST.get("author") or ""
+            text = request.POST.get("text")
             type = request.POST.get("type")
+            print("type", type)
 
             type = CollectionType.objects.get(name=type)
+            print("type", type)
             reporter = Profile.objects.get(user=request.user)
+            print("reporter", reporter)
+            if title.strip() == "" or text == "":
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    "You need to enter a title or text for the collection")
+                return redirect('/collection/new_collection/')
 
             try:
-                Collection.objects.create(
+                col = Collection.objects.create(
                     title=title,
                     author=author,
                     text=text,
                     type=type,
                     reporter=reporter
                 )
-            except IntegrityError:
-                messages.add_message(request, messages.ERROR, "A collection \
-                with the same title, text and type already exist")
+                print("col created", col)
+            except IntegrityError as error:
+                print("error", error)
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    "A collection with the same title, text and type already exist")
                 return redirect('/collection/new_collection/')
 
             return redirect('/collection/')
