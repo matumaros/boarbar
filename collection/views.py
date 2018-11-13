@@ -88,21 +88,18 @@ def new_collection(request):
         form = CollectionForm(request.POST)
         if form.is_valid():
             print("request ajax request", request.POST)
-            title = request.POST.get("title")
-            author = request.POST.get("author") or ""
-            text = request.POST.get("text")
+            title = request.POST.get("title").lower()
+            author = request.POST.get("author").lower() or ""
+            text = request.POST.get("text").lower()
             type = request.POST.get("type")
-            print("type", type)
 
             type = CollectionType.objects.get(name=type)
-            print("type", type)
             reporter = Profile.objects.get(user=request.user)
-            print("reporter", reporter)
             if title.strip() == "" or text == "":
                 messages.add_message(
                     request,
                     messages.ERROR,
-                    "You need to enter a title or text for the collection")
+                    "You need to enter a title and text for the collection")
                 return redirect('/collection/new_collection/')
 
             try:

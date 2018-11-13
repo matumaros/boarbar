@@ -4,8 +4,7 @@
 {% block content %}
 <div class="container suggest_form">
   <h3>Add new collections</h3><br>
-    <div id="error_message1"></div>
-    <div id="error_message2"></div>
+    <div id="error_message"></div>
   {% if messages %}
       <ul class="messages alert alert-info">
          {% for message in messages %}
@@ -83,6 +82,7 @@ $(document).ready(function(){
         var collection_text = $( "#collection_text" ).val();
         var collection_title = $( "#title" ).val();
         var type = null;
+        var author = $( "#author" ).val();
         for ( element of $("#types").find("input") ) {
             if ( element.checked ) {
                 console.log(element);
@@ -91,6 +91,7 @@ $(document).ready(function(){
         }
         console.log("type", type);
         console.log(collection_text);
+        console.log(author)
         $.ajax({
             url:'/collection/new_collection/',
             type:'post',
@@ -99,13 +100,14 @@ $(document).ready(function(){
                 text : collection_text,
                 title: collection_title,
                 type: type,
+                author: author
             },
             success: function (response) {
-                if ( response.indexOf("<li class=\"error\">You need to enter a title or text for the collection")>-1) {
-                    $('#error_message1').html("You need to enter a title or text for the collection")
+                if ( response.indexOf("<li class=\"error\">You need to enter a title and text for the collection")>-1) {
+                    $('#error_message').html("You need to enter a title and text for the collection").addClass("messages alert alert-info")
                 }
                 if ( response.indexOf("<li class=\"error\">A collection with the same title, text and type already exist")>-1) {
-                    $('#error_message2').html("A collection with the same title, text and type already exist")
+                    $('#error_message').html("A collection with the same title, text and type already exist").addClass("messages alert alert-info")
                 }
             }
         });
