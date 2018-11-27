@@ -1,5 +1,6 @@
 
 
+import re
 from difflib import SequenceMatcher
 
 from django.contrib.auth.models import User, Group
@@ -140,11 +141,27 @@ def word_synonyms(request):
 @authentication_classes([])
 @permission_classes([])
 def collection_get_words(request):
-    words = request.GET.get("words")
-    print(request.GET)
-    print("Collection of words")
-    output = [
-        {"word": "hola", "status": "translated"},
-        {"word": "churrumino", "status": "not-translated"},
-    ]
+    request = request.GET.get("words")
+    words = re.compile('\w+').findall(request)
+
+    output = []
+    for word in words:
+        #the variable color will be red if the word is not on the database,
+        #blue it is but do not have a synonyms, black if it has a synonym
+        color = None
+        word_matched = word
+        try:
+            word_matched = Word.objects.all().get(word=word)
+            if word_matched.synonyms.all():
+                color = "Black"
+            else:
+                color = "Blue"
+        except Word.DoesNotExist:
+            color = "Red"
+
+        dic = {}
+        dic['word'] = word
+        dic['traslation_state'] = color
+        output.append(dic)
+
     return JsonResponse(output, safe=False)

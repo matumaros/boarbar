@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="container suggest_form">
+
   <h3>Add new collections</h3><br>
     <div id="error_message"></div>
   {% if messages %}
@@ -68,6 +69,7 @@
         </div>
         <div class="tab-pane" id="words_form" aria-labelledby="words-tab">
             <h4>Add words</h4>
+            <div class="words"></div>
         </div>
         <div class="tab-pane" id="sentences_form" aria-labelledby="sentence-tab">
             <h4>Add sentences</h4>
@@ -95,7 +97,7 @@ $(document).ready(function(){
                 text : collection_text,
                 title: collection_title,
                 type: type,
-                author: author
+                author: author,
             },
             success: function (response) {
                 if ( response.indexOf("<li class=\"error\">You need to enter a title and text for the collection")>-1) {
@@ -113,7 +115,14 @@ $(document).ready(function(){
     function fetchWordsStatus(collection_text) {
         console.log("fetch word status called", collection_text);
         $.getJSON('/api/collection/collection_get_words/?words=' + collection_text, function (result) {
-            console.log("get request result", result);
+            var results = result;
+            for (index=0; index < results.length; ++index) {
+                var word = results[index].word
+                var traslation_state = results[index].traslation_state
+                $('.words').append('<a style="color:' + traslation_state + ';" target="_blank" href="#">' + word + '</a>' + '&nbsp&nbsp')
+            }
+
+            console.log(result);
         });
     }
 });

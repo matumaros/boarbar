@@ -76,6 +76,7 @@ def get_collection_types():
             "name": collection_type,
         }
         for collection_type in collection_types
+        if collection_type
     ]
     return collection_types
 
@@ -111,6 +112,7 @@ def new_collection(request):
                     reporter=reporter
                 )
                 print("col created", col)
+
             except IntegrityError as error:
                 print("error", error)
                 messages.add_message(
