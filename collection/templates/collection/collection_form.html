@@ -137,6 +137,11 @@ $(document).ready(function(){
             var text = $('.text_input').eq(-2).val()
             $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a>' +text +'</a></div>');
         }
+        if (($('.text_input:last-child').val().length === 0) && (e.keyCode == 8))
+        {
+            console.log("esto")
+         $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 5) * 8) + \'px\';" name="text" required />');
+        }
 
     });
 
