@@ -13,121 +13,82 @@
          {% endfor %}
       </ul>
   {% endif %}
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs">
-      <li class="active"><a href="#text_form" data-toggle="tab">Text</a></li>
-      <li id="words_pane"><a href="#words_form" data-toggle="tab">Words</a></li>
-      <li id="sentence_pane"><a href="#sentences_pane" data-toggle="tab">Sentences</a></li>
-  </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="text_form">
-            <br><br>
-            <form class="form-horizontal" action="{% url 'collection:new_collection' %}" method="post">
-              {% csrf_token %}
-              <div class="form-group ">
-                  <label for="title" class="col-sm-2 control-label">Title</label>
-                  <div class="col-sm-10">
-                      <input type="text" class="form-control" id="title" name="title" required />
-                  </div>
-              </div>
 
-              <div class="form-group ">
-                  <label for="author" class="col-sm-2 control-label">Author</label>
-                  <div class="col-sm-10">
-                      <input type="text" class="form-control" id="author" name="author"/>
-                  </div>
-              </div>
 
-              <div class="form-group ">
-                  <label for="collection_text" class="col-sm-2 control-label">Text</label>
-                  <div class="col-sm-10">
-                      <textarea type="text" class="form-control" id="collection_text" name="text" required /></textarea>
-                  </div>
-                  <div id="text_link">
-                      <input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 15) * 8) + 'px';" name="text" required />
-                  </div>
-              </div>
+    <form class="form-horizontal" action="{% url 'collection:new_collection' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group ">
+          <label for="title" class="col-sm-2 control-label">Title</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" id="title" name="title" required />
+          </div>
+      </div>
 
-              <div class="form-group">
-                  <label for="type" class="col-sm-2 control-label">Type</label>
-                  <div class="col-sm-10" id="types">
-                        {% for type in collection_types %}
-                            <input type="radio" name="type" value="{{ type.name }}" checked required> {% trans type.name %}
-                        {% endfor %}
-                  </div>
+      <div class="form-group ">
+          <label for="author" class="col-sm-2 control-label">Author</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" id="author" name="author"/>
+          </div>
+      </div>
 
-              </div>
+      <div class="form-group ">
+          <label for="collection_text" class="col-sm-2 control-label">Text</label>
+          <div class="col-sm-10">
+              <textarea type="text" class="form-control" id="collection_text" name="text" required /></textarea>
+          </div>
+          <div id="text_link">
+              <input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 15) * 8) + 'px';" name="text" required />
+          </div>
+      </div>
 
-              <div class="form-group">
-                <div class="col-xs-offset-2 col-xs-3">
-                  <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-                </div>
+      <div class="form-group">
+          <label for="type" class="col-sm-2 control-label">Type</label>
+          <div class="col-sm-10" id="types">
+                {% for type in collection_types %}
+                    <input type="radio" name="type" value="{{ type.name }}" checked required> {% trans type.name %}
+                {% endfor %}
+          </div>
 
-                <div class="col-xs-offset-2 col-xs-3 col-sm-offset-4 col-sm-3">
-                  <a class="btn btn-primary suggest-another-button">{% trans "Save and validate" %}</a>
-                </div>
+      </div>
 
-              </div>
-            </form>
+      <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-3">
+          <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
         </div>
-        <div class="tab-pane" id="words_form" aria-labelledby="words-tab">
-            <h4>Add words</h4>
-            <div class="words"></div>
+
+        <div class="col-xs-offset-2 col-xs-3 col-sm-offset-4 col-sm-3">
+          <a class="btn btn-primary suggest-another-button">{% trans "Save and validate" %}</a>
         </div>
-        <div class="tab-pane" id="sentences_form" aria-labelledby="sentence-tab">
-            <h4>Add sentences</h4>
-        </div>
-    </div>
+
+      </div>
+    </form>
+
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+
+
+
 </div>
 
 <script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "350px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+
 $(document).ready(function(){
-    $( "#words_pane" ).on('click', function() {
-        var collection_text = $( "#collection_text" ).val();
-        var collection_title = $( "#title" ).val();
-        var type = null;
-        var author = $( "#author" ).val();
-        for ( element of $("#types").find("input") ) {
-            if ( element.checked ) {
-                type = element.value;
-            }
-        }
-        $.ajax({
-            url:'/collection/new_collection/',
-            type:'post',
-            data:{
-                csrfmiddlewaretoken : "{{  csrf_token  }}",
-                text : collection_text,
-                title: collection_title,
-                type: type,
-                author: author,
-            },
-            success: function (response) {
-                if ( response.indexOf("<li class=\"error\">You need to enter a title and text for the collection")>-1) {
-                    $('#error_message').html("You need to enter a title and text for the collection").addClass("messages alert alert-info")
-                }
-                if ( response.indexOf("<li class=\"error\">A collection with the same title, text and type already exist")>-1) {
-                    $('#error_message').html("A collection with the same title, text and type already exist").addClass("messages alert alert-info")
-                }
-                fetchWordsStatus(collection_text);
-            }
-        });
-
-    })
-
-    function fetchWordsStatus(collection_text) {
-        console.log("fetch word status called", collection_text);
-        $.getJSON('/api/collection/collection_get_words/?words=' + collection_text, function (result) {
-            var results = result;
-            for (index=0; index < results.length; ++index) {
-                var word = results[index].word
-                var traslation_state = results[index].traslation_state
-                $('.words').append('<a style="color:' + traslation_state + ';" target="_blank" href="#">' + word + '</a>' + '&nbsp&nbsp')
-            }
-
-            console.log(result);
-        });
-    }
 
     $('#text_link').keydown(function(e){
         if(e.keyCode == 32)
@@ -148,6 +109,14 @@ $(document).ready(function(){
         }
 
     });
+
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "850px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
 
 
 
