@@ -44,7 +44,7 @@
                       <textarea type="text" class="form-control" id="collection_text" name="text" required /></textarea>
                   </div>
                   <div id="text_link">
-                      <input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 5) * 8) + 'px';" name="text" required />
+                      <input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 15) * 8) + 'px';" name="text" required />
                   </div>
               </div>
 
@@ -129,18 +129,22 @@ $(document).ready(function(){
         });
     }
 
-    $('#text_link').keyup(function(e){
+    $('#text_link').keydown(function(e){
         if(e.keyCode == 32)
         {
-            $('.text_input:last-child').after('<input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 5) * 8) + \'px\';" name="text" required />');
+            $('.text_input:last-child').after('<input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 15) * 8) + \'px\';" name="text" required />');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
             $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a>' +text +'</a></div>');
         }
+    });
+    $('#text_link').keyup(function(e){
         if (($('.text_input:last-child').val().length === 0) && (e.keyCode == 8))
         {
-            console.log("esto")
-         $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 5) * 8) + \'px\';" name="text" required />');
+            var text = $('.text_value a').eq(-1).text()
+            $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 15) * 8) + \'px\';" name="text" required />');
+            $('.text_input:last-child').val(text);
+            console.log(text)
         }
 
     });
