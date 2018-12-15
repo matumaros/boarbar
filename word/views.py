@@ -69,17 +69,7 @@ class SuggestView(TemplateView):
         except TypeError:
             logger.info("user does not have profile")
         else:
-            user_languages = UserLanguage.objects.filter(user=user_profile)
-            user_moderator = False
-            for user_language in user_languages:
-                if user_language.is_moderator:
-                    user_moderator = True
-                    break
-            context["user_moderator"] = user_moderator
-            context["user_languages"] = user_languages
-
-            default_variant = get_highest_language_proficiency(user_languages)
-            context["default_variant"] = default_variant
+            context = add_default_variant(context, user_profile)
 
         return self.render_to_response(context)
 
@@ -196,6 +186,19 @@ class SuggestView(TemplateView):
 
         return Description.objects.bulk_create(descriptions_to_create)
 
+
+def add_default_variant(context, user_profile):
+    user_languages = UserLanguage.objects.filter(user=user_profile)
+    user_moderator = False
+    for user_language in user_languages:
+        if user_language.is_moderator:
+            user_moderator = True
+            break
+    context["user_moderator"] = user_moderator
+    context["user_languages"] = user_languages
+    default_variant = get_highest_language_proficiency(user_languages)
+    context["default_variant"] = default_variant
+    return context
 
 def edit_word(request, pk):
     word = Word.objects.get(id=pk)

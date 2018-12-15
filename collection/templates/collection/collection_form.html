@@ -195,6 +195,9 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
+function addWord(text) {
+    $('#add_word_word').val(text)
+}
 
 $(document).ready(function(){
 
@@ -204,7 +207,7 @@ $(document).ready(function(){
             $('.text_input:last-child').after('<input type="text" class="text_input form-control col-sm-1" onkeypress="this.style.width = ((this.value.length + 15) * 8) + \'px\';" name="text" required />');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
-            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a onclick="openNav()">' +text +'</a></div>');
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a onclick="openNav(); addWord(text);">' +text +'</a></div>');
         }
     });
     $('#text_link').keyup(function(e){
@@ -217,14 +220,6 @@ $(document).ready(function(){
         }
 
     });
-
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "850px";
-    }
-
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
 
     /*jquery for sugest for in side panel*/
      $('.link').on('click', function () {

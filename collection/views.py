@@ -1,3 +1,4 @@
+import logging
 import operator
 from functools import reduce
 
@@ -6,9 +7,14 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect
+
+from word.views import add_default_variant
 from .models import Collection, CollectionType
 from user.models import Profile
 from .forms import CollectionForm
+
+
+logger = logging.getLogger(__name__)
 
 
 class CollectionView(DetailView):
@@ -120,10 +126,16 @@ def new_collection(request):
 
             return redirect('/collection/')
 
+    try:
+        user_profile = Profile.objects.get(user=request.user)
+    except TypeError:
+        logger.info("user does not have profile")
+
     form = CollectionForm(request.POST or None)
 
     context = {
         'form': form,
         'collection_types': get_collection_types(),
     }
+    context = add_default_variant(context, user_profile)
     return render(request, "collection/collection_form.html", context)
