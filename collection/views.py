@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 
 from word.views import add_default_variant
+from word.models import Tag, Word
 from .models import Collection, CollectionType
 from user.models import Profile
 from .forms import CollectionForm
@@ -138,4 +139,6 @@ def new_collection(request):
         'collection_types': get_collection_types(),
     }
     context = add_default_variant(context, user_profile)
+    context["tags"] = Tag.objects.all()
+    context["synonyms"] = Word.objects.all()
     return render(request, "collection/collection_form.html", context)
