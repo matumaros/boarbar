@@ -227,7 +227,11 @@ $(document).ready(function(){
 
     /*add text on anchor tags to hidden input for saving them before submitting*/
     $('.save_button').on('click', function () {
-         $('.text_hidden').val($('.text_value a').text());
+        var collection_links = "";
+        $(".text_value").each(function(){
+            collection_links += $(this).html()
+            $('.text_hidden').val(collection_links);
+        });
     });
 
     /*jquery for sugest for in side panel*/
