@@ -197,13 +197,32 @@ function addWord(text) {
 
 $(document).ready(function(){
 
+function fetchWordsStatus(text) {
+    console.log("fetch word status called", text);
+    $.getJSON('/api/collection/collection_get_words/?words=' + text, function (result) {
+        var results = result;
+        for (index=0; index < results.length; ++index) {
+            var word = results[index].word
+            var traslation_state = results[index].traslation_state
+            $('.words').append('<a style="color:' + traslation_state + ';" target="_blank" href="#">' + word + '</a>' + '&nbsp&nbsp')
+        }
+
+        console.log(result);
+    });
+}
+
     $('#text_link').keydown(function(e){
         if(e.keyCode == 32)
         {
             $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
+            fetchWordsStatus(text);
+
             $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" onclick="openNav(); addWord(text);">' +text +'</a></div>');
+
+
+
         }
     });
 
