@@ -190,13 +190,30 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
-function addWord(text) {
+function addWordId(suggest_word_id, text_word_id) {
+    console.log(suggest_word_id, text_word_id)
+    $('.text_value #'+ text_word_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggest_word_id);
+
+}
+function addWord(text, text_word_id) {
     var trimmed_text = text.trim();
     $('#add_word_word').val(trimmed_text);
+    var word = $( "#add_word_word" ).val()
+    var language = $('#user_languages').val()
+
+    $.getJSON('/api/similar_words/?word='+ word + '&language=' + language, function (result) {
+        var words = result.similar_words_found;
+        $( ".similar_words" ).empty();
+        for (index = 0; index < words.length; ++index) {
+              var word_dict = words[index];
+              console.log(word_dict);
+              $( ".similar_words" ).append('<a class="white-text" onclick="addWordId(' + word_dict.id + ',' + text_word_id + ')" target="_blank" suggest_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
+        }
+    });
 }
 
 $(document).ready(function(){
-
+var text_word_id= 0;
 function fetchWordsStatus(text) {
     console.log("fetch word status called", text);
     $.getJSON('/api/collection/collection_get_words/?words=' + text, function (result) {
@@ -206,23 +223,21 @@ function fetchWordsStatus(text) {
             var traslation_state = results[index].traslation_state
             $('.words').append('<a style="color:' + traslation_state + ';" target="_blank" href="#">' + word + '</a>' + '&nbsp&nbsp')
         }
-
         console.log(result);
     });
 }
 
     $('#text_link').keydown(function(e){
+
         if(e.keyCode == 32)
         {
             $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
             fetchWordsStatus(text);
-
-            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" onclick="openNav(); addWord(text);">' +text +'</a></div>');
-
-
-
+            text_word_id = text_word_id +1;
+            console.log("suggest_word_id", text_word_id)
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' +text_word_id + '" onclick="openNav(); addWord(text, ' + text_word_id + ');">' +text +'</a></div>');
         }
     });
 
@@ -233,7 +248,6 @@ function fetchWordsStatus(text) {
             $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
             $('.text_input:last-child').val(text);
         }
-
     });
     /*to prevent enter from submitting the form*/
     $('#collection-form').on('keyup keypress', function(e) {
@@ -256,6 +270,7 @@ function fetchWordsStatus(text) {
     /*jquery for sugest for in side panel*/
      $('.link').on('click', function () {
          $('.advanced-options').slideToggle("fast");
+
     });
 
     $('.suggest-another-button').on('click', function() {
@@ -272,6 +287,7 @@ function fetchWordsStatus(text) {
             if ( word == a_text) {
                 $(this).removeClass('unlinked_word');
                 $(this).addClass('linked_word');
+                $(this).attr('word_id', 5);
             }
         });
 
@@ -302,22 +318,7 @@ function fetchWordsStatus(text) {
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
                   console.log(word_dict);
-                  $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
-            }
-        });
-    })
-
-    $( "#add_word_word" ).focusout(function() {
-        var word = $( "#add_word_word" ).val()
-        var language = $('#user_languages').val()
-
-        $.getJSON('/api/similar_words/?word='+ word + '&language=' + language, function (result) {
-            var words = result.similar_words_found;
-            $( ".similar_words" ).empty();
-            for (index = 0; index < words.length; ++index) {
-                  var word_dict = words[index];
-                  console.log(word_dict);
-                  $( ".similar_words" ).append('<a target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
+                  $( ".similar_words" ).append('<a class="white-text" target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
             }
         });
     })
