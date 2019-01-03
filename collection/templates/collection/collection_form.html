@@ -293,21 +293,13 @@ function fetchWordsStatus(text) {
             $(".error-messages").fadeOut(3000);
             return;
        }
-       /*turn black word that was suggested or linked*/
-        $(".text_value a").each(function(){
-            var a_text = $(this).text().trim();
-            if ( word == a_text) {
-                $(this).removeClass('unlinked_word');
-                $(this).addClass('linked_word');
-                $(this).attr('word_id', 5);
-            }
-        });
 
        $.ajax({
-            url:'/word/suggest/',
+            url:'/word/suggest/api/',
             type:'post',
             data:$('#add_word_form').serialize(),
-            success: function(){
+            success: function(word_id){
+                console.log("word id", word_id)
                 $('#add_word_form')[0].reset();
                 $(".similar_words" ).empty();
                 var $select = $('#tag').selectize();
@@ -316,8 +308,18 @@ function fetchWordsStatus(text) {
                 var $select = $('#synonym').selectize();
                 var control = $select[0].selectize;
                 control.clear();
+                /*turn black word that was suggested or linked and add its id*/
+                $(".text_value a").each(function(){
+                    var a_text = $(this).text().trim();
+                    if ( word == a_text) {
+                        $(this).removeClass('unlinked_word');
+                        $(this).addClass('linked_word');
+                        $(this).attr('word_id', word_id);
+                    }
+                });
             }
        });
+
     });
 
     $( "#user_languages" ).on('change', function() {

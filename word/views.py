@@ -50,6 +50,7 @@ class WordView(DetailView):
         return context
 
 
+
 @method_decorator(login_required, name='dispatch')
 class SuggestView(TemplateView):
     """
@@ -185,6 +186,77 @@ class SuggestView(TemplateView):
         descriptions_to_create = list(descriptions.values())
 
         return Description.objects.bulk_create(descriptions_to_create)
+
+
+@method_decorator(login_required, name='dispatch')
+class SuggestViewApi(SuggestView):
+    http_method_names = ['get', 'post']
+
+    def post(self, request, *args, **kwargs):
+        word_obj = None
+        if request.method == "POST" and "file" in request.FILES:
+            form = WordForm(request.POST, request.FILES)
+            if form.is_valid():
+                word_obj = form.save(commit=False)
+                word_obj.submitter = request.user.profile
+                word_obj.audio = request.FILES["file"]
+                word_obj.save()
+            else:
+                print("$" * 10, form.errors)
+
+        word = request.POST.get('word')
+        tags = request.POST.getlist('tags')
+        ipa = request.POST.get('ipa')
+        default_variant_str = request.POST.get('language')
+        location = request.POST.get('location')
+        synonyms = request.POST.getlist('synonyms')
+        wiktionary_link = request.POST.get('wiktionary_link')
+
+        desc_list = self.create_descriptions(request)
+
+        language_object = Language.objects.get(default_variant=default_variant_str)
+
+        # TODO: so far all word versions of a language can be associated with
+        # TODO: only one variant (the language's own default variant)
+        word_version = WordVersion.objects.filter(language=language_object)[0]
+
+        if word_obj:
+            word_obj.word = word
+            word_obj.ipa = ipa
+            word_obj.status = 'SUG'
+            word_obj.version = word_version
+            word_obj.wiktionary_link = wiktionary_link
+            word_obj.save()
+        else:
+            word_obj = Word.objects.create(
+                word=word,
+                ipa=ipa,
+                status='SUG',
+                version=word_version,
+                submitter=request.user.profile,
+                wiktionary_link=wiktionary_link,
+            )
+
+        for desc in desc_list:
+            word_obj.desc.add(desc)
+
+        for tag in tags:
+            tag_object, _ = Tag.objects.get_or_create(name=tag.lower())
+            word_obj.tags.add(tag_object)
+
+        for syn in synonyms:
+            syn_object, _ = Word.objects.get_or_create(
+                submitter=request.user.profile,
+                word=syn.lower(),
+            )
+            word_obj.synonyms.add(syn_object)
+        if location:
+            location = WordLocation.objects.create(
+                word=word_obj,
+                place=location,
+                submitter=request.user.profile,
+            )
+        return HttpResponse(word_obj.id)
 
 
 def add_default_variant(context, user_profile):
