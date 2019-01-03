@@ -23,6 +23,4 @@ urlpatterns = [
     url(r'^similar_words/$', views.similar_words, name="similar_words"),
     url(r'^word/descriptions/$', views.word_descriptions, name="api_word_descriptions"),
     url(r'^word/synonyms/$', views.word_synonyms, name="api_word_synonyms"),
-    url(r'^collection/collection_get_words/$', views.collection_get_words_id, name="collection_get_words_id")
-
 ]

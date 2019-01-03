@@ -192,8 +192,8 @@ function closeNav() {
 }
 function addWordIds(suggested_word_id, element_id) {
     $('.text_value #'+ element_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggested_word_id);
-
 }
+
 function addWord(text, element_id) {
     var trimmed_text = text.trim();
     $('#add_word_word').val(trimmed_text);
@@ -205,7 +205,6 @@ function addWord(text, element_id) {
         $( ".similar_words" ).empty();
         for (index = 0; index < words.length; ++index) {
               var word_dict = words[index];
-              console.log(word_dict);
               $( ".similar_words" ).append('<a class="white-text" onclick="addWordIds(' + word_dict.id + ',' + element_id + ')" target="_blank" suggested_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
         }
     });
@@ -213,18 +212,6 @@ function addWord(text, element_id) {
 
 $(document).ready(function(){
 var element_id= 0;
-function fetchWordsStatus(text) {
-    console.log("fetch word status called", text);
-    $.getJSON('/api/collection/collection_get_words/?words=' + text, function (result) {
-        var results = result;
-        for (index=0; index < results.length; ++index) {
-            var word = results[index].word
-            var traslation_state = results[index].traslation_state
-            $('.words').append('<a style="color:' + traslation_state + ';" target="_blank" href="#">' + word + '</a>' + '&nbsp&nbsp')
-        }
-        console.log(result);
-    });
-}
 
     $('#text_link').keydown(function(e){
 
@@ -233,9 +220,7 @@ function fetchWordsStatus(text) {
             $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
-            fetchWordsStatus(text);
             element_id = element_id +1;
-            console.log("suggested_word_id", element_id)
             $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="openNav(); addWord(text, ' + element_id + ');">' +text +'</a></div>');
         }
     });
@@ -259,7 +244,6 @@ function fetchWordsStatus(text) {
             $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
             $('.text_input:last-child').val(text);
         }
-
     });
     /*to prevent enter from submitting the form*/
     $('#collection-form').on('keyup keypress', function(e) {
@@ -293,13 +277,11 @@ function fetchWordsStatus(text) {
             $(".error-messages").fadeOut(3000);
             return;
        }
-
        $.ajax({
             url:'/word/suggest/api/',
             type:'post',
             data:$('#add_word_form').serialize(),
             success: function(word_id){
-                console.log("word id", word_id)
                 $('#add_word_form')[0].reset();
                 $(".similar_words" ).empty();
                 var $select = $('#tag').selectize();
@@ -331,7 +313,6 @@ function fetchWordsStatus(text) {
             $( ".similar_words" ).empty();
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
-                  console.log(word_dict);
                   $( ".similar_words" ).append('<a class="white-text" target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
             }
         });

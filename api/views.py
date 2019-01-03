@@ -135,33 +135,3 @@ def word_synonyms(request):
     syn = word.synonyms.all().filter(version__id=version_id).values()
     return JsonResponse(list(syn), safe=False)
 
-@csrf_exempt
-@api_view(['GET'])
-@authentication_classes([])
-@permission_classes([])
-def collection_get_words_id(request):
-    result = request.GET.get("words")
-    words = re.compile('\w+').findall(result)
-
-    output = []
-    for word in words:
-        #the variable color will be red if the word is not on the database,
-        #blue it is but do not have a synonyms, black if it has a synonym
-        color = None
-        word_matched = word
-        try:
-            word_matched = Word.objects.get(word=word)
-            if word_matched.synonyms.all():
-                color = "Black"
-            else:
-                color = "Blue"
-        except Word.DoesNotExist:
-            color = "Red"
-
-        dic = {}
-        dic['word'] = word
-        dic['traslation_state'] = color
-        output.append(dic)
-
-    return JsonResponse(output, safe=False)
-
