@@ -190,11 +190,11 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
-function addWordId(suggest_word_id, text_word_id) {
-    $('.text_value #'+ text_word_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggest_word_id);
+function addWordIds(suggested_word_id, element_id) {
+    $('.text_value #'+ element_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggested_word_id);
 
 }
-function addWord(text, text_word_id) {
+function addWord(text, element_id) {
     var trimmed_text = text.trim();
     $('#add_word_word').val(trimmed_text);
     var word = $( "#add_word_word" ).val()
@@ -206,13 +206,13 @@ function addWord(text, text_word_id) {
         for (index = 0; index < words.length; ++index) {
               var word_dict = words[index];
               console.log(word_dict);
-              $( ".similar_words" ).append('<a class="white-text" onclick="addWordId(' + word_dict.id + ',' + text_word_id + ')" target="_blank" suggest_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
+              $( ".similar_words" ).append('<a class="white-text" onclick="addWordIds(' + word_dict.id + ',' + element_id + ')" target="_blank" suggested_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
         }
     });
 }
 
 $(document).ready(function(){
-var text_word_id= 0;
+var element_id= 0;
 function fetchWordsStatus(text) {
     console.log("fetch word status called", text);
     $.getJSON('/api/collection/collection_get_words/?words=' + text, function (result) {
@@ -234,9 +234,9 @@ function fetchWordsStatus(text) {
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
             fetchWordsStatus(text);
-            text_word_id = text_word_id +1;
-            console.log("suggest_word_id", text_word_id)
-            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' +text_word_id + '" onclick="openNav(); addWord(text, ' + text_word_id + ');">' +text +'</a></div>');
+            element_id = element_id +1;
+            console.log("suggested_word_id", element_id)
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="openNav(); addWord(text, ' + element_id + ');">' +text +'</a></div>');
         }
     });
 
