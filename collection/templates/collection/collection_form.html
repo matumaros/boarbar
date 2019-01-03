@@ -191,7 +191,6 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
 function addWordId(suggest_word_id, text_word_id) {
-    console.log(suggest_word_id, text_word_id)
     $('.text_value #'+ text_word_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggest_word_id);
 
 }
@@ -229,7 +228,7 @@ function fetchWordsStatus(text) {
 
     $('#text_link').keydown(function(e){
 
-        if(e.keyCode == 32)
+        if((e.keyCode == 32) || (e.keyCode == 13))
         {
             $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
             $('.text_input:last-child').focus();
@@ -241,13 +240,26 @@ function fetchWordsStatus(text) {
         }
     });
 
+    $('#text_link').keydown(function(e){
+        if(e.keyCode == 13)
+        {
+            $('.text_input').before("<br/><br/>");
+        }
+    });
+
     $('#text_link').keyup(function(e){
         if (($('.text_input:last-child').val().length === 0) && (e.keyCode == 8))
         {
-            var text = $('.text_value a').eq(-1).text()
+            /*delete two br next to anchor tag*/
+            var lastInput = $('.text_value a').eq(-1);
+            var nextBreaks = lastInput.parent().nextAll("br");
+            nextBreaks.remove();
+            /*place text of last anchor tag into input*/
+            var text = lastInput.text();
             $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
             $('.text_input:last-child').val(text);
         }
+
     });
     /*to prevent enter from submitting the form*/
     $('#collection-form').on('keyup keypress', function(e) {
