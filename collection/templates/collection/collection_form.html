@@ -217,7 +217,7 @@ var element_id= 0;
 
         if((e.keyCode == 32) || (e.keyCode == 13))
         {
-            $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
+            $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
             element_id = element_id +1;
@@ -241,7 +241,7 @@ var element_id= 0;
             nextBreaks.remove();
             /*place text of last anchor tag into input*/
             var text = lastInput.text();
-            $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';" required />');
+            $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
             $('.text_input:last-child').val(text);
         }
     });
@@ -256,11 +256,14 @@ var element_id= 0;
 
     /*add text on anchor tags to hidden input for saving them before submitting*/
     $('.save_button').on('click', function () {
-        var collection_links = "";
-        $(".text_value").each(function(){
-            collection_links += $(this).html()
-            $('.text_hidden').val(collection_links);
-        });
+        // all inputs minus the last one that is empty
+        var inputs = $("#text_link").children().slice(0, -1);
+        var collection_html = "";
+        for (input of inputs) {
+           collection_html += input.outerHTML;
+        }
+        $('.text_hidden').val(collection_html);
+
     });
 
     /*jquery for sugest for in side panel*/
