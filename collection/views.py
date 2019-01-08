@@ -153,6 +153,16 @@ def edit_collection(request, pk):
         logger.info("user does not have profile")
 
     form = CollectionForm(request.POST or None)
+    if form.is_valid():
+        collection.title = request.POST.get("title").lower()
+        collection.author = request.POST.get("author").lower() or ""
+        collection.text = request.POST.get("text").lower()
+        type = request.POST.get("type")
+        collection.type = CollectionType.objects.get(name=type)
+        collection.reporter = Profile.objects.get(user=request.user)
+        collection.save()
+
+        return redirect("/collection/")
 
     context = {
         'edit':True,

@@ -18,9 +18,14 @@
       </ul>
   {% endif %}
 
-
+  {% if edit == True %}
+    <form id="collection-form" class="form-horizontal" action="{% url 'collection:edit_collection' collection.id %}" method="post">
+    {% csrf_token %}
+  {% else %}
     <form id="collection-form" class="form-horizontal" action="{% url 'collection:new_collection' %}" method="post">
-      {% csrf_token %}
+    {% csrf_token %}
+  {% endif %}
+
       <div class="form-group ">
           <label for="title" class="col-sm-2 control-label">Title</label>
           <div class="col-sm-10">
