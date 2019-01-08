@@ -142,3 +142,27 @@ def new_collection(request):
     context["tags"] = Tag.objects.all()
     context["synonyms"] = Word.objects.all()
     return render(request, "collection/collection_form.html", context)
+
+
+def edit_collection(request, pk):
+    collection = Collection.objects.get(id=pk)
+
+    try:
+        user_profile = Profile.objects.get(user=request.user)
+    except TypeError:
+        logger.info("user does not have profile")
+
+    form = CollectionForm(request.POST or None)
+
+    context = {
+        'edit':True,
+        'collection': collection,
+        'form': form,
+        'collection_types': get_collection_types(),
+    }
+    context = add_default_variant(context, user_profile)
+    context["tags"] = Tag.objects.all()
+    context["synonyms"] = Word.objects.all()
+    return render(request, "collection/collection_form.html", context)
+
+

@@ -3,8 +3,12 @@
 
 {% block content %}
 <div class="container collection_form">
-
+  {% if edit == True %}
+     <h3>Edit new collections</h3><br>
+  {% else %}
   <h3>Add new collections</h3><br>
+  {% endif %}
+
     <div id="error_message"></div>
   {% if messages %}
       <ul class="messages alert alert-info">
@@ -20,21 +24,25 @@
       <div class="form-group ">
           <label for="title" class="col-sm-2 control-label">Title</label>
           <div class="col-sm-10">
-              <input type="text" class="form-control" id="title" name="title" required />
+              <input type="text" class="form-control" id="title"
+                     value="{{ collection.title }}"
+                     name="title" required />
           </div>
       </div>
 
       <div class="form-group ">
           <label for="author" class="col-sm-2 control-label">Author</label>
           <div class="col-sm-10">
-              <input type="text" class="form-control" id="author" name="author"/>
+              <input type="text" class="form-control" id="author"
+                     value="{{ collection.author }}"
+                     name="author"/>
           </div>
       </div>
 
       <div class="form-group ">
           <label class="col-sm-2 control-label">Text</label>
           <div id="text_link" class="col-sm-10">
-              <input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + 'px';" required />
+              <input type="text" value="{{ collection.text }}" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + 'px';" required />
           </div>
           <input type="hidden" class="text_hidden" name="text">
 
@@ -64,7 +72,7 @@
 
 <!-- SideBar -->
 <div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="javascript:void(0)" class="closebtn" onclick="closenav()">&times;</a>
     <!-- Suggest form -->
             <form id="add_word_form" class="form-horizontal" role="form"
                  action="{% url 'word:suggest_view' %}"
@@ -183,18 +191,18 @@
 </div>
 
 <script>
-function openNav() {
+function opennav() {
   document.getElementById("mySidenav").style.width = "350px";
 }
 
-function closeNav() {
+function closenav() {
   document.getElementById("mySidenav").style.width = "0";
 }
-function addWordIds(suggested_word_id, element_id) {
+function addwordids(suggested_word_id, element_id) {
     $('.text_value #'+ element_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggested_word_id);
 }
 
-function addWord(text, element_id) {
+function addword(text, element_id) {
     var trimmed_text = text.trim();
     $('#add_word_word').val(trimmed_text);
     var word = $( "#add_word_word" ).val()
@@ -205,13 +213,15 @@ function addWord(text, element_id) {
         $( ".similar_words" ).empty();
         for (index = 0; index < words.length; ++index) {
               var word_dict = words[index];
-              $( ".similar_words" ).append('<a class="white-text" onclick="addWordIds(' + word_dict.id + ',' + element_id + ')" target="_blank" suggested_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
+              $( ".similar_words" ).append('<a class="white-text" onclick="addwordids(' + word_dict.id + ',' + element_id + ')" target="_blank" suggested_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
         }
     });
 }
 
 $(document).ready(function(){
 var element_id= 0;
+    $('#text_link input').before($('#text_link input').val());
+    $('#text_link input').removeAttr('value')
 
     $('#text_link').keydown(function(e){
 
@@ -221,7 +231,7 @@ var element_id= 0;
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
             element_id = element_id +1;
-            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="openNav(); addWord(text, ' + element_id + ');">' +text +'</a></div>');
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(text, ' + element_id + ');">' +text +'</a></div>');
         }
     });
 
