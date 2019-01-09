@@ -248,14 +248,14 @@ var element_id= 0;
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
             element_id = element_id +1;
-            $('.text_input').eq(-2).replaceWith( '<div class="text_value float" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(text, ' + element_id + ');">' +text +'</a></div>');
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(text, ' + element_id + ');">' +text +'</a></div>');
         }
     });
 
     $('#text_link').keydown(function(e){
         if(e.keyCode == 13)
         {
-            $('.text_input').before("<br/><br/>");
+            $('.text_input').before("<br class='left'/>");
         }
     });
 

@@ -48,7 +48,7 @@
               {% for col in collections %}
                <tr>
                   <td >{{ col.title|capfirst }}</td>
-                  <td >{{ col.text|safe }}</td>
+                  <td >{{ col.text|truncatechars:100|safe }}</td>
                   <td >
                       <small><a href="/collection/{{ col.id }}/">View</a></small>
                       <br>
