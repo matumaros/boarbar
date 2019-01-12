@@ -219,8 +219,9 @@ function addwordids(suggested_word_id, element_id) {
     $('.text_value #'+ element_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggested_word_id);
 }
 
-function addword(text, element_id) {
-    var trimmed_text = text.trim();
+function addword(before_space, element_id) {
+    console.log("addword", before_space, element_id);
+    var trimmed_text = before_space.trim();
     $('#add_word_word').val(trimmed_text);
     var word = $( "#add_word_word" ).val()
     var language = $('#user_languages').val()
@@ -237,24 +238,36 @@ function addword(text, element_id) {
 
 $(document).ready(function(){
 var element_id= 0;
+    /*for edit text*/
     $('#text_link input').before($('#text_link input').val());
     $('#text_link input').removeAttr('value')
 
-    $('#text_link').keydown(function(e){
+    $('#text_link').keyup(function(e){
 
-        if((e.keyCode == 32) || (e.keyCode == 13))
+        if(e.keyCode == 32)
+        {
+            var input_text = $('.text_input:last-child').val()
+            console.log("input text", input_text);
+            var before_space = input_text.substr(0, input_text.indexOf(' ')).trim();
+            console.log(before_space);
+            var after_space = input_text.substr(input_text.indexOf(' ')+1, input_text.length-1);
+            $('.text_input:last-child').after('<input type="text" value="' + after_space + '" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
+            $('.text_input:last-child').focus();
+            var text = $('.text_input').eq(-2).val()
+            element_id = element_id +1;
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(\'' + before_space + '\', ' + element_id + ');">' + before_space +'</a></div>');
+        }
+    });
+
+    $('#text_link').keyup(function(e){
+        if(e.keyCode == 13)
         {
             $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
             element_id = element_id +1;
-            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(text, ' + element_id + ');">' +text +'</a></div>');
-        }
-    });
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(text, ' + element_id + ');">' + text +'</a></div>');
 
-    $('#text_link').keydown(function(e){
-        if(e.keyCode == 13)
-        {
             $('.text_input').before("<br class='left'/>");
         }
     });
