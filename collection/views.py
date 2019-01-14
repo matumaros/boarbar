@@ -1,6 +1,7 @@
 import logging
 import operator
 from functools import reduce
+import re
 
 from django.db import IntegrityError
 from django.views.generic import TemplateView, ListView, DetailView
@@ -50,6 +51,9 @@ def keyword_filtered(request):
     context = dict()
     context["collection_types"] = get_collection_types()
     context["collection_words"] = collection_words
+    #to delete <br> from html text
+    for col in collection_words:
+        col.text = re.sub('<br class="left">', " ", col.text)
 
     first_collection_obj = Collection.objects.all().first()
     if first_collection_obj and keywords == "":
@@ -71,6 +75,9 @@ def type_filtered(request, collection_type):
     context = {"collections": collections}
     context["collection_types"] = get_collection_types()
     context["active_collection"] = collection_type
+    #to delete <br> from html text
+    for col in collections:
+        col.text = re.sub('<br class="left">', " ", col.text)
     return render(request, "collection/main.html", context)
 
 
