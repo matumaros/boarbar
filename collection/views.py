@@ -63,6 +63,10 @@ def keyword_filtered(request):
         collections = Collection.objects.filter(type=collection_type)
         context["collections"] = collections
         context["active_collection"] = collection_type
+        # to delete <br> from html text
+        for col in collections:
+            col.text = re.sub('<br class="left">', " ", col.text)
+
     else:
         context["collections"] = []
         context["active_collection"] = None
