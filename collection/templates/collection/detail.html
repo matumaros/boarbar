@@ -36,9 +36,11 @@
           <br><br>
           <p><a class="btn btn-default collection-buttons white-text" href="/collection/edit_collection/{{ collection.id }}/">edit
           </a></p>
+          {% if request.user.is_staff == True %}
           <p>
           <button class="btn btn-default collection-buttons white-text">validate
           </button></p>
+          {% endif %}
       </div>
     {% endif %}
     </div>

@@ -79,11 +79,11 @@
         <div class="col-xs-offset-2 col-xs-3">
           <button type="submit" class="btn btn-primary save_button">{% trans "Save" %}</button>
         </div>
-
-        <div class="col-xs-offset-2 col-xs-3 col-sm-offset-4 col-sm-3">
-          <a class="btn btn-primary suggest-another-button">{% trans "Save and validate" %}</a>
-        </div>
-
+        {% if request.user.is_staff == True %}
+            <div class="col-xs-offset-2 col-xs-3 col-sm-offset-4 col-sm-3">
+              <a class="btn btn-primary suggest-another-button">{% trans "Save and validate" %}</a>
+            </div>
+        {% endif %}
       </div>
     </form>
 
