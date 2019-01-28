@@ -1,5 +1,6 @@
 
 
+import re
 from difflib import SequenceMatcher
 
 from django.contrib.auth.models import User, Group
@@ -133,3 +134,4 @@ def word_synonyms(request):
     word = Word.objects.get(id=word_id)
     syn = word.synonyms.all().filter(version__id=version_id).values()
     return JsonResponse(list(syn), safe=False)
+

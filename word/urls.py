@@ -21,4 +21,5 @@ urlpatterns = [
         name='edit_view'),
     url(r'^view/(?P<pk>\d+)$', views.WordView.as_view(), name='word_view'),
     url(r'^suggest/$', views.SuggestView.as_view(), name='suggest_view'),
+    url(r'^suggest/api/$', views.SuggestViewApi.as_view(), name='suggest_view_api'),
 ]

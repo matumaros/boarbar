@@ -24,6 +24,79 @@
     })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 <style>
+
+ .unlinked_word {
+    color: red;
+    }
+ .unlinked_word:hover {
+     color: red;
+ }
+ .linked_word {
+    color: black;
+    }
+  .linked_word:hover {
+    color: black;
+ }
+  /* css of SidePanel */
+ .sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #5DA984;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+.sidenav .link {
+  color: #111;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: #111;
+}
+ .sidenav .btn-primary {
+  background-color: #111;
+ }
+ .sidenav .btn-primary:hover {
+  background-color: #f1f1f1;
+     color:#111;
+}
+ #mySidenav .form-horizontal {
+    padding-right: 4%;
+    padding-left:6%;
+    padding-top:6%;
+ }
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/* end of css of SidePanel */
+
+ .text_value {
+   max-width:100%;
+   min-width:10px;
+   padding:2px;
+   float:  left;
+ }
+.left {
+    clear:left
+}
+ #text_link input {
+    width: 80px;
+}
  .collection-buttons {
     background-color: #5DA984;; /* Green */
     border: none;
@@ -58,11 +131,17 @@
 .ipa-format {
    margin-top: 0px;
 }
-.suggest_form {
-    padding-right: 10%;
-    padding-left: 8%;
+.collection_form {
+    padding-right: 40%;
+    padding-left:6%;
     padding-top:6%;
 }
+
+ .suggest_form {
+   padding-right: 10%;
+   padding-left: 8%;
+   padding-top:6%;
+ }
 .dictionary-search-button {
     background-color: #5DA984;; /* Green */
     border: none;

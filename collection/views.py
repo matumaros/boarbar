@@ -1,14 +1,22 @@
+import logging
 import operator
 from functools import reduce
+import re
 
 from django.db import IntegrityError
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect
+
+from word.views import add_default_variant
+from word.models import Tag, Word
 from .models import Collection, CollectionType
 from user.models import Profile
 from .forms import CollectionForm
+
+
+logger = logging.getLogger(__name__)
 
 
 class CollectionView(DetailView):
@@ -43,6 +51,9 @@ def keyword_filtered(request):
     context = dict()
     context["collection_types"] = get_collection_types()
     context["collection_words"] = collection_words
+    #to delete <br> from html text
+    for col in collection_words:
+        col.text = re.sub('<br class="left">', " ", col.text)
 
     first_collection_obj = Collection.objects.all().first()
     if first_collection_obj and keywords == "":
@@ -52,6 +63,10 @@ def keyword_filtered(request):
         collections = Collection.objects.filter(type=collection_type)
         context["collections"] = collections
         context["active_collection"] = collection_type
+        # to delete <br> from html text
+        for col in collections:
+            col.text = re.sub('<br class="left">', " ", col.text)
+
     else:
         context["collections"] = []
         context["active_collection"] = None
@@ -64,6 +79,9 @@ def type_filtered(request, collection_type):
     context = {"collections": collections}
     context["collection_types"] = get_collection_types()
     context["active_collection"] = collection_type
+    #to delete <br> from html text
+    for col in collections:
+        col.text = re.sub('<br class="left">', " ", col.text)
     return render(request, "collection/main.html", context)
 
 
@@ -76,21 +94,31 @@ def get_collection_types():
             "name": collection_type,
         }
         for collection_type in collection_types
+        if collection_type
     ]
     return collection_types
 
 
 def new_collection(request):
+    if not request.user.is_authenticated:
+        return render(request, 'share/need_login.html')
+
     if request.POST:
         form = CollectionForm(request.POST)
         if form.is_valid():
             title = request.POST.get("title").lower()
-            author = request.POST.get("author")
+            author = request.POST.get("author").lower() or ""
             text = request.POST.get("text").lower()
             type = request.POST.get("type")
 
             type = CollectionType.objects.get(name=type)
             reporter = Profile.objects.get(user=request.user)
+            if title.strip() == "" or text == "":
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    "You need to enter a title and text for the collection")
+                return redirect('/collection/new_collection/')
 
             try:
                 Collection.objects.create(
@@ -100,12 +128,20 @@ def new_collection(request):
                     type=type,
                     reporter=reporter
                 )
+
             except IntegrityError:
-                messages.add_message(request, messages.ERROR, "A collection \
-                with the same title, text and type already exist")
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    "A collection with the same title, text and type already exist")
                 return redirect('/collection/new_collection/')
 
             return redirect('/collection/')
+
+    try:
+        user_profile = Profile.objects.get(user=request.user)
+    except TypeError:
+        logger.info("user does not have profile")
 
     form = CollectionForm(request.POST or None)
 
@@ -113,5 +149,41 @@ def new_collection(request):
         'form': form,
         'collection_types': get_collection_types(),
     }
+    context = add_default_variant(context, user_profile)
+    context["tags"] = Tag.objects.all()
+    context["synonyms"] = Word.objects.all()
     return render(request, "collection/collection_form.html", context)
+
+
+def edit_collection(request, pk):
+    collection = Collection.objects.get(id=pk)
+
+    try:
+        user_profile = Profile.objects.get(user=request.user)
+    except TypeError:
+        logger.info("user does not have profile")
+
+    form = CollectionForm(request.POST or None)
+    if form.is_valid():
+        collection.title = request.POST.get("title").lower()
+        collection.author = request.POST.get("author").lower() or ""
+        collection.text = request.POST.get("text").lower()
+        type = request.POST.get("type")
+        collection.type = CollectionType.objects.get(name=type)
+        collection.reporter = Profile.objects.get(user=request.user)
+        collection.save()
+
+        return redirect("/collection/")
+
+    context = {
+        'edit':True,
+        'collection': collection,
+        'form': form,
+        'collection_types': get_collection_types(),
+    }
+    context = add_default_variant(context, user_profile)
+    context["tags"] = Tag.objects.all()
+    context["synonyms"] = Word.objects.all()
+    return render(request, "collection/collection_form.html", context)
+
 

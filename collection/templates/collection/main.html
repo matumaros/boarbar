@@ -29,9 +29,11 @@
                   </button>
           </form>
           </div>
-          <div class="col-sm-4">
-              <a href="/collection/new_collection/" class="btn collection-buttons white-text pull-right"><span class="glyphicon glyphicon-plus"></span> add</a>
-          </div>
+          {% if user.is_authenticated %}
+              <div class="col-sm-4">
+                  <a href="/collection/new_collection/" class="btn collection-buttons white-text pull-right"><span class="glyphicon glyphicon-plus"></span> add</a>
+              </div>
+          {% endif %}
         </div>
 
           <table class="table collection-table">
@@ -46,11 +48,11 @@
               {% for col in collections %}
                <tr>
                   <td >{{ col.title|capfirst }}</td>
-                  <td >{{ col.text|truncatechars:100 }}</td>
+                  <td >{{ col.text|truncatewords_html:10|safe }}</td>
                   <td >
                       <small><a href="/collection/{{ col.id }}/">View</a></small>
                       <br>
-                      <small><a href="">Edit</a></small>
+                      <small><a href="/collection/edit_collection/{{ col.id }}/">Edit</a></small>
                   </td>
                </tr>
               {% endfor %}
@@ -67,7 +69,7 @@
               {% for col in collection_words %}
                <tr>
                   <td class="col-md-2">{{ col.title }}</td>
-                  <td class="col-md-9">{{ col.text|truncatechars:100 }}</td>
+                  <td class="col-md-9">{{ col.text|truncatewords_html:10|safe}}</td>
                   <td class="col-md-1">
                       <small><a href="/collection/{{ col.id }}/">View</a></small>
                       <br>
@@ -81,3 +83,4 @@
 
   </div>
 {% endblock %}
+
