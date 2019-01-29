@@ -3,5 +3,84 @@
 
 {% block content %}
   <div class="container-fluid">
+      <br>
+      <br>
+      <div class="col-md-2">
+          {% for type in collection_types %}
+                <p>
+                    <a class="type_search" href="/collection/{{ type.path  }}">
+                        {% if active_collection == type.name %}
+                            <b>{{ type.name }}</b>
+                        {% else %}
+                            {{ type.name }}
+                        {%  endif %}
+                    </a>
+                </p>
+          {% endfor %}
+      </div>
+
+      <div class="col-sm-10 right_content">
+        <div class="row">
+          <div class="col-md-8">
+          <form action="/collection/" method="get" class="form-inline form-group" role="search">
+                  <input type="text" id="query" name="keywords"
+                         class="form-control col-md-8" placeholder="Search"/>
+                  <button type="submit" class="btn btn-primary" id="search_button">GO
+                  </button>
+          </form>
+          </div>
+          {% if user.is_authenticated %}
+              <div class="col-sm-4">
+                  <a href="/collection/new_collection/" class="btn collection-buttons white-text pull-right"><span class="glyphicon glyphicon-plus"></span> add</a>
+              </div>
+          {% endif %}
+        </div>
+
+          <table class="table collection-table">
+               <!--Filter by type of collection (poem, saying, song lyric, etc)-->
+               {% if collections.all %}
+               <tr>
+                  <th class="col-md-2">Title</th>
+                  <th class="col-md-9">Snippet</th>
+                  <th class="col-md-1"></th>
+               </tr>
+               {% endif %}
+              {% for col in collections %}
+               <tr>
+                  <td >{{ col.title|capfirst }}</td>
+                  <td >{{ col.text|truncatewords_html:10|safe }}</td>
+                  <td >
+                      <small><a href="/collection/{{ col.id }}/">View</a></small>
+                      <br>
+                      <small><a href="/collection/edit_collection/{{ col.id }}/">Edit</a></small>
+                  </td>
+               </tr>
+              {% endfor %}
+              <!---->
+              <!--Filter by keywords-->
+              {% if collection_words.all %}
+               <tr>
+                  <th class="col-md-2">Title</th>
+                  <th class="col-md-9">Snippet</th>
+                  <th class="col-md-1"></th>
+               </tr>
+               {% endif %}
+
+              {% for col in collection_words %}
+               <tr>
+                  <td class="col-md-2">{{ col.title }}</td>
+                  <td class="col-md-9">{{ col.text|truncatewords_html:10|safe}}</td>
+                  <td class="col-md-1">
+                      <small><a href="/collection/{{ col.id }}/">View</a></small>
+                      <br>
+                      <small><a href="">Edit</a></small>
+                  </td>
+               </tr>
+              {% endfor %}
+              <!---->
+          </table>
+      </div>
+
   </div>
 {% endblock %}
+

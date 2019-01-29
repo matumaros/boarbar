@@ -11,6 +11,14 @@ from word.models import Word
 from sentence.models import Sentence
 
 
+class CollectionType(models.Model):
+    """A type of collection"""
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Collection(models.Model):
     """A collection of words and sentences"""
     TYPES = (
@@ -26,12 +34,17 @@ class Collection(models.Model):
     }
 
     author = models.CharField(max_length=100)
-    reporter = models.ForeignKey(Profile, related_name='collection_items',
-                                 on_delete=models.SET_NULL, null=True)
+    reporter = models.ForeignKey(
+        Profile, related_name='collection_items',
+        on_delete=models.SET_NULL, null=True
+    )
     title = models.CharField(max_length=150)
     text = models.TextField()
     creation_date = models.DateField(auto_now_add=True)
-    type = models.CharField(max_length=50, choices=TYPES)
+    type = models.ForeignKey(
+        CollectionType, related_name='collection_items',
+        on_delete=models.SET_NULL, null=True
+    )
     history = HistoricalRecords()
 
     def __str__(self):
@@ -68,3 +81,6 @@ class Collection(models.Model):
                 return match.group(0)
         text = Sentence(text=self.text).html  # convert words to links
         return re.sub(r"{{sentence:([0-9]+)}}", repl, text, flags=re.MULTILINE)
+
+    class Meta:
+        unique_together = ('title', 'text', 'type',)

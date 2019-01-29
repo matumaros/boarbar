@@ -13,29 +13,36 @@
       <div class="col-md-2"></div>
       <div class="col-md-6">
         <h2>
-          {{ collection.title }}
+          {{ collection.title|capfirst }}
         </h2>
-        <dl>
-          <dt>
-            {% trans "Author" %}
-          </dt>
-          <dd>
-            {{ collection.author }}
-          </dd>
-          <dt>
-            {% trans "Creator" %}
-          </dt>
-          <dd>
-            {{ collection.reporter }}
-          </dd>
-        </dl>
+        <p>{{ col_type }}</p>
+        <p><span class="text-muted">By </span>
+            {% if collection.author|title %}
+                {{ collection.author|title }}
+            {% else %}
+                Unknown
+            {% endif %}
+        </p>
+        {%  if collection.reporter.user.username|lower != collection.author|lower %}
+         <p><span class="text-muted">Submitted by </span> {{ collection.reporter|title }}</p>
+        {% endif %}
+
         <p class="text-center">
           {{ text|safe|linebreaks }}
         </p>
       </div>
-      <div id="word_detail" class="col-md-4">
-        <h2 id="word_click_hint">{% trans "Click on a word to show its details" %}</h2>
+    {% if user.is_authenticated %}
+      <div class="col-md-4">
+          <br><br>
+          <p><a class="btn btn-default collection-buttons white-text" href="/collection/edit_collection/{{ collection.id }}/">edit
+          </a></p>
+          {% if request.user.is_staff == True %}
+          <p>
+          <button class="btn btn-default collection-buttons white-text">validate
+          </button></p>
+          {% endif %}
       </div>
+    {% endif %}
     </div>
   </div>
 {% endblock %}

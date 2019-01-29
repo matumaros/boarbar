@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^user/token', views.user_by_token),
     url(r'^similar_words/$', views.similar_words, name="similar_words"),
-
+    url(r'^word/descriptions/$', views.word_descriptions, name="api_word_descriptions"),
+    url(r'^word/synonyms/$', views.word_synonyms, name="api_word_synonyms"),
 ]

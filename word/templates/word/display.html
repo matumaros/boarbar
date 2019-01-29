@@ -1,64 +1,96 @@
 {% extends 'share/base_site.html' %}
 {% load i18n %}
+{% load static %}
+
 
 {% block content %}
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-xs-10">
         <h1>
-          {{ object.word }}
+            {{ object.word|title }}
+            <small><sup><a href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "[Edit]" %}</a></sup></small>
         </h1>
-      </div>
-      <div class="col-md-8">
-        <a class="button" href="{% url 'word:edit_view' object.id %}" id="suggest_translation">{% trans "Edit" %}</a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <h3>
-          {% trans "Description" %}
-        </h3>
-        {% for desc in descriptions %}
-          <h5>
-            {{ desc.language.name }}
-          </h5>
-          <p>
-            {{ desc.short }}
-          </p>
-          <p>
-            {{ desc.extended }}
-          </p>
+        <h2 class="ipa-format">
+          {% if object.ipa %}
+              ({{ object.ipa }})
+          {% endif %}
+
+          {% if object.audio %}
+              <audio id="sound2" preload="auto">
+                <source src="{% static '' %}{{ object.audio }}">
+              </audio>
+              <a href="#" id="audio"><i class="glyphicon glyphicon-volume-up"></i></a>
+          {% endif %}
+        </h2>
+
+        <p><strong>Status: </strong>{{ object.status }}</p>
+        <p><strong>Tags: </strong>{% for tag in tags %}
+          {{ tag }}
         {% endfor %}
+        </p>
+        <p><strong>Wiktionary link: </strong>{{ object.wiktionary_link }}</p>
+
+      </div>
+      <div class="col-xs-2">
+        <p>{{ object.version.language }}</p>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>
-                {% trans "Language" %}
-              </th>
-              <th>
-                {% trans "Word" %}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for synonym in synonyms %}
-              <tr>
-                <td>
-                  {{ synonym.version.language.name }}
-                </td>
-                <td>
-                  <a class="{% if synonym.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' synonym.id %}">
-                    {{ synonym.word }}
+      <div class="col-md-6">
+          <div class="row">
+              <div class="col-md-6">
+                  <h4><strong>{% trans "Description" %}</h4></strong>
+              </div>
+              <div class="col-md-6">
+                  <select id="language_desc" class="btn btn-default dropdown-toggle">
+                      <option  class="dropdown-menu" value="{{ description_default.0.language.id }}">{{ description_default.0.language }}</option>
+                      {% for desc in descriptions|dictsort:'language.id' %}
+                          {% ifchanged %}
+                            <option value="{{ desc.language.id }}">{{ desc.language.name }}</option>
+                          {% endifchanged %}
+                      {% endfor %}
+                  </select>
+              </div>
+          </div>
+          <div id="desc">
+              <!--Show default description-->
+              {% with desc=description_default|first %}
+                <p>{{ desc.short }}</p>
+                <p>{{ desc.extended }}</p>
+              {% endwith %}
+              <!--if there is not show another-->
+          </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+          <div class="row">
+              <div class="col-md-6">
+                <h4><strong>{% trans "Synonyms" %}</h4></strong>
+              </div>
+              <div class="col-md-6">
+                  <select id="synonyms_language" class="btn btn-default dropdown-toggle"">
+                      <option class="dropdown-menu" value="{{ synonym_default.0.version.language.id }}">{{ synonym_default.0.version.language  }}</option>
+                      {% for synonym in synonyms|dictsort:'version.language.id' %}
+                          {% ifchanged %}
+                            <option value="{{ synonym.version.language.id }}">{{ synonym.version.language.name }}</option>
+                          {% endifchanged %}
+                      {% endfor %}
+                  </select>
+              </div>
+
+          </div>
+          <div id="synonyms">
+              <!--Show the synonym that matches the word language-->
+          {%  for syn in synonym_default %}
+              {% if syn %}
+                  <a class="{% if syn.status == 'SUG' %}lightgrey-text{% else %}black-text{% endif %}" href="{% url 'word:word_view' syn.id %}">
+                        {{ syn.word }}
                   </a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+              {% endif %}
+          {% endfor %}
+          </div>
+
       </div>
     </div>
     <div id="map" style="width:100%;height:500px"></div>
@@ -96,6 +128,51 @@ function myMap() {
   });
   {% endfor %}
 }
+
+$(document).ready(function() {
+    $('#language').selectize({
+    create: true,
+    sortField: 'text'
+    });
+
+    $('#language_desc').click(function(){
+        var language_option = $('#language_desc').val();
+        var word_id = "{{ object.id }}"
+
+        $.getJSON('/api/word/descriptions/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
+            var desc_short = result[0].short;
+            var desc_long = result[0].extended;
+            $( "#desc" ).empty();
+            $( "#desc" ).append('<p> ' + desc_short + '</p>' + '<p> ' + desc_long + '</p>');
+        });
+    });
+
+    $('#synonyms_language').click(function(){
+        var language_option = $('#synonyms_language').val();
+        var word_id = "{{ object.id }}";
+
+        $.getJSON('/api/word/synonyms/?word_id=' + word_id + '&language_str=' + language_option, function (result) {
+            $( "#synonyms" ).empty();
+
+            $.each(result, function(index, value) {
+                var synonym = value.word;
+                var synonym_id = value.id;
+                if (value.status == 'SUG') {
+                   $( "#synonyms" ).append('<a class="lightgrey-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a> ')
+                }
+                else {
+                    $( "#synonyms" ).append('<a class="black-text" href="/word/view/'+ synonym_id + '">' + synonym + '</a> ')
+                }
+            });
+        });
+    });
+
+    $("#audio").click(function() {
+        var audio = document.getElementById("sound2");
+        audio.play();
+    });
+
+});
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhu-iZmNwpCjsuQyqH5p1ea69HU0xbDgo&callback=myMap&libraries=visualization">

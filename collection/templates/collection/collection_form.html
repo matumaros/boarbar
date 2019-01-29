@@ -1,0 +1,433 @@
+{% extends 'share/base_site.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container collection_form">
+  {% if edit == True %}
+     <h3>Edit new collections</h3><br>
+  {% else %}
+  <h3>Add new collections</h3><br>
+  {% endif %}
+
+    <div id="error_message"></div>
+  {% if messages %}
+      <ul class="messages alert alert-info">
+         {% for message in messages %}
+             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+         {% endfor %}
+      </ul>
+  {% endif %}
+
+  {% if edit == True %}
+    <form id="collection-form" class="form-horizontal" action="{% url 'collection:edit_collection' collection.id %}" method="post">
+    {% csrf_token %}
+  {% else %}
+    <form id="collection-form" class="form-horizontal" action="{% url 'collection:new_collection' %}" method="post">
+    {% csrf_token %}
+  {% endif %}
+
+      <div class="form-group ">
+          <label for="title" class="col-sm-2 control-label">Title</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" id="title"
+                     value="{{ collection.title }}"
+                     name="title" required />
+          </div>
+      </div>
+
+      <div class="form-group ">
+          <label for="author" class="col-sm-2 control-label">Author</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" id="author"
+                     value="{{ collection.author }}"
+                     name="author"/>
+          </div>
+      </div>
+
+      <div class="form-group ">
+          <label class="col-sm-2 control-label">Text</label>
+          <div id="text_link" class="col-sm-10">
+              <input type="text" value="{{ collection.text }}" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + 'px';" required />
+          </div>
+          <input type="hidden" class="text_hidden" name="text">
+
+      </div>
+
+      <div class="form-group">
+          <label for="type" class="col-sm-2 control-label">Type</label>
+          <div class="col-sm-10" id="types">
+
+            {% if edit == True %}
+                {% for type in collection_types %}
+                  {% if type.name == collection.type|safe %}
+                      <input type="radio" name="type" value="{{ type.name }}" checked> {% trans type.name %}
+                  {% else %}
+                      <input type="radio" name="type" value="{{ type.name }}"> {% trans type.name %}
+                  {% endif %}
+                {% endfor %}
+
+            {% else %}
+                {% for type in collection_types %}
+                    <input type="radio" name="type" value="{{ type.name }}" checked required> {% trans type.name %}
+                {% endfor %}
+            {% endif %}
+
+          </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-3">
+          <button type="submit" class="btn btn-primary save_button">{% trans "Save" %}</button>
+        </div>
+        {% if request.user.is_staff == True %}
+            <div class="col-xs-offset-2 col-xs-3 col-sm-offset-4 col-sm-3">
+              <a class="btn btn-primary suggest-another-button">{% trans "Save and validate" %}</a>
+            </div>
+        {% endif %}
+      </div>
+    </form>
+
+<!-- SideBar -->
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closenav()">&times;</a>
+    <!-- Suggest form -->
+            <form id="add_word_form" class="form-horizontal" role="form"
+                 action="{% url 'word:suggest_view' %}"
+                 enctype="multipart/form-data"
+                 method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label class="col-sm-3 control-label"
+                      for="user_languages" >{% trans "Language variant" %}</label>
+                <div class="col-sm-4">
+                  <select id="user_languages" class="form-control" name="language" required>
+                    {% for lan in user_languages %}
+                      <option value="{{ lan.language.default_variant }}">{% trans lan.language.default_variant %}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label"
+                          for="add_word_word">{% trans "Word" %}*</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control"
+                    id="add_word_word" name="word" required />
+                  <div class="text-danger error-messages" style="display:none;"></div>
+
+                </div>
+                <div class="col-sm-offset-3 col-sm-9 similar_words">
+
+                </div>
+
+
+              </div>
+              <div class="form-group advanced-options">
+                <label class="col-sm-3 control-label"
+                          for="add_word_ipa">{% trans "IPA" %}</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control"
+                    id="add_word_ipa" name="ipa"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">{% trans "Short Description" %}</label>
+              </div>
+              <div class="form-group">
+                {% for lan in user_languages %}
+                  {% if lan.proficiency == "advanced" or lan.proficiency == "fluent" or lan.proficiency == "native" %}
+
+                    <div>
+                      <label class="col-sm-3 control-label" for="description_short_{{ lan.language.name }}">In {% trans lan.language.name %}</label>
+                      <div class="col-sm-9">
+                        <textarea class="form-control" id="description_short_{{ lan.language.name }}"
+                                name="desc_short_{{ lan.language.name }}"></textarea>
+                      </div>
+                    </div>
+                    <div class="long-desc long_description_{{ lan.language.name }}">
+                        <label class="col-sm-3 control-label" for="add_word_description_long">{% trans "Long Description" %}</label>
+                        <div class="col-sm-9">
+                          <textarea class="form-control" id="add_word_description_long"
+                                    name="desc_long_{{ lan.language.name }}"></textarea>
+                        </div>
+                    </div>
+
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" for="tag">{% trans "Tags" %}</label>
+                <div class="col-sm-9">
+                    <select id="tag" name="tags">
+                        <option disabled selected value></option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="form-group advanced-options">
+                <label class="col-sm-3 control-label" for="synonym">{% trans "Synonyms" %}</label>
+                <div class="synonym col-sm-9">
+                    <select id="synonym" name="synonyms">
+                        <option disabled selected value></option>
+                    </select>
+                </div>
+              </div>
+              <div class="form-group advanced-options">
+                <label class="col-sm-3 control-label">{% trans "Wiktionary link" %}</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control"
+                    id="add_wiktionary_link" name="wiktionary_link" placeholder="Copy the Wiktionary link and paste it here"/>
+                </div>
+                <div class="col-sm-4">
+                 <a class="wiktionary_link" target="_blank" href="https://en.wiktionary.org/wiki/example">Wiktionary</a>
+                </div>
+              </div>
+              <div class="form-group advanced-options">
+                <label class="col-sm-3 control-label"
+                          for="add_word_location">{% trans "Confirmed Location" %}</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control"
+                    id="add_word_location" name="location" value="{{ request.user.profile.place }}"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <a class="col-sm-3 link control-label">advanced</a>
+              </div>
+                <br>
+              <div class="form-group">
+                <div class="col-xs-offset-2 col-xs-3 col-sm-offset-2 col-sm-3">
+                  <a class="btn btn-primary suggest-another-button">{% trans "Link" %}</a>
+                </div>
+
+              </div>
+            </form>
+</div>
+
+
+</div>
+
+<script>
+function opennav() {
+  document.getElementById("mySidenav").style.width = "350px";
+}
+
+function closenav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+function addwordids(suggested_word_id, element_id) {
+    $('.text_value #'+ element_id).removeClass ('unlinked_word').addClass('linked_word').attr('word_id', suggested_word_id);
+}
+
+function addword(before_space, element_id) {
+    console.log("addword", before_space, element_id);
+    var trimmed_text = before_space.trim();
+    $('#add_word_word').val(trimmed_text);
+    var word = $( "#add_word_word" ).val()
+    var language = $('#user_languages').val()
+
+    $.getJSON('/api/similar_words/?word='+ word + '&language=' + language, function (result) {
+        var words = result.similar_words_found;
+        $( ".similar_words" ).empty();
+        for (index = 0; index < words.length; ++index) {
+              var word_dict = words[index];
+              $( ".similar_words" ).append('<a class="white-text" onclick="addwordids(' + word_dict.id + ',' + element_id + ')" target="_blank" suggested_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
+        }
+    });
+}
+
+$(document).ready(function(){
+var element_id= 0;
+    /*for edit text*/
+    $('#text_link input').before($('#text_link input').val());
+    $('#text_link input').removeAttr('value')
+
+    $('#text_link').keyup(function(e){
+
+        if(e.keyCode == 32)
+        {
+            var input_text = $('.text_input:last-child').val()
+            console.log("input text", input_text);
+            var before_space = input_text.substr(0, input_text.indexOf(' ')).trim();
+            console.log(before_space);
+            var after_space = input_text.substr(input_text.indexOf(' ')+1, input_text.length-1);
+            $('.text_input:last-child').after('<input type="text" value="' + after_space + '" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
+            $('.text_input:last-child').focus();
+            var text = $('.text_input').eq(-2).val()
+            element_id = element_id +1;
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(\'' + before_space + '\', ' + element_id + ');">' + before_space +'</a></div>');
+        }
+    });
+
+    $('#text_link').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
+            $('.text_input:last-child').focus();
+            var text = $('.text_input').eq(-2).val()
+            element_id = element_id +1;
+            $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(text, ' + element_id + ');">' + text +'</a></div>');
+
+            $('.text_input').before("<br class='left'/>");
+        }
+    });
+
+    $('#text_link').keyup(function(e){
+        if (($('.text_input:last-child').val().length === 0) && (e.keyCode == 8))
+        {
+            /*delete two br next to anchor tag*/
+            var lastInput = $('.text_value a').eq(-1);
+            var nextBreaks = lastInput.parent().nextAll("br");
+            nextBreaks.remove();
+            /*place text of last anchor tag into input*/
+            var text = lastInput.text();
+            $('.text_value').eq(-1).remove().replaceWith('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
+            $('.text_input:last-child').val(text);
+        }
+    });
+    /*to prevent enter from submitting the form*/
+    $('#collection-form').on('keyup keypress', function(e) {
+      var keyCode = e.keyCode || e.which;
+      if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    /*add text on anchor tags to hidden input for saving them before submitting*/
+    $('.save_button').on('click', function () {
+        // all inputs minus the last one that is empty
+        var inputs = $("#text_link").children().slice(0, -1);
+        var collection_html = "";
+        for (input of inputs) {
+           collection_html += input.outerHTML;
+        }
+        $('.text_hidden').val(collection_html);
+
+    });
+
+    /*jquery for sugest for in side panel*/
+     $('.link').on('click', function () {
+         $('.advanced-options').slideToggle("fast");
+
+    });
+
+    $('.suggest-another-button').on('click', function() {
+       var word = $("#add_word_word").val();
+       word = word.trim();
+       if (word == "")  {
+            $(".error-messages").text("Please fill out this field").fadeIn("fast");
+            $(".error-messages").fadeOut(3000);
+            return;
+       }
+       $.ajax({
+            url:'/word/suggest/api/',
+            type:'post',
+            data:$('#add_word_form').serialize(),
+            success: function(word_id){
+                $('#add_word_form')[0].reset();
+                $(".similar_words" ).empty();
+                var $select = $('#tag').selectize();
+                var control = $select[0].selectize;
+                control.clear();
+                var $select = $('#synonym').selectize();
+                var control = $select[0].selectize;
+                control.clear();
+                /*turn black word that was suggested or linked and add its id*/
+                $(".text_value a").each(function(){
+                    var a_text = $(this).text().trim();
+                    if ( word == a_text) {
+                        $(this).removeClass('unlinked_word');
+                        $(this).addClass('linked_word');
+                        $(this).attr('word_id', word_id);
+                    }
+                });
+            }
+       });
+
+    });
+
+    $( "#user_languages" ).on('change', function() {
+        var word = $( "#add_word_word" ).val()
+        var language = $('#user_languages').val()
+
+        $.getJSON('/api/similar_words/?word='+ word + '&language=' + language, function (result) {
+            var words = result.similar_words_found;
+            $( ".similar_words" ).empty();
+            for (index = 0; index < words.length; ++index) {
+                  var word_dict = words[index];
+                  $( ".similar_words" ).append('<a class="white-text" target="_blank" href="/word/view/' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + ' </a>' + '&nbsp&nbsp');
+            }
+        });
+    })
+
+     $('.wiktionary_link').on('click', function () {
+         var word = $('#add_word_word').val();
+         $('a[href^="https://en.wiktionary.org/wiki/example"]').each(function(){
+            var oldUrl = $(this).attr("href"); // Get current url
+            var newUrl = oldUrl.replace("example", word); // Create new url
+            $(this).attr("href", newUrl); // Set href value
+        });
+    });
+    $("option[value='{{ default_variant }}']").attr('selected', 'true');
+    $('[id^=description_short_]').on('click', function () {
+         var my_id = $(this).attr("id");
+         var language = my_id.split("_")[2];
+         var long_description_id = "long_description_" + language;
+         $('.' + long_description_id).slideToggle("fast");
+         $('.' + long_description_id).focusout(function() {
+             $('.' + long_description_id).hide();
+         });
+    });
+    $('#tag').selectize({
+        maxItems: 4,
+        valueField: 'name',
+        labelField: 'name',
+        searchField: ['name', 'description'],
+        options: [
+        {% for tag in tags %}
+             {name: '{%trans tag.name %}', description: '{{ tag.description }}' },
+         {% endfor %}
+        ],
+        render: {
+            option: function(item, escape) {
+                var label = item.name || item.description;
+                var caption = item.name ? item.description : null;
+                return '<div>' +
+                    '<span class="label label-default">' + escape(label) + '</span>' +
+                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
+                '</div>';
+            }
+        },
+         {% if user_moderator %}
+            create: true,
+        {% endif %}
+    });
+    $('#synonym').selectize({
+        maxItems: 4,
+        valueField: 'name',
+        labelField: 'name',
+        searchField: ['name', 'description'],
+        options: [
+        {% for synonym in synonyms %}
+            {name: '{% trans synonym.word %}', description: '{{ synonym.desc.all.0.short }}' },
+        {% endfor %}
+        ],
+        render: {
+            option: function(item, escape) {
+                var label = item.name || item.description;
+                var caption = item.name ? item.description : null;
+                return '<div>' +
+                    '<span class="label label-default">' + escape(label) + '</span>' +
+                    (caption ? ' <span class="caption">' + escape(caption) + '</span>' : '') +
+                '</div>';
+            }
+        },
+    });
+
+
+
+});
+</script>
+
+{% endblock %}
