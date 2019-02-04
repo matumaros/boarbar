@@ -4,6 +4,19 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def fix_database(apps, schema_editor):
+    Collection = apps.get_model('collection', 'Collection')
+    cols = Collection.objects.filter(type="help")
+    for col in cols:
+        col.type = 1
+        col.save()
+
+
+def create_dummy_collection_type(apps, schema_editor):
+    CollectionType = apps.get_model('collection', 'CollectionType')
+    CollectionType.objects.create(name="help")
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,6 +24,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(fix_database, reverse_code=migrations.RunPython.noop),
+
         migrations.CreateModel(
             name='CollectionType',
             fields=[
@@ -18,6 +33,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
             ],
         ),
+        migrations.RunPython(create_dummy_collection_type, reverse_code=migrations.RunPython.noop),
         migrations.AlterField(
             model_name='collection',
             name='type',
