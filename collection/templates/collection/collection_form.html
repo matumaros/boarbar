@@ -381,6 +381,7 @@ var element_id= 0;
     });
     $('#tag').selectize({
         maxItems: 4,
+        plugins: ['remove_button'],
         valueField: 'name',
         labelField: 'name',
         searchField: ['name', 'description'],
@@ -405,6 +406,7 @@ var element_id= 0;
     });
     $('#synonym').selectize({
         maxItems: 4,
+        plugins: ['remove_button'],
         valueField: 'name',
         labelField: 'name',
         searchField: ['name', 'description'],
