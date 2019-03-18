@@ -208,6 +208,7 @@
 </div>
 
 <script>
+// variable to hold the element id of a word when changing language on side panel
 var selected_element_id = 0
 function opennav() {
   document.getElementById("mySidenav").style.width = "350px";
@@ -221,7 +222,6 @@ function addwordids(suggested_word_id, element_id) {
 }
 
 function addword(before_space, element_id) {
-    console.log("addword", before_space, element_id);
     var trimmed_text = before_space.trim();
     trimmed_text = trimmed_text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,"")
 
@@ -234,7 +234,6 @@ function addword(before_space, element_id) {
         $( ".similar_words" ).empty();
         for (index = 0; index < words.length; ++index) {
               var word_dict = words[index];
-              console.log("word_dict", word_dict)
               $( ".similar_words" ).append('<a class="white-text" onclick="addwordids(' + word_dict.id + ',' + element_id + ')" target="_blank" suggested_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
         }
     });
@@ -246,6 +245,7 @@ var element_id= 0;
     $("#text_link").bind("paste", function(e){
         // access the clipboard using the api
         var pastedData = e.originalEvent.clipboardData.getData('text');
+        // <#$/n> is used to mark a breakline position
         pastedData = pastedData.replace(/\n/g,' <#$/n> ')
         var words = pastedData.split(" ")
         $.each(words,function(i){
@@ -256,10 +256,9 @@ var element_id= 0;
             else {
                 element_id = element_id +1;
                 $('.text_input').before( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(\'' + words[i] + '\', ' + element_id + ');">' + words[i] +'</a></div>');
-                console.log(words[i], element_id)
             }
         });
-
+        //deleting was text on input was only possible using setTimeout
         var Self = this;
         setTimeout(function () {
             $("#text_link").promise().done(function() {
@@ -284,7 +283,6 @@ var element_id= 0;
             var text = $('.text_input').eq(-2).val()
             element_id = element_id +1;
             $('.text_input').eq(-2).replaceWith( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(\'' + before_space + '\', ' + element_id + ');">' + before_space +'</a></div>');
-            console.log(before_space, element_id)
         }
     });
 
@@ -385,7 +383,6 @@ var element_id= 0;
             $( ".similar_words" ).empty();
             for (index = 0; index < words.length; ++index) {
                   var word_dict = words[index];
-                  console.log(word, element_id, selected_element_id)
                   $( ".similar_words" ).append('<a class="white-text" onclick="addwordids(' + word_dict.id + ',' + selected_element_id + ')" target="_blank" suggested_word_id="' + word_dict.id + '">' + word_dict.word + ':' + word_dict.desc + '</a>' + '&nbsp&nbsp');
             }
         });
