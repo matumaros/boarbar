@@ -38,10 +38,12 @@
           <a class="contribute-link" href="{% url 'contribute:contrib_view' %}">
             {% trans "Contribute" %}
           </a>
-          <ul class="contribute-submenu">
-            <div><a href="{% url 'word:suggest_view' %}">{% trans "Suggest Word" %}</a></div>
-            <div><a href="">Random in progress word</a></div>
-          </ul>
+             {% if request.user.is_authenticated %}
+                  <ul class="contribute-submenu">
+                    <div><a href="{% url 'word:suggest_view' %}">{% trans "Suggest Word" %}</a></div>
+                    <div><a href="">Random in progress word</a></div>
+                  </ul>
+             {% endif %}
         </li>
         <br>
         <br>
