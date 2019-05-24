@@ -18,7 +18,8 @@ class WordVersionAdmin(admin.ModelAdmin):
     list_filter = ('language',)
 
 
-class WordAdmin(SimpleHistoryAdmin):
+class WordAdmin(admin.ModelAdmin):
+    search_fields = ('word',)
     list_display = ('word', 'status', 'submitter', 'creation_date', 'version')
     list_filter = ('status', 'version')
 

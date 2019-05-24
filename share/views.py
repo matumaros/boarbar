@@ -19,3 +19,8 @@ class Logout(View):
 class NotExisting(TemplateView):
     http_method_names = ['get']
     template_name = 'share/not_existing.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        context["request_url"] = request.path
+        return self.render_to_response(context)

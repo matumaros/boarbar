@@ -86,15 +86,15 @@ def type_filtered(request, collection_type):
 
 
 def get_collection_types():
-    collection_types = Collection.objects.all().distinct(
-        "type").values_list("type__name", flat=True)
+    collection_types = CollectionType.objects.all().values_list("name", flat=True)
     collection_types = [
         {
             "path": collection_type.replace(" ", "_"),
             "name": collection_type,
         }
+
         for collection_type in collection_types
-        if collection_type
+            if collection_type
     ]
     return collection_types
 
