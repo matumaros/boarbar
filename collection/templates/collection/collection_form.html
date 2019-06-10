@@ -271,13 +271,15 @@ var element_id= 0;
     $('#text_link input').before($('#text_link input').val());
     $('#text_link input').removeAttr('value')
 
-    $('#text_link').keyup(function(e){
 
-        if(e.keyCode == 32)
+
+    $('#text_link').keydown(function(e){
+        /*keycode 32 = space key*/
+        if (e.keyCode == 32)
         {
             var input_text = $('.text_input:last-child').val()
-            var before_space = input_text.substr(0, input_text.indexOf(' ')).trim();
-            var after_space = input_text.substr(input_text.indexOf(' ')+1, input_text.length-1);
+            var before_space = input_text.substr(0, e.target.selectionStart).trim();
+            var after_space = input_text.substr(e.target.selectionStart, input_text.length-1);
             $('.text_input:last-child').after('<input type="text" value="' + after_space + '" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
@@ -287,6 +289,7 @@ var element_id= 0;
     });
 
     $('#text_link').keyup(function(e){
+        /* keycode 13 = enter*/
         if(e.keyCode == 13)
         {
             $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
@@ -300,6 +303,7 @@ var element_id= 0;
     });
 
     $('#text_link').keyup(function(e){
+        /* keycode 8 = backspace*/
         if (($('.text_input:last-child').val().length === 0) && (e.keyCode == 8))
         {
             /*delete two br next to anchor tag*/
