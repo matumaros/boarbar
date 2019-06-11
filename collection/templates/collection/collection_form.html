@@ -197,7 +197,7 @@
                 <br>
               <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-3 col-sm-offset-2 col-sm-3">
-                  <a class="btn btn-primary suggest-another-button">{% trans "Link" %}</a>
+                  <a class="btn btn-primary link-button">{% trans "Link" %}</a>
                 </div>
 
               </div>
@@ -344,7 +344,7 @@ var element_id= 0;
 
     });
 
-    $('.suggest-another-button').on('click', function() {
+    $('.link-button').on('click', function() {
        var word = $("#add_word_word").val();
        word = word.trim();
        if (word == "")  {
@@ -366,13 +366,12 @@ var element_id= 0;
                 var control = $select[0].selectize;
                 control.clear();
                 /*turn black word that was suggested or linked and add its id*/
-                $(".text_value a").each(function(){
-                    var a_text = $(this).text().trim();
-                    if ( word == a_text) {
-                        $(this).removeClass('unlinked_word');
-                        $(this).addClass('linked_word');
-                        $(this).attr('word_id', word_id);
-                    }
+                $(".text_value #" + selected_element_id).each(function(){
+                    $(this).text().trim();
+                    $(this).removeClass('unlinked_word');
+                    $(this).addClass('linked_word');
+                    $(this).attr('word_id', word_id);
+
                 });
             }
        });
