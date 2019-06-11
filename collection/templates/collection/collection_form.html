@@ -258,13 +258,14 @@ var element_id= 0;
                 $('.text_input').before( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(\'' + words[i] + '\', ' + element_id + ');">' + words[i] +'</a></div>');
             }
         });
-        //deleting was text on input was only possible using setTimeout
+        //deleting text on input was only possible using setTimeout
         var Self = this;
         setTimeout(function () {
             $("#text_link").promise().done(function() {
                 $(".text_input").val("");
             });
         }, 100);
+        $("#text_link input").removeAttr("required")
     });
 
     /*for edit text*/
