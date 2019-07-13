@@ -197,7 +197,7 @@
                 <br>
               <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-3 col-sm-offset-2 col-sm-3">
-                  <a class="btn btn-primary suggest-another-button">{% trans "Link" %}</a>
+                  <a class="btn btn-primary link-button">{% trans "Link" %}</a>
                 </div>
 
               </div>
@@ -258,26 +258,29 @@ var element_id= 0;
                 $('.text_input').before( '<div class="text_value" ><a class="unlinked_word" id="' + element_id + '" onclick="opennav(); addword(\'' + words[i] + '\', ' + element_id + ');">' + words[i] +'</a></div>');
             }
         });
-        //deleting was text on input was only possible using setTimeout
+        //deleting text on input was only possible using setTimeout
         var Self = this;
         setTimeout(function () {
             $("#text_link").promise().done(function() {
                 $(".text_input").val("");
             });
         }, 100);
+        $("#text_link input").removeAttr("required")
     });
 
     /*for edit text*/
     $('#text_link input').before($('#text_link input').val());
     $('#text_link input').removeAttr('value')
 
-    $('#text_link').keyup(function(e){
 
-        if(e.keyCode == 32)
+
+    $('#text_link').keydown(function(e){
+        /*keycode 32 = space key*/
+        if ((e.keyCode == 32) && $('.text_input:last-child').val().trim().length != 0)
         {
             var input_text = $('.text_input:last-child').val()
-            var before_space = input_text.substr(0, input_text.indexOf(' ')).trim();
-            var after_space = input_text.substr(input_text.indexOf(' ')+1, input_text.length-1);
+            var before_space = input_text.substr(0, e.target.selectionStart).trim();
+            var after_space = input_text.substr(e.target.selectionStart, input_text.length-1);
             $('.text_input:last-child').after('<input type="text" value="' + after_space + '" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
             $('.text_input:last-child').focus();
             var text = $('.text_input').eq(-2).val()
@@ -287,6 +290,7 @@ var element_id= 0;
     });
 
     $('#text_link').keyup(function(e){
+        /* keycode 13 = enter*/
         if(e.keyCode == 13)
         {
             $('.text_input:last-child').after('<input type="text" class="text_input col-sm-1" onkeypress="this.style.width = ((this.value.length + 8) * 7) + \'px\';"/>');
@@ -300,6 +304,7 @@ var element_id= 0;
     });
 
     $('#text_link').keyup(function(e){
+        /* keycode 8 = backspace*/
         if (($('.text_input:last-child').val().length === 0) && (e.keyCode == 8))
         {
             /*delete two br next to anchor tag*/
@@ -339,7 +344,7 @@ var element_id= 0;
 
     });
 
-    $('.suggest-another-button').on('click', function() {
+    $('.link-button').on('click', function() {
        var word = $("#add_word_word").val();
        word = word.trim();
        if (word == "")  {
@@ -361,13 +366,12 @@ var element_id= 0;
                 var control = $select[0].selectize;
                 control.clear();
                 /*turn black word that was suggested or linked and add its id*/
-                $(".text_value a").each(function(){
-                    var a_text = $(this).text().trim();
-                    if ( word == a_text) {
-                        $(this).removeClass('unlinked_word');
-                        $(this).addClass('linked_word');
-                        $(this).attr('word_id', word_id);
-                    }
+                $(".text_value #" + selected_element_id).each(function(){
+                    $(this).text().trim();
+                    $(this).removeClass('unlinked_word');
+                    $(this).addClass('linked_word');
+                    $(this).attr('word_id', word_id);
+
                 });
             }
        });
