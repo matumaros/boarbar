@@ -60,7 +60,10 @@ def keyword_filtered(request):
         # eg. poem
         collection_type = first_collection_obj.type
         # eg. all poems
-        collections = Collection.objects.filter(type=collection_type)
+        collections = []
+        for collection_type in Collection.objects.all().distinct("type"):
+            collection_sample = Collection.objects.filter(type=collection_type.type).order_by("-id")[0:3]
+            collections.extend(list(collection_sample))
         context["collections"] = collections
         context["active_collection"] = collection_type
         # to delete <br> from html text

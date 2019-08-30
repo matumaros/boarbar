@@ -82,5 +82,3 @@ class Collection(models.Model):
         text = Sentence(text=self.text).html  # convert words to links
         return re.sub(r"{{sentence:([0-9]+)}}", repl, text, flags=re.MULTILINE)
 
-    class Meta:
-        unique_together = ('title', 'text', 'type',)
