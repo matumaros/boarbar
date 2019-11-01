@@ -3,7 +3,7 @@ django-crispy-forms==1.7.0
 git+https://github.com/flesser/django-simple-history@django2.0
 psycopg2==2.7.3
 pytz==2017.3
-djangorestframework==3.7.7
+djangorestframework==3.9.1
 fuzzywuzzy==0.16.0
 python-Levenshtein==0.12.0
 
