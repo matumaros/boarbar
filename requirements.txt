@@ -1,4 +1,4 @@
-Django==2.0.1
+Django==2.2.10
 django-crispy-forms==1.7.0
 git+https://github.com/flesser/django-simple-history@django2.0
 psycopg2==2.7.3
